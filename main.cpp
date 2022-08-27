@@ -1,10 +1,12 @@
-// #include "namespace.hpp"
+#include "namespace.hpp"
 // #include <vector>
-#include "vector.hpp"
+// #include <iterator>
+// #include "vector.hpp"
 
 
 int main()
 {
+	// ft::vector<int> a(12, 12);
 	ft::vector<int> a(12, 12);
 	
 
