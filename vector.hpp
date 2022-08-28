@@ -175,15 +175,9 @@ namespace ft
 //Private Member Attributes//////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-			// Pointer to start of allocated space (= first element)
 			pointer				_start;
-			// Pointer to end of allocated space
 			pointer				_end;
-			// Pointer to last element
-			// pointer				_last;
-			// allocater type?
 			allocator_type		_alloc;
-
 			size_type			_capacity;
 
 
@@ -207,23 +201,24 @@ namespace ft
 				return (out);
 			}
 
-			void				check_and_adjust_capacity(size_type n)
-			{
-				if (n > _capacity)
-				{
-					size_type	old_size = size();
-					pointer		tmp = _alloc.allocate(n);
+			// void				check_and_adjust_capacity(size_type n)
+			// {
+			// 	if (n > _capacity)
+			// 	{
+			// 		size_type	old_size = size();
+			// 		pointer		tmp = _alloc.allocate(n);
 
-					for (size_t i = 0; i < old_size; i++)
-					{
-						_alloc.construct(tmp + i, _start + i);
-						_alloc.destroy(_start + i);
-					}
-					_alloc.deallocate(_start, _capacity);
-					_start = tmp;
-					_capacity = n;	
-				}
-			}
+			// 		for (size_t i = 0; i < old_size; i++)
+			// 		{
+			// 			_alloc.construct(tmp + i, _start + i);
+			// 			_alloc.destroy(_start + i);
+			// 		}
+			// 		_alloc.deallocate(_start, _capacity);
+			// 		_start = tmp;
+			// 		_end = _start + old_size;
+			// 		_capacity = n;	
+			// 	}
+			// }
 
 
 		public:
@@ -257,11 +252,22 @@ namespace ft
 				}
 			}
 
-			// template< class InputIterator >
-			// void assign( InputIterator first, InputIterator last, typename std::enable_if<!std::is_integral<InputIterator>::value>::type* = NULL)
-			// {
-			// 	std::cout << "retarded c++ " << std::endl;
-			// }
+			template< class InputIterator >
+			void assign( InputIterator first, InputIterator last, typename std::enable_if<!std::is_integral<InputIterator>::value>::type* = NULL)
+			{
+				if ((first.base() > _start && first.base() < _end) || (last.base() > _start && last.base() < _end))			//undefined behaviour if range iterators are inside of vector
+					return ;
+				clear();
+				size_type	new_size = last.base() - first.base();
+				if (new_size > max_size())
+					throw std::length_error("Bigger than max_size");
+				reserve(new_size);
+				for (size_type i = 0; first.base() + i != last.base(); i++)
+				{
+					_alloc.construct(_end, *(first.base() + i));
+					_end++;
+				}
+			}
 		//////////////////////////////////////////////
 		//get_allocator///////////////////////////////
 		//////////////////////////////////////////////
@@ -269,7 +275,6 @@ namespace ft
 			{
 				return (_alloc);
 			}
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Element access/////////////////////////////////////////////////////////////////////////////////////////
@@ -339,9 +344,6 @@ namespace ft
 			{
 				return (_start);
 			}
-
-
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Iterators//////////////////////////////////////////////////////////////////////////////////////////////
@@ -395,13 +397,31 @@ namespace ft
 		//////////////////////////////////////////////
 		//max_size////////////////////////////////////
 		//////////////////////////////////////////////
-			void				max_size();			//still have to do
-			size_type			max_size() const;
+			size_type			max_size() const
+			{
+				return (_alloc.max_size());
+			}
 		//////////////////////////////////////////////
 		//reserve/////////////////////////////////////
 		//////////////////////////////////////////////
-			void				reserve();			//still have to do
-			void				reserve( size_type new_cap );
+			void				reserve( size_type n )
+			{
+				if (n > _capacity)
+				{
+					size_type	old_size = size();
+					pointer		tmp = _alloc.allocate(n);
+
+					for (size_t i = 0; i < old_size; i++)
+					{
+						_alloc.construct(tmp + i, *(_start + i));
+						_alloc.destroy(_start + i);
+					}
+					_alloc.deallocate(_start, _capacity);
+					_start = tmp;
+					_end = _start + old_size;
+					_capacity = n;	
+				}
+			}
 		//////////////////////////////////////////////
 		//capacity////////////////////////////////////
 		//////////////////////////////////////////////
@@ -433,21 +453,79 @@ namespace ft
 		//insert//////////////////////////////////////
 		//////////////////////////////////////////////
 			void				insert();			//still have to do
-			iterator			insert( iterator pos, const T& value );
+			iterator			insert( iterator pos, const T& value )
+			{
+				size_type	old_size = size();
+				size_type	old_capacity = capacity();
+				pointer		tmp;
+
+				if ( old_size + 1 > _capacity )
+				{
+					if ( _capacity * 2 > max_size())
+						throw std::length_error("Bigger than max_size");
+					tmp = _alloc.allocate(_capacity * 2);
+					_capacity = _capacity * 2;	
+				}
+				else 
+				{
+					tmp = _alloc.allocate(_capacity);
+				}
+				pointer		tmp2 = _start;
+
+				for (size_type i = 0; tmp2 != pos.base(); i++)
+				{
+					_alloc.construct(tmp + i, *tmp2);
+					_alloc.destroy(tmp2);
+					tmp2++;
+				}
+				_alloc.construct(tmp2, value);
+				for (size_type i = tmp2 - _start; tmp2 != _end; i++)
+				{
+					_alloc.construct(tmp + i, *(_start + i));
+					_alloc.destroy(_start + i);
+				}
+				_alloc.deallocate(_start, old_capacity);
+				_start = tmp;
+				_end = _start + old_size;
+				return (iterator(tmp2));
+			}
 			void				insert( iterator pos, size_type count, const T& value );
 			template< class InputIt >
 			void				insert( iterator pos, InputIt first, InputIt last );
 		//////////////////////////////////////////////
 		//erase///////////////////////////////////////
 		//////////////////////////////////////////////
-			void				erase();			//still have to do
-			iterator			erase( iterator pos );
-			iterator			erase( iterator first, iterator last );
+			// void				erase();			//still have to do
+			iterator			erase( iterator pos )
+			{
+				pointer		tmp = _alloc(_capacity);
+				pointer		pos_base = pos.base();
+
+				for(size_type i = 0; _start + i != pos_base; i++)
+				{
+					_alloc.construct(tmp + i, );
+				}
+
+
+
+
+
+				_start = _alloc.allocate(last - first);
+				_end = _start;
+				while(first != last)
+				{
+					_alloc.construct(_end, first);
+					_end++;
+					first++;
+				}
+			}
+			iterator			erase( iterator first, iterator last )
+			{
+
+			}
 		//////////////////////////////////////////////
 		//push_back///////////////////////////////////
 		//////////////////////////////////////////////
-
-			void				push_back();			//still have to do
 			void				push_back( const T& value )
 			{
 				size_type	old_size = size();
@@ -470,19 +548,16 @@ namespace ft
 		//////////////////////////////////////////////
 		//resize//////////////////////////////////////
 		//////////////////////////////////////////////
-			void				resize();			//still have to do
 			void				resize( size_type count, T value = T() )
 			{
 				size_type	old_size = size();
 				if ( count > old_size )
 				{
-					check_and_adjust_capacity(count);
+					reserve(count);
 					for (; old_size < count; old_size++)
 					{
 						_alloc.construct(_start + old_size, value);
 					}
-					
-
 					return ;
 				}
 				if ( count < old_size )
@@ -497,8 +572,28 @@ namespace ft
 		//////////////////////////////////////////////
 		//swap////////////////////////////////////////
 		//////////////////////////////////////////////
-			void				swap();			//still have to do
-			void				swap( vector& other );
+			void				swap( vector& other )
+			{
+				pointer				temp_start;
+				pointer				temp_end;
+				allocator_type		temp_alloc;
+				size_type			temp_capacity;
+
+				temp_start = _start;
+				temp_end = _end;
+				temp_alloc = _alloc;
+				temp_capacity = _capacity;
+
+				_start = other._start;
+				_end = other._end;
+				_alloc = other._alloc;
+				_capacity = other._capacity;
+
+				other._start = temp_start;
+				other._end = temp_end;
+				other._alloc = temp_alloc;
+				other._capacity = temp_capacity;
+			}
 		
 
 
@@ -510,12 +605,22 @@ namespace ft
 				
 			void	 test_print()
 			{
+				std::cout << "this is test print" << std::endl;
 				pointer temp = _start;
 				while (temp != _end)
 					std::cout << *temp++ << std::endl; 
 			}
 	};
 
+
+
+
+		// equal sign opperator
+		// copy constructor
+		// erase function
+		// insert function
+		// rend und rbegin
+		// logical comparison operators (either lexicographical compare or equal)
 
 }
 #endif
