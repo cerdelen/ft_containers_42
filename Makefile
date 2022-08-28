@@ -6,7 +6,7 @@
 #    By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/27 18:49:56 by cerdelen          #+#    #+#              #
-#    Updated: 2022/08/28 13:03:59 by cerdelen         ###   ########.fr        #
+#    Updated: 2022/08/28 16:24:03 by cerdelen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,3 +28,10 @@ fclean: clean
 	rm $(NAME)
 
 re: fclean all
+
+git:
+	git add .
+	git commit -m "progress (autogit)"
+	git push
+	@echo 'successfully pushed'
+	
