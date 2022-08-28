@@ -15,6 +15,11 @@ int main()
 		std::cout << std::endl;
 		std::cout << std::endl;
 		ft::vector<int> a(12, 12);
+		a[0] = 0;
+		a[1] = 1;
+		a[2] = 2;
+		a[3] = 3;
+		a[4] = 4;
 		// std::vector<int> a(10, 5);
 		// ft::vector<int> b(10, 5);
 		// ft::vector<int> x;
@@ -28,16 +33,20 @@ int main()
 
 		// a.test_print();
 		// std::vector<int>::iterator it;
-		ft::vector<int>::iterator it;
+		ft::vector<int>::iterator it(a.begin());
+		ft::vector<int>::iterator it2(a.begin() + 2);
 
-		a.erase(it);
+		// a.erase(it);
 
-		// a[0] = 0;
-		// a[1] = 1;
-		// a[2] = 2;
-		// a[3] = 3;
-		// a[4] = 4;
+		// std::cout << "it " << *it << std::endl;
+		std::cout << "it " << *it << " it2 " << *it2 << std::endl;
 
+
+		a.test_print();
+		// a.erase(it);
+		std::cout << *(a.erase(it, it2))<< std::endl;
+		std::cout << std::endl;
+		a.test_print();
 
 		// a.erase(a.end());
 		// a.erase(a.end());
@@ -71,7 +80,6 @@ int main()
 
 		// a.push_back(12);
 
-		// a.test_print();
 
 
 		// std::cout << std::endl;

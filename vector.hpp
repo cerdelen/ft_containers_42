@@ -47,7 +47,6 @@ namespace ft
 //				(empty container with no elements)
 
 			explicit vector(const allocator_type &alloc = allocator_type()) : _alloc(alloc), _start(NULL), _end(NULL), _capacity(0){
-				std::cout << "i am default constructor " << std::endl;
 			};
 
 //		Fill Constructor:
@@ -63,7 +62,6 @@ namespace ft
 					_alloc.construct(_end, val);
 					_end++;
 				}
-				std::cout << "i am the fill constructor " << std::endl;
 			};
 
 //		Range Constructor:
@@ -83,7 +81,6 @@ namespace ft
 						_end++;
 						first++;
 					}
-					std::cout << "i am range constructor " << std::endl;
 				};
 
 // 		Copy Constructor:
@@ -100,7 +97,14 @@ namespace ft
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-			~vector(){};
+			~vector()
+			{
+				for (size_type i = 0; _start + i != _end; i++)
+				{
+					_alloc.destroy(_start + i);
+				}
+				_alloc.deallocate(_start, _capacity);	
+			};
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -233,6 +237,7 @@ namespace ft
 		//operator=///////////////////////////////////
 		//////////////////////////////////////////////
 				// void		operator=();			//still have to do
+			vector& 			operator=( const vector& other );
 		//////////////////////////////////////////////
 		//assign//////////////////////////////////////
 		//////////////////////////////////////////////
@@ -491,16 +496,21 @@ namespace ft
 				_end = _start + old_size;
 				return (iterator(tmp2));
 			}
-			void				insert( iterator pos, size_type count, const T& value );
+			void				insert( iterator pos, size_type count, const T& value )
+			{
+
+			}
 			template< class InputIt >
-			void				insert( iterator pos, InputIt first, InputIt last );
+			void				insert( iterator pos, InputIt first, InputIt last )
+			{
+
+			}
 		//////////////////////////////////////////////
 		//erase///////////////////////////////////////
 		//////////////////////////////////////////////
-			// void				erase();			//still have to do
 			iterator			erase( iterator pos )
 			{
-				if (!(pos.base() > _start && pos.base() < _end))
+				if (!(pos.base() >= _start && pos.base() < _end))
 					throw std::out_of_range("Input Iterator for erase() pointing outside vectors range");
 				pointer		tmp = _alloc.allocate(_capacity);
 				pointer		pos_base = pos.base();
@@ -511,57 +521,51 @@ namespace ft
 					_alloc.construct(tmp + i, *(_start + i));
 					_alloc.destroy(_start + i);
 				}
-				iterator	out(_start + i);
+				iterator	out(tmp + i);
 				_alloc.destroy(_start + i++);
 				for(;_start + i != _end; i ++)
 				{
-					_alloc.construct(tmp + i, *(_start + i));
+					_alloc.construct(tmp + i - 1, *(_start + i));
 					_alloc.destroy(_start + i);
 				}
 				_alloc.deallocate(_start, _capacity);
 				_start = tmp;
-				_end--;
+				_end = _start + i - 1;
 				return (out);
 			}
 			iterator			erase( iterator first, iterator last )
 			{
-				if (!(pos.base() > _start && pos.base() < _end))
+				if (first.base() > last.base())
+					throw std::logic_error("Range iterator last is smaller than first");
+				if (!(first.base() >= _start && first.base() < _end) || !(last.base() >= _start && last.base() < _end))
 					throw std::out_of_range("Input Iterator for erase() pointing outside vectors range");
 				pointer		tmp = _alloc.allocate(_capacity);
-				pointer		pos_base = pos.base();
+				pointer		first_base = first.base();
+				pointer		last_base = last.base();
 				size_type	i = 0;
-				
+				size_type	j;
 
-
-
-
-
-
-
-
-				
-				// if (!(pos.base() > _start && pos.base() < _end))
-				// 	throw std::out_of_range("Input Iterator for erase() pointing outside vectors range");
-				// pointer		tmp = _alloc.allocate(_capacity);
-				// pointer		pos_base = pos.base();
-				// size_type i = 0;
-
-				// for(; _start + i != pos_base; i++)
-				// {
-				// 	_alloc.construct(tmp + i, *(_start + i));
-				// 	_alloc.destroy(_start + i);
-				// }
-				// iterator	out(_start + i);
-				// _alloc.destroy(_start + i++);
-				// for(;_start + i != _end; i ++)
-				// {
-				// 	_alloc.construct(tmp + i, *(_start + i));
-				// 	_alloc.destroy(_start + i);
-				// }
-				// _alloc.deallocate(_start, _capacity);
-				// _start = tmp;
-				// _end--;
-				// return (out);
+				for(; _start + i != first_base; i++)
+				{
+					_alloc.construct(tmp + i, *(_start + i));
+					_alloc.destroy(_start + i);
+				}
+				j = i;
+				iterator	out(tmp + i);
+				for(; _start + i <= last_base; i++)
+				{
+					_alloc.destroy(_start + i);
+				}
+				for(;_start + i != _end; i ++)
+				{
+					_alloc.construct(tmp + j, *(_start + i));
+					_alloc.destroy(_start + i);
+					j++;
+				}
+				_alloc.deallocate(_start, _capacity);
+				_start = tmp;
+				_end = tmp + j;
+				return (out);
 			}
 		//////////////////////////////////////////////
 		//push_back///////////////////////////////////
@@ -570,7 +574,7 @@ namespace ft
 			{
 				size_type	old_size = size();
 				if (old_size + 1 > _capacity)
-					resize(next_pow_2(old_size), 0);
+					resize(next_pow_2(old_size), 0);				// probably should be old_size + 1 or just capacity
 				*_end = value;
 				// _alloc.construct(_end, value);
 				_end++;
@@ -657,7 +661,6 @@ namespace ft
 
 		// equal sign opperator
 		// copy constructor
-		// erase function
 		// insert function
 		// rend und rbegin
 		// logical comparison operators (either lexicographical compare or equal)
