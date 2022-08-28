@@ -6,7 +6,7 @@
 #    By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/27 18:49:56 by cerdelen          #+#    #+#              #
-#    Updated: 2022/08/27 18:52:07 by cerdelen         ###   ########.fr        #
+#    Updated: 2022/08/28 13:03:59 by cerdelen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,9 @@ NAME = executable
 
 all:
 	$(CC) $(SRC) -o $(NAME)
+
+run: all
+	./$(NAME)
 
 clean:
 
