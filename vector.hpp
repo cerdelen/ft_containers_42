@@ -238,6 +238,8 @@ namespace ft
 		//////////////////////////////////////////////
 			void				assign( size_type count, const T& val )
 			{
+				if (count > max_size())
+					throw std::length_error("Bigger than max_size");
 				clear();
 				if (count > _capacity)
 				{
@@ -257,10 +259,10 @@ namespace ft
 			{
 				if ((first.base() > _start && first.base() < _end) || (last.base() > _start && last.base() < _end))			//undefined behaviour if range iterators are inside of vector
 					return ;
-				clear();
 				size_type	new_size = last.base() - first.base();
 				if (new_size > max_size())
 					throw std::length_error("Bigger than max_size");
+				clear();
 				reserve(new_size);
 				for (size_type i = 0; first.base() + i != last.base(); i++)
 				{
@@ -288,14 +290,14 @@ namespace ft
 			reference			at( size_type pos )
 			{
 				if (pos > size())
-					throw std::out_of_range("vector");
+					throw std::out_of_range("trying to acces element with at() outside of vector range");
 				return (*(_start + pos));
 			}
 
 			const_reference		at( size_type pos ) const
 			{
 				if (pos > size())
-					throw std::out_of_range("vector");
+					throw std::out_of_range("trying to acces element with at() outside of vector range");
 				return (*(_start + pos));
 			}
 		//////////////////////////////////////////////
@@ -498,30 +500,68 @@ namespace ft
 			// void				erase();			//still have to do
 			iterator			erase( iterator pos )
 			{
-				pointer		tmp = _alloc(_capacity);
+				if (!(pos.base() > _start && pos.base() < _end))
+					throw std::out_of_range("Input Iterator for erase() pointing outside vectors range");
+				pointer		tmp = _alloc.allocate(_capacity);
 				pointer		pos_base = pos.base();
+				size_type	i = 0;
 
-				for(size_type i = 0; _start + i != pos_base; i++)
+				for(; _start + i != pos_base; i++)
 				{
-					_alloc.construct(tmp + i, );
+					_alloc.construct(tmp + i, *(_start + i));
+					_alloc.destroy(_start + i);
 				}
-
-
-
-
-
-				_start = _alloc.allocate(last - first);
-				_end = _start;
-				while(first != last)
+				iterator	out(_start + i);
+				_alloc.destroy(_start + i++);
+				for(;_start + i != _end; i ++)
 				{
-					_alloc.construct(_end, first);
-					_end++;
-					first++;
+					_alloc.construct(tmp + i, *(_start + i));
+					_alloc.destroy(_start + i);
 				}
+				_alloc.deallocate(_start, _capacity);
+				_start = tmp;
+				_end--;
+				return (out);
 			}
 			iterator			erase( iterator first, iterator last )
 			{
+				if (!(pos.base() > _start && pos.base() < _end))
+					throw std::out_of_range("Input Iterator for erase() pointing outside vectors range");
+				pointer		tmp = _alloc.allocate(_capacity);
+				pointer		pos_base = pos.base();
+				size_type	i = 0;
+				
 
+
+
+
+
+
+
+
+				
+				// if (!(pos.base() > _start && pos.base() < _end))
+				// 	throw std::out_of_range("Input Iterator for erase() pointing outside vectors range");
+				// pointer		tmp = _alloc.allocate(_capacity);
+				// pointer		pos_base = pos.base();
+				// size_type i = 0;
+
+				// for(; _start + i != pos_base; i++)
+				// {
+				// 	_alloc.construct(tmp + i, *(_start + i));
+				// 	_alloc.destroy(_start + i);
+				// }
+				// iterator	out(_start + i);
+				// _alloc.destroy(_start + i++);
+				// for(;_start + i != _end; i ++)
+				// {
+				// 	_alloc.construct(tmp + i, *(_start + i));
+				// 	_alloc.destroy(_start + i);
+				// }
+				// _alloc.deallocate(_start, _capacity);
+				// _start = tmp;
+				// _end--;
+				// return (out);
 			}
 		//////////////////////////////////////////////
 		//push_back///////////////////////////////////
