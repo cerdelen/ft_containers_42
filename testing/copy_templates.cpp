@@ -25,7 +25,7 @@ void try_catch_blocks()
 	check_scope_diff(vars, "Throwing exception calling Fill Constructor with negative size");
 }
 
-void	Fill_constructo_for_loop()
+void	Fill_constructor_for_loop()
 {
 	int	max_size = 10;
 	int	value = 10;

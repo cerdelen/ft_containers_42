@@ -1,29 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_fill_constructor.cpp                          :+:      :+:    :+:   */
+/*   test_range_constructor.cpp                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/29 14:59:25 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/08/29 17:20:36 by cerdelen         ###   ########.fr       */
+/*   Created: 2022/08/29 17:20:09 by cerdelen          #+#    #+#             */
+/*   Updated: 2022/08/29 18:55:43 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test_header.h"
 
-void	test_fill_constructor(scope_diff *vars)
+void	test_range_constructor(scope_diff *vars)
 {
-	test_header("Testing Fill Constructor");
+	test_header("Testing Range Constructor");
+	
+	int	max_size = 100;
+	std::vector<int>	source;
+	source.reserve(max_size);
+	for (size_t i = 0; i < max_siz e; i++)
 	{
-		int	max_size = 10;
-		int	value = 10;
-		std::vector<int>	og(max_size, value);
-		ft::vector<int>		my(max_size, value);
+		source.push_back(i);
+	}
+	
+
+
+
+
+
+
+
+
+	{
+		std::vector<int>	og(source.begin(), source.end());
+		std::vector<int>	my(source.begin(), source.end());
 
 		for (size_t i = 0; i < max_size; i++)
 		{
-			compare_ints_with_message(og[i], my[i], "Differences after Fill Constructor", vars);
+			compare_ints_with_message(og[i], my[i], "Differences after Range Constructor", vars);
 		}
 		check_scope_diff(vars, "Differences after Fill Constructor");
 	}
