@@ -294,6 +294,8 @@ namespace ft
 		//////////////////////////////////////////////
 			reference			at( size_type pos )
 			{
+				if (_start == NULL)
+					throw std::out_of_range("trying to access element with at() of an empty vector");
 				if (pos > size())
 					throw std::out_of_range("trying to acces element with at() outside of vector range");
 				return (*(_start + pos));
@@ -301,6 +303,8 @@ namespace ft
 
 			const_reference		at( size_type pos ) const
 			{
+				if (_start == NULL)
+					throw std::out_of_range("trying to access element with at() of an empty vector");
 				if (pos > size())
 					throw std::out_of_range("trying to acces element with at() outside of vector range");
 				return (*(_start + pos));

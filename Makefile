@@ -6,7 +6,7 @@
 #    By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/27 18:49:56 by cerdelen          #+#    #+#              #
-#    Updated: 2022/08/28 22:27:58 by cerdelen         ###   ########.fr        #
+#    Updated: 2022/08/29 15:07:57 by cerdelen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,4 +38,3 @@ git:
 	git commit -m "progress (autogit)"
 	git push
 	@echo 'successfully pushed'
-	
