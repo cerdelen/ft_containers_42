@@ -1,7 +1,6 @@
-
-
 void try_catch_blocks()
 {
+	small_test_header("");
 	bool	og_try = false;
 	bool	my_try = false;
 	try
@@ -21,12 +20,13 @@ void try_catch_blocks()
 		my_try = true;
 	}
 	if (!check_try_counts(og_try, my_try, "Calling Fill Constructor with negative size"))
-		vars->curr++;
+		vars->curr_scope++;
 	check_scope_diff(vars, "Throwing exception calling Fill Constructor with negative size");
 }
 
 void	Fill_constructor_for_loop()
 {
+	small_test_header("");
 	int	max_size = 10;
 	int	value = 10;
 	std::vector<int>	og(max_size, value);

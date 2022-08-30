@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 14:22:39 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/08/29 15:25:11 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/08/30 12:59:31 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,14 @@
 
 struct scope_diff
 {
-	size_t	prev;
-	size_t	curr;
+	// size_t	prev_scope;
+	size_t	curr_scope;
+	size_t	curr_test;
 	size_t	global_diff;
 };
 
-void	test_header(std::string description);
+void	big_test_header(std::string description);
+void	small_test_header(std::string description);
 bool	check_try_counts(bool og, bool my, std::string test);
 void	check_scope_diff(scope_diff *vars, std::string message);
 void	end_message(scope_diff *vars);
@@ -35,6 +37,10 @@ void	test_at(scope_diff *vars);
 void	compare_ints_with_message(int og, int my, std::string message, scope_diff *vars);
 bool	compare_ints_without_message(int og, int my, scope_diff *vars);
 void	test_fill_constructor(scope_diff *vars);
+void	test_range_constructor(scope_diff *vars);
+void	test_copy_constructor(scope_diff *vars);
+void	test_assign(scope_diff *diff_scope);
+void	check_cap_and_size(std::vector<int> *og, ft::vector<int> *my, std::string message, scope_diff *vars);
 
 
 

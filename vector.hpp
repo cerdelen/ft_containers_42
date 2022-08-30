@@ -71,13 +71,13 @@ namespace ft
 			vector (InputIterator first, InputIterator last,\
 				const allocator_type& alloc = allocator_type(),
 				typename std::enable_if<!std::is_integral<InputIterator>::value>::type* = NULL)
-				: _alloc(alloc), _start(NULL), _end(NULL), _capacity(last - first)
+				: _alloc(alloc), _start(NULL), _end(NULL), _capacity(last.base() - first.base())
 				{
-					_start = _alloc.allocate(last - first);
+					_start = _alloc.allocate(last.base() - first.base());
 					_end = _start;
 					while(first != last)
 					{
-						_alloc.construct(_end, first);
+						_alloc.construct(_end, *first);
 						_end++;
 						first++;
 					}
@@ -251,6 +251,7 @@ namespace ft
 					_alloc.deallocate(_start, _capacity);
 					_start = _alloc.allocate(count);
 					_capacity = count;
+					_end = _start;
 				}
 				while (count--)
 				{

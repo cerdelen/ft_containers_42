@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 23:10:56 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/08/29 15:25:31 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/08/29 22:59:18 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,31 +15,7 @@
 
 
 
-void	check_scope_diff(scope_diff *vars, std::string message)
-{
-	if (vars->curr == vars->prev)
-		std::cout << message << GREEN_COL << " was a success!" << DEFAULT_COL << std::endl;
-	else
-		std::cout << message << RED_COL << " resulted in " << vars->curr - vars->prev << "differences" << DEFAULT_COL  << std::endl;
-		
 
-
-
-}
-
-
-void	reset_scope_diff(scope_diff *vars)
-{
-	vars->global_diff += vars->curr;
-	vars->curr = 0;
-	vars->prev = 0;
-}
-void	init_scope_diff(scope_diff *vars)
-{
-	vars->global_diff = 0;
-	vars->curr = 0;
-	vars->prev = 0;
-}
 
 int main()
 {
@@ -48,29 +24,74 @@ int main()
 	test_at(&diff_scope);	
 	reset_scope_diff(&diff_scope);
 	test_fill_constructor(&diff_scope);
+	reset_scope_diff(&diff_scope);
+	test_range_constructor(&diff_scope);
+	reset_scope_diff(&diff_scope);
+	test_copy_constructor(&diff_scope);
+	reset_scope_diff(&diff_scope);
+	// test_operator_equal(&diff_scope);
+	// reset_scope_diff(&diff_scope);
+	test_assign(&diff_scope);
+	reset_scope_diff(&diff_scope);
+	// test_front(&diff_scope);
+	// reset_scope_diff(&diff_scope);
+	// test_back(&diff_scope);
+	// reset_scope_diff(&diff_scope);
+	// test_data(&diff_scope);
+	// reset_scope_diff(&diff_scope);
+	// test_begin(&diff_scope);
+	// reset_scope_diff(&diff_scope);
+	// test_rbegin(&diff_scope);
+	// reset_scope_diff(&diff_scope);
+	// test_end(&diff_scope);
+	// reset_scope_diff(&diff_scope);
+	// test_rend(&diff_scope);
+	// reset_scope_diff(&diff_scope);
+	// test_empty(&diff_scope);
+	// reset_scope_diff(&diff_scope);
+	// test_size(&diff_scope);
+	// reset_scope_diff(&diff_scope);
+	// test_max_size(&diff_scope);
+	// reset_scope_diff(&diff_scope);
+	// test_reserve(&diff_scope);
+	// reset_scope_diff(&diff_scope);
+	// test_capacity(&diff_scope);
+	// reset_scope_diff(&diff_scope);
+	// test_clear(&diff_scope);
+	// reset_scope_diff(&diff_scope);
+	// test_insert(&diff_scope);
+	// reset_scope_diff(&diff_scope);
+	// test_erase(&diff_scope);
+	// reset_scope_diff(&diff_scope);
+	// test_push_bash(&diff_scope);
+	// reset_scope_diff(&diff_scope);
+	// test_pop_back(&diff_scope);
+	// reset_scope_diff(&diff_scope);
+	// test_resize(&diff_scope);
+	// reset_scope_diff(&diff_scope);
+	// test_swap(&diff_scope);
+	// reset_scope_diff(&diff_scope);
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-	end_message(&diff_scope);
-
-
+	//missing the logical operators
+	// test_(&diff_scope);
+	// test_(&diff_scope);
+	// test_(&diff_scope);
 
 	
-	
+
+
+
+
+
+
+
+
+
+
+	end_message(&diff_scope);	
 }
