@@ -17,21 +17,26 @@ int main()
 
 		int size = 13;
 		std::vector<int> og(size, 12);
-		std::vector<int> og2(20, 20);
+		// std::vector<int> og2;
 		ft::vector<int> my(size, 12);
-		ft::vector<int> my2(20, 12);
+		// ft::vector<int> my2;
 
 		for (size_t i = 0; i < size; i++)
 		{
 			og[i] = i;
 			my[i] = i;
 		}
-		for (size_t i = 0; i < 20; i++)
-		{
-			og2[i] = i;
-			my2[i] = i;
-		}
+		// for (size_t i = 0; i < 20; i++)
+		// {
+		// 	og2[i] = i;
+		// 	my2[i] = i;
+		// }
 
+		std::vector<int> og2(og);
+		ft::vector<int> my2(my);
+
+		// og2 = og;
+		// my2 = my;
 
 	// for (size_t i = 0; i < 13; i++)
 	// {
@@ -39,18 +44,16 @@ int main()
 	// 	std::cout << " my = " << *(my.insert(my.begin() + 6, 900 + i)) << std::endl;
 	// }
 
-	og.insert(og.begin() + 6, og2.begin(), og2.end());
-	my.insert(my.begin() + 6, my2.begin(), my2.end());
+	// og.insert(og.begin() + 6, og2.begin(), og2.end());
+	// my.insert(my.begin() + 6, my2.begin(), my2.end());
 	
-	std::cout << "og" << std::endl;
+	std::cout << "og    my" << std::endl;
 	for (size_t i = 0; i < og.size(); i++)
 	{
-		std::cout << og[i] << std::endl;
+		std::cout << og2[i] << "    " << my2[i] << std::endl;
 	}
-	std::cout << "my" << std::endl;
 	for (size_t i = 0; i < my.size(); i++)
 	{
-		std::cout << my[i] << std::endl;
 	}
 
 	std::cout << "og size = " << og.size() << " capacity " << og.capacity() << std::endl;

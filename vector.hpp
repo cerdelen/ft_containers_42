@@ -86,9 +86,9 @@ namespace ft
 // 		Copy Constructor:
 // 				Constructs a container with a copy of each of the elements in x, in the same order.
 
-			vector (const vector& x)
+			vector ( const vector& x, const allocator_type &alloc = allocator_type()): _alloc(alloc), _start(NULL), _end(NULL), _capacity(0)
 			{
-
+				assign(x.begin(), x.end());
 			}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -177,7 +177,6 @@ namespace ft
 //Private Helper functions///////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 			unsigned int		next_pow_2(unsigned int v)
 			{
 				register unsigned int r; // result of log2(v) will go here
@@ -191,7 +190,6 @@ namespace ft
 				unsigned int	out = 1 << (r + 1);
 				return (out);
 			}
-
 			void				make_it_empty( void )
 			{
 				clear();
@@ -201,29 +199,7 @@ namespace ft
 				_end = NULL;
 				_capacity = 0;
 			}
-
-			// void				check_and_adjust_capacity(size_type n)
-			// {
-			// 	if (n > _capacity)
-			// 	{
-			// 		size_type	old_size = size();
-			// 		pointer		tmp = _alloc.allocate(n);
-
-			// 		for (size_t i = 0; i < old_size; i++)
-			// 		{
-			// 			_alloc.construct(tmp + i, _start + i);
-			// 			_alloc.destroy(_start + i);
-			// 		}
-			// 		_alloc.deallocate(_start, _capacity);
-			// 		_start = tmp;
-			// 		_end = _start + old_size;
-			// 		_capacity = n;	
-			// 	}
-			// }
-
-
 		public:
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Member function////////////////////////////////////////////////////////////////////////////////////////
@@ -233,8 +209,12 @@ namespace ft
 		//////////////////////////////////////////////
 		//operator=///////////////////////////////////
 		//////////////////////////////////////////////
-				// void		operator=();			//still have to do
-			vector& 			operator=( const vector& other );
+			vector& 			operator=( const vector& other )
+			{
+				make_it_empty();
+				assign(other.begin(), other.end());
+				return (*this);
+			}
 		//////////////////////////////////////////////
 		//assign//////////////////////////////////////
 		//////////////////////////////////////////////
@@ -751,9 +731,7 @@ namespace ft
 
 
 
-
-		// equal sign opperator
-		// copy constructor
+		// const iterators
 		// rend und rbegin
 		// logical comparison operators (either lexicographical compare or equal)
 
