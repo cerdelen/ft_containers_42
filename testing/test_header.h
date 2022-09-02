@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 14:22:39 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/08/30 12:59:31 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/08/30 13:53:31 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	test_range_constructor(scope_diff *vars);
 void	test_copy_constructor(scope_diff *vars);
 void	test_assign(scope_diff *diff_scope);
 void	check_cap_and_size(std::vector<int> *og, ft::vector<int> *my, std::string message, scope_diff *vars);
+void	test_get_allocator(scope_diff *vars);
+void	test_accessing_functions(scope_diff *vars);
 
 
 

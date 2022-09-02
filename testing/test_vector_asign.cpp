@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:57:40 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/08/30 13:07:23 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/08/30 19:04:32 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,6 @@ void	test_assign_without_range(scope_diff *vars)
 }
 
 
-// this is where i have to continue work ))
-
-
 void	test_assign_with_range(scope_diff *vars)
 {
 	big_test_header("Testing assign() with range iterators");
@@ -111,7 +108,22 @@ void	test_assign_with_range(scope_diff *vars)
 	}
 
 
-	
+
+	{
+		small_test_header("assign with with same range");
+		std::vector<int>	og(20, 50);
+		ft::vector<int>		my(20, 50);
+
+		og.assign(source.begin(), source.end());
+		my.assign(source2.begin(), source2.end());
+		for (size_t i = 0; i < max_size; i++)
+		{
+			compare_ints_with_message(og[i], my[i], "Differences after assign with same range", vars);
+		}
+		check_scope_diff(vars, "Differences after assign with same range");
+		check_cap_and_size(&og, &my, "Testing assign with same range", vars);
+		check_scope_diff(vars, "Differences in size or capacity after assign with same range");
+	}
 	{
 		small_test_header("assign with with smaller range");
 		std::vector<int>	og(50, 50);
@@ -152,7 +164,6 @@ void	test_assign_with_range(scope_diff *vars)
 		max_size = 1;
 		std::vector<int>	og(max_size, 12);
 		ft::vector<int>		my(max_size, 12);
-
 	
 		try
 		{
@@ -207,52 +218,10 @@ void	test_assign_with_range(scope_diff *vars)
 		check_cap_and_size(&og, &my, "Testing assign with identical iterators", vars);
 		check_scope_diff(vars, "Differences in size or capacity after assign with identical iterators");
 	}
-
-
-
-
-
-
-
-	// {
-	// 	max_size = 1;
-	// 	value = 1;
-	// 	assign_size = -1;
-	// 	std::vector<int>	og(max_size, value);
-	// 	ft::vector<int>		my(max_size, value);
-	// 	{
-	// 		bool	og_try = false;
-	// 		bool	my_try = false;
-	// 		try
-	// 		{
-	// 			og.assign(assign_size, 12);
-	// 		}
-	// 		catch(const std::exception& e)
-	// 		{
-	// 			og_try = true;
-	// 		}
-	// 		try
-	// 		{
-	// 			my.assign(assign_size, 12);
-	// 		}
-	// 		catch(const std::exception& e)
-	// 		{
-	// 			my_try = true;
-	// 		}
-	// 		if (!check_try_counts(og_try, my_try, "Testing assign with negative count"))
-	// 			vars->curr_scope++;
-	// 		check_scope_diff(vars, "Throwing exception calling assign with negative count");
-	// 	}
 }
+
 void	test_assign(scope_diff *vars)
 {
 	test_assign_without_range(vars);
-	test_assign_with_range(vars);
-	
-
-		
-		
-
-	
-		
+	test_assign_with_range(vars);	
 }

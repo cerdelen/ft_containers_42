@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 14:30:49 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/08/30 13:09:14 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/08/30 14:28:39 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,13 @@ void	small_test_header(std::string description)
 void	big_test_header(std::string description)
 {
 	std::cout << std::endl << std::endl << YELLOW_COL << "/////////////////////////////////////////////////////////////////////////////////////////////////////////" << std::endl <<
-	"/////////////////////////////////////////////////////////////////////////////////////////////////////////" << std::endl << PURPLE_COL << description << YELLOW_COL;
+	PURPLE_COL << description << YELLOW_COL;
 	for (size_t i = 0; i < 105 - description.length(); i++)
 	{
 		std::cout << "/";
 	}
 	std::cout << std::endl << "/////////////////////////////////////////////////////////////////////////////////////////////////////////" << std::endl <<
-	"/////////////////////////////////////////////////////////////////////////////////////////////////////////" << DEFAULT_COL << std::endl << std::endl << std::endl;
+	DEFAULT_COL << std::endl << std::endl << std::endl;
 }
 
 bool	check_try_counts(bool og, bool my, std::string test)

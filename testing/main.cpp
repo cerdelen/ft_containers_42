@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 23:10:56 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/08/29 22:59:18 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/08/30 15:41:13 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,20 @@ int main()
 	reset_scope_diff(&diff_scope);
 	// test_operator_equal(&diff_scope);
 	// reset_scope_diff(&diff_scope);
+	// test_get_allocator(&diff_scope);
+	// reset_scope_diff(&diff_scope);
 	test_assign(&diff_scope);
 	reset_scope_diff(&diff_scope);
-	// test_front(&diff_scope);
-	// reset_scope_diff(&diff_scope);
-	// test_back(&diff_scope);
-	// reset_scope_diff(&diff_scope);
-	// test_data(&diff_scope);
-	// reset_scope_diff(&diff_scope);
+
+
+	test_accessing_functions(&diff_scope);
+	reset_scope_diff(&diff_scope);
+	
+	
+
+
+
+	
 	// test_begin(&diff_scope);
 	// reset_scope_diff(&diff_scope);
 	// test_rbegin(&diff_scope);

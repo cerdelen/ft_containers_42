@@ -6,7 +6,7 @@
 #    By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/28 23:10:30 by cerdelen          #+#    #+#              #
-#    Updated: 2022/08/29 23:23:30 by cerdelen         ###   ########.fr        #
+#    Updated: 2022/08/30 13:41:00 by cerdelen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,8 @@ SRC =	main.cpp\
 		test_vector_range_constructor.cpp\
 		test_vector_copy_constructor.cpp\
 		test_vector_asign.cpp\
+		test_vector_get_alloc_max_size.cpp\
+		test_vector_accessing_functions.cpp\
 
 NAME = executable
 

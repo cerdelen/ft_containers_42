@@ -8,45 +8,86 @@ int main()
 {
 	try
 	{
-		std::cout << std::endl;
-		std::cout << std::endl;
-		std::cout << std::endl;
-		std::cout << "Start of Main" << std::endl;
-		std::cout << std::endl;
-		std::cout << std::endl;
-		ft::vector<int> a(12, 12);
-		a[0] = 0;
-		a[1] = 1;
-		a[2] = 2;
-		a[3] = 3;
-		a[4] = 4;
-		// std::vector<int> a(10, 5);
-		// ft::vector<int> b(10, 5);
-		// ft::vector<int> x;
+		// std::cout << std::endl;
+		// std::cout << std::endl;
+		// std::cout << std::endl;
+		// std::cout << "Start of Main" << std::endl;
+		// std::cout << std::endl;
+		// std::cout << std::endl;
+
+		int size = 13;
+		std::vector<int> og(size, 12);
+		std::vector<int> og2(20, 20);
+		ft::vector<int> my(size, 12);
+		ft::vector<int> my2(20, 12);
+
+		for (size_t i = 0; i < size; i++)
+		{
+			og[i] = i;
+			my[i] = i;
+		}
+		for (size_t i = 0; i < 20; i++)
+		{
+			og2[i] = i;
+			my2[i] = i;
+		}
+
+
+	// for (size_t i = 0; i < 13; i++)
+	// {
+	// 	std::cout << "og = " << *(og.insert(og.begin() + 6, 900 + i));
+	// 	std::cout << " my = " << *(my.insert(my.begin() + 6, 900 + i)) << std::endl;
+	// }
+
+	og.insert(og.begin() + 6, og2.begin(), og2.end());
+	my.insert(my.begin() + 6, my2.begin(), my2.end());
+	
+	std::cout << "og" << std::endl;
+	for (size_t i = 0; i < og.size(); i++)
+	{
+		std::cout << og[i] << std::endl;
+	}
+	std::cout << "my" << std::endl;
+	for (size_t i = 0; i < my.size(); i++)
+	{
+		std::cout << my[i] << std::endl;
+	}
+
+	std::cout << "og size = " << og.size() << " capacity " << og.capacity() << std::endl;
+	std::cout << "my size = " << my.size() << " capacity " << my.capacity() << std::endl;
+
+		// a[0] = 0;
+		// a[1] = 1;
+		// a[2] = 2;
+		// a[3] = 3;
+		// a[4] = 4;
+		// // std::vector<int> a(10, 5);
+		// // ft::vector<int> b(10, 5);
+		// // ft::vector<int> x;
+		// // a.test_print();
+		// // std::cout << "size before " << a.size() << std::endl;
+
+		// // a.assign(7, 3);
+
+		// // std::cout << "size after " << a.size() << std::endl;
+
+
+		// // a.test_print();
+		// // std::vector<int>::iterator it;
+		// ft::vector<int>::iterator it(a.begin());
+		// ft::vector<int>::iterator it2(a.begin() + 2);
+
+		// // a.erase(it);
+
+		// // std::cout << "it " << *it << std::endl;
+		// std::cout << "it " << *it << " it2 " << *it2 << std::endl;
+
+
 		// a.test_print();
-		// std::cout << "size before " << a.size() << std::endl;
-
-		// a.assign(7, 3);
-
-		// std::cout << "size after " << a.size() << std::endl;
-
-
+		// // a.erase(it);
+		// std::cout << *(a.erase(it, it2))<< std::endl;
+		// std::cout << std::endl;
 		// a.test_print();
-		// std::vector<int>::iterator it;
-		ft::vector<int>::iterator it(a.begin());
-		ft::vector<int>::iterator it2(a.begin() + 2);
-
-		// a.erase(it);
-
-		// std::cout << "it " << *it << std::endl;
-		std::cout << "it " << *it << " it2 " << *it2 << std::endl;
-
-
-		a.test_print();
-		// a.erase(it);
-		std::cout << *(a.erase(it, it2))<< std::endl;
-		std::cout << std::endl;
-		a.test_print();
 
 		// a.erase(a.end());
 		// a.erase(a.end());
@@ -139,7 +180,7 @@ int main()
 		// }
 		// std::cout << "da" << b[60] << std::endl;
 		// int x = 1;
-		// 	x = x << 0;
+		// x = x << 0;
 		// std::cout << "start " << x << std::endl; 
 
 		// x = x << 4;
