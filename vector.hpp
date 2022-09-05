@@ -729,14 +729,9 @@ namespace ft
 			}
 	};
 
-
-
 		// const iterators
 		// rend und rbegin
 		// logical comparison operators (either lexicographical compare or equal)
 
 }
 #endif
-
-
-
