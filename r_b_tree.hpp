@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 15:29:46 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/09/06 19:49:07 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/09/06 22:50:34 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ namespace ft
 	template <class T, class Compare, class allocator >
 	class r_b_tree
 	{
+		public:
 			struct node;
 
 			// typedef				Key									key_type;
@@ -61,14 +62,15 @@ namespace ft
 
 
 
-		struct node
-		{
-			T			value;
-			bool		col;
-			node_ptr	left_child;
-			node_ptr	right_child;
-			node_ptr	parent;
-		};
+			struct node
+			{
+				value_type		value;
+				// T			value;
+				bool				col;
+				node_ptr			left_child;
+				node_ptr			right_child;
+				node_ptr			parent;
+			};
 		
 		private:
 			node_ptr			root;
@@ -86,13 +88,14 @@ namespace ft
 				
 					
 			// }
-			node_ptr	get_node(bool col, value_type &data)
+			node_ptr	get_node(bool col, const value_type &data)
 			{
-				node_ptr	out = alloc.allocate(sizeof(struct node));
+				node_ptr		out;
+				out = alloc.allocate(sizeof(struct node));
 			
 				out->parent = NULL;
 				out->left_child = NULL;
-				out->rigth_child = NULL;
+				out->right_child = NULL;
 				out->col = col;
 				out->value = data;
 				return (out);	
@@ -106,7 +109,7 @@ namespace ft
 			~r_b_tree();
 
 			
-			template <class T1>
+			// template <class T1>
 			void	insert( const value_type &val )
 			{
 				node_ptr	tmp = root;

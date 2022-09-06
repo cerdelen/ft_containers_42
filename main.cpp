@@ -215,10 +215,12 @@ int main()
 		// tree.insert
 		ft::map<int, int>  map;
 
-		map.insert(1, 1);
-		map.insert(2, 2);
-		map.insert(3, 3);
-		map.insert(4, 4);
+		ft::pair<int, int> test(1, 1);
+		map.tree.insert(test);
+		// map.insert(1, 1);
+		// map.insert(2, 2);
+		// map.insert(3, 3);
+		// map.insert(4, 4);
 		map.test_print();
 		
 	}

@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 14:19:44 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/09/06 19:48:22 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/09/06 22:26:30 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,11 @@ namespace ft
 			}
 
 
-			const pair & operator=( const pair & other )
-			{
-				key = other.key;
-				val = other.val;
-				return (*this);
-			}
+			// const pair & operator=( const pair & other )
+			// {
+			// 	new (this) pair(other.first, other.second); // creates new pair 
+			// 	return (*this);
+			// }
 	};
 }
 
