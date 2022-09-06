@@ -1,8 +1,8 @@
 #include "namespace.hpp"
 #include <vector>
 #include <iterator>
-#include "vector.hpp"
-
+// #include "vector.hpp"
+#include "r_b_tree.hpp"
 
 int main()
 {
@@ -208,6 +208,18 @@ int main()
 		// 	std::cout << *it << std::endl;
 		// 	it++;
 		// }
+
+
+		// ft::r_b_tree<ft::pair<int, int>, ft::pair_compare > tree;
+		// ft::r_b_tree	tree(compare_function, std::allocator<ft::pair>);
+		// tree.insert
+		ft::map<int, int>  map;
+
+		map.insert(1, 1);
+		map.insert(2, 2);
+		map.insert(3, 3);
+		map.insert(4, 4);
+		map.test_print();
 		
 	}
 	catch(const std::exception& e)
