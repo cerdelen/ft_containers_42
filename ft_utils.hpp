@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 14:19:44 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/09/06 22:26:30 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/09/07 17:01:46 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@ namespace ft
 	class pair
 	{
 		public:
-			typedef	T1 first_type;
-			typedef	T2 second_type;
+			typedef	T1 key_type;
+			typedef	T2 mapped_type;
 
-			first_type		key;
-			second_type		val;	
+			key_type		key;
+			mapped_type		val;	
 
 			pair( void ) : key(), val()
 			{
 			}
-			pair( const first_type &a, const second_type &b ) : key(a), val(b)
+			pair( const key_type &a, const mapped_type &b ) : key(a), val(b)
 			{
 			}
 			template <class X, class Y>
@@ -42,6 +42,9 @@ namespace ft
 
 			// const pair & operator=( const pair & other )
 			// {
+			// 	key = other.key;
+			// 	val = other.val;
+				
 			// 	new (this) pair(other.first, other.second); // creates new pair 
 			// 	return (*this);
 			// }

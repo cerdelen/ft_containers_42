@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 12:57:27 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/09/06 22:15:28 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/09/07 17:18:33 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ namespace ft
 				key_compare		comp;
 				value_compare(key_compare c) : comp(c) {}
 			public:
-				bool	operator()(const value_type &first, const value_type &second) const
+				bool	operator()(const value_type *first, const value_type *second) const
 				{
-					return (first.key > second.key);
+					return (first->key > second->key);
 				}		
 		};
 
@@ -62,7 +62,7 @@ namespace ft
 			// map( void );  do i need a standard constructor?
 			explicit map( const key_compare & comp = key_compare(), const allocator_type &alloc = allocator_type()) : alloc_(alloc), tree(comp, alloc)     //why explicit?
 			{};
-			~map();
+			~map() {};
 
 
 		private:

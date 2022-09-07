@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 15:29:46 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/09/06 22:50:34 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/09/07 17:33:30 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ namespace ft
 			typedef				ptrdiff_t							difference_type;
 			typedef				size_t								size_type;
 			typedef				node*								node_ptr;
+			typedef				T*									pair_ptr;
 			// typedef	const		node*								const_iter;
 			typedef				Compare								value_compare;
 
@@ -64,19 +65,21 @@ namespace ft
 
 			struct node
 			{
-				value_type		value;
-				// T			value;
-				bool				col;
-				node_ptr			left_child;
-				node_ptr			right_child;
-				node_ptr			parent;
+				value_type				*value;
+				bool					col;
+				node_ptr				left_child;
+				node_ptr				right_child;
+				node_ptr				parent;
 			};
 		
 		private:
-			node_ptr			root;
-			size_t				heigth;
-			value_compare		compare;
-			allocator_type		alloc;
+			node_ptr					root;
+			size_t						heigth;
+			value_compare				compare;
+			allocator_type				alloc;
+			std::allocator<node>		node_alloc;
+			std::allocator<T>			pair_alloc;
+
 			
 			// node	&get_note( void )
 			// {
@@ -91,13 +94,19 @@ namespace ft
 			node_ptr	get_node(bool col, const value_type &data)
 			{
 				node_ptr		out;
-				out = alloc.allocate(sizeof(struct node));
+				out = node_alloc.allocate(sizeof(struct node));
+				// value_type *dates;
+				pair_ptr  		pair_out;
+				pair_out = pair_alloc.allocate(1);
+				pair_alloc.construct(pair_out, data);
+				
 			
 				out->parent = NULL;
 				out->left_child = NULL;
 				out->right_child = NULL;
 				out->col = col;
-				out->value = data;
+				// out->value = data;
+				out->value = pair_out;
 				return (out);	
 			}
 			
@@ -106,7 +115,7 @@ namespace ft
 			{
 				root = NULL;
 			}
-			~r_b_tree();
+			~r_b_tree() {};
 
 			
 			// template <class T1>
@@ -129,17 +138,18 @@ namespace ft
 							tmp = tmp->left_child;
 						else if (compare(tmp->value, new_node->value))			// new_node is smaller
 							tmp = tmp->right_child;
-						else													// both values are same
+						else													// both values are same    maybee exception??
 							return ;
 						new_heigth++;
 					}
 
+					std::cout << "helo there" << std::endl;
 					//setting parent ptr and arents child ptr to new node
 					new_node->parent = tmp_parent;
-					if (compare(new_node->value, tmp_parent->value))
-						tmp_parent->left_child = new_node;
-					else
+					if (compare(new_node->value, tmp_parent->value))			// if new node is bigger
 						tmp_parent->right_child = new_node;
+					else
+						tmp_parent->left_child = new_node;
 
 					//fix insertion with rules
 					
@@ -156,7 +166,7 @@ namespace ft
 					std::cout << (left ? "├──" : "└──" );
 
 					// print the value of the node
-					std::cout << node_->value.key << std::endl;
+					std::cout << node_->value->key << std::endl;
 
 					// enter the next tree level - left and right branch
 					print_rec(prefix + (left ? "│   " : "    "), node_->left_child, true);
@@ -165,6 +175,7 @@ namespace ft
 			}
 			void print_tree(void) const
 			{
+				std::cout << "Tree height is " << heigth << std::endl;
 				print_rec("", root, false);
 			}
 			// void	print(int depth)
