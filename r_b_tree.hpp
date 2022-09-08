@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 15:29:46 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/09/07 17:33:30 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/09/08 19:20:22 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,20 +65,22 @@ namespace ft
 
 			struct node
 			{
-				value_type				*value;
 				bool					col;
+				node_ptr				parent;
 				node_ptr				left_child;
 				node_ptr				right_child;
-				node_ptr				parent;
+				value_type				*value;
 			};
 		
+		public:									//this has to be private (only public for debguging)
+			node_ptr					root;	//this has to be private (only public for debguging)
 		private:
-			node_ptr					root;
 			size_t						heigth;
 			value_compare				compare;
 			allocator_type				alloc;
 			std::allocator<node>		node_alloc;
 			std::allocator<T>			pair_alloc;
+			size_t						size;
 
 			
 			// node	&get_note( void )
@@ -111,7 +113,7 @@ namespace ft
 			}
 			
 		public:
-			r_b_tree(const value_compare &compare_, const allocator_type &alloc_) : compare(compare_), alloc(alloc_), heigth(0)
+			r_b_tree(const value_compare &compare_, const allocator_type &alloc_) : compare(compare_), alloc(alloc_), heigth(0), size(0)
 			{
 				root = NULL;
 			}
@@ -125,7 +127,7 @@ namespace ft
 				node_ptr	tmp_parent = NULL;
 				node_ptr	new_node;
 				size_t		new_heigth = 1;
-
+				
 				if (!root)
 					root = get_node(BLCK, val);
 				else
@@ -135,49 +137,145 @@ namespace ft
 					{
 						tmp_parent = tmp;
 						if (compare(new_node->value, tmp->value))				// new_node is bigger
-							tmp = tmp->left_child;
-						else if (compare(tmp->value, new_node->value))			// new_node is smaller
 							tmp = tmp->right_child;
+						else if (compare(tmp->value, new_node->value))			// new_node is smaller
+							tmp = tmp->left_child;
 						else													// both values are same    maybee exception??
 							return ;
 						new_heigth++;
 					}
 
-					std::cout << "helo there" << std::endl;
 					//setting parent ptr and arents child ptr to new node
 					new_node->parent = tmp_parent;
 					if (compare(new_node->value, tmp_parent->value))			// if new node is bigger
 						tmp_parent->right_child = new_node;
 					else
 						tmp_parent->left_child = new_node;
-
 					//fix insertion with rules
 					
 				}
+				size++;
 				if (new_heigth > heigth)
 					heigth = new_heigth;
 			}
-			void	print_rec(const std::string& prefix, node_ptr node_, bool left) const
+			void	print_rec(const std::string& prefix, node_ptr node_, bool left, bool key) const
 			{
-				if (node_ != nullptr)
-				{		
-					std::cout << prefix;
+				if (key)
+				{
+					if (node_ != nullptr)
+					{		
+						std::cout << prefix;
 
-					std::cout << (left ? "├──" : "└──" );
+						std::cout << (left ? "├──" : "└──" );
 
-					// print the value of the node
-					std::cout << node_->value->key << std::endl;
+						// print the value of the node
+						std::cout << node_-> value->key << std::endl;
+						print_rec(prefix + (left ? "│   " : "    "), node_->left_child, true, true);
+						print_rec(prefix + (left ? "│   " : "    "), node_->right_child, false, true);
 
-					// enter the next tree level - left and right branch
-					print_rec(prefix + (left ? "│   " : "    "), node_->left_child, true);
-					print_rec(prefix + (left ? "│   " : "    "), node_->right_child, false);
+						// enter the next tree level - left and right branch
+					}
+				}
+				else
+				{
+					if (node_ != nullptr)
+					{		
+						std::cout << prefix;
+
+						std::cout << (left ? "├──" : "└──" );
+
+						// print the value of the node
+						std::cout << node_-> value->val << std::endl;
+						print_rec(prefix + (left ? "│   " : "    "), node_->left_child, true, false);
+						print_rec(prefix + (left ? "│   " : "    "), node_->right_child, false, false);
+
+						// enter the next tree level - left and right branch
+					}
 				}
 			}
-			void print_tree(void) const
+			void print_tree_key() const
 			{
-				std::cout << "Tree height is " << heigth << std::endl;
-				print_rec("", root, false);
+				std::cout << "Tree height is " << heigth << " and size is " << size << std::endl;
+				print_rec("", root, false, true);
 			}
+			void print_tree_val() const
+			{
+				std::cout << "Tree height is " << heigth << " and size is " << size << std::endl;
+				print_rec("", root, false, false);
+			}
+
+			void	rotation_ll(node_ptr patient)					// grandparent becomes parents right son
+			{
+				if (!patient)
+					return ;
+				node_ptr		patient_father = patient->parent;
+				
+				if (!patient_father)
+					return ;
+				node_ptr		grandparent = patient_father->parent;
+				
+				if (!grandparent )
+					return ;				
+				if (grandparent->left_child == patient_father)
+					grandparent->left_child = NULL;
+				patient_father->parent = grandparent->parent;
+				if (patient_father->parent)
+				{
+					if (compare(patient_father->value, patient_father->parent->value))			// if new node is bigger
+						patient_father->parent->right_child = patient_father;
+					else
+						patient_father->parent->left_child = patient_father;	
+				}
+				else
+					root = patient_father;
+				patient_father->right_child = grandparent;
+				grandparent->parent = patient_father;
+			}
+			
+			void	rotation_lr(node_ptr patient)					// parent becomes childs left child
+			{
+				if (!patient)
+					return ;
+				node_ptr		patient_father = patient->parent;
+
+				if (!patient_father)
+					return ;
+				
+				node_ptr		grandparent = patient_father->parent;
+
+				if (grandparent)
+				{
+					patient->parent = grandparent;
+					if (grandparent->left_child == patient_father)
+						grandparent->left_child = patient;
+					else
+						grandparent->right_child = patient;
+				}
+				else
+				{
+					root = patient;
+					patient->parent = NULL;
+				}
+				patient->left_child = patient_father;
+				patient_father->parent = patient;
+				if (patient_father->right_child == patient)
+					patient_father->right_child = NULL;
+				else
+					patient_father->left_child = NULL;
+			}
+			
+			void	rotation_rr(node_ptr patient)									// grandparent becomes parents left son
+			{
+				
+			}
+			
+			void	rotation_rl(node_ptr patient)									// parent becomes childs right child
+			{
+				
+			}
+			
+			
+			
 			// void	print(int depth)
 			// {
 			// 	while (depth < this->heigth)

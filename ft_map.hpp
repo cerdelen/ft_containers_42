@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 12:57:27 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/09/07 17:18:33 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/09/08 18:00:33 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,13 @@ namespace ft
 			// };
 			void	erase();
 
-			void	test_print( void )
+			void	test_print_key( void )
 			{
-				tree.print_tree();
+				tree.print_tree_key();
+			}
+			void	test_print_val( void )
+			{
+				tree.print_tree_val();
 			}
 			
 	};	
