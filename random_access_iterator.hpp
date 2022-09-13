@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 17:12:16 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/08/27 22:29:45 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/09/13 19:31:15 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ namespace ft
 				_ptr++;
 				return (temp);
 			}
-			
+
 			random_access_iterator&			operator+=(difference_type n)
 			{
 				_ptr += n;

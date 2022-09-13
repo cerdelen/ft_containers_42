@@ -215,7 +215,7 @@ int main()
 		// tree.insert
 		ft::map<int, int>  map;
 
-		ft::pair<int, int> test(1, 1);
+		ft::pair<int, int> test1(1, 1);
 		ft::pair<int, int> test2(2, 2);
 		ft::pair<int, int> test3(3, 3);
 		ft::pair<int, int> test4(4, 4);
@@ -228,33 +228,101 @@ int main()
 		ft::pair<int, int> test11(11, 11);
 		ft::pair<int, int> test12(12, 12);
 		ft::pair<int, int> test13(13, 13);
+		ft::pair<int, int> test18(18, 18);
+		ft::pair<int, int> test14(14, 14);
+		ft::pair<int, int> test17(17, 17);
+		ft::pair<int, int> test19(19, 19);
+		ft::pair<int, int> test22(22, 22);
+		ft::pair<int, int> test20(20, 20);
 
-		// map.tree.insert(test5);
-		// map.tree.insert(test6);
-		// map.tree.insert(test7);
+
+
+		map.tree.insert(test5);
+		map.tree.insert(test13);
+		map.tree.insert(test6);
+		map.tree.insert(test4);
+		map.tree.insert(test12);
+		map.tree.insert(test2);
+		map.tree.insert(test9);
+		map.tree.insert(test7);
+		map.tree.insert(test7);
+		map.tree.insert(test3);
+		
 		// map.tree.insert(test4);
 		// map.tree.insert(test3);
 		// map.tree.insert(test2);
-		
-		map.tree.insert(test4);
-		map.tree.insert(test3);
-		map.tree.insert(test2);
-		map.tree.insert(test5);
+		// map.tree.insert(test5);
 
 
+
+		// map.tree.insert(test5);
+		// map.tree.insert(test1);
+		// map.tree.insert(test10);
+
+
+
+
+
+	
+		// std::cout << "insert 1" << std::endl;
+		// map.tree.insert(test7);
+		// std::cout << "insert 2" << std::endl;
+		// map.tree.insert(test4);
+		// std::cout << "insert 3" << std::endl;
+		// map.tree.insert(test6);
+		// map.tree.insert(test3);
+		// map.tree.insert(test2);
+		// map.tree.insert(test11);
+		// std::cout << RED_COL << "insert 18" << DEFAULT_COL << std::endl;
+		// map.tree.insert(test18);
+		// std::cout << RED_COL << "insert 9" << DEFAULT_COL << std::endl;
+		// map.tree.insert(test9);
+		// map.tree.insert(test14);
+		// map.tree.insert(test12);
+		// map.tree.insert(test17);
+		// map.tree.insert(test19);
+		// map.tree.insert(test22);
+		// map.tree.insert(test20);
+
+
+
+
+
+		// std::cout << "roots father == " << map.tree.root->parent << std::endl;
 
 
 		// std::cout << map.tree.root << std::endl;
 		// std::cout <<map.tree.root->right_child<< std::endl;
-		std::cout << "testing " <<  map.tree.root->left_child->value->key << std::endl;
+		// std::cout << "testing " <<  map.tree.root->left_child->left_child->left_child->left_child << std::endl;
 		// std::cout << map.tree.root->left_child->left_child << std::endl;
 
 
 
-		map.test_print_val();
+		// map.test_print_val();
+		// map.tree.left_rotation(map.tree.root->right_child);
+		// map.test_print_val();
+		// map.tree.right_rotation(map.tree.root->right_child);
+		// map.test_print_val();
+		// map.tree.insert_fixup(map.tree.root->right_child->left_child);
 
 		// map.tree.rotation_ll(map.tree.root->left_child->left_child);
-		map.tree.rotation_lr(map.tree.root->left_child->left_child);
+		// std::cout << "testing " <<  map.tree.root->left_child->left_child->left_child->left_child << std::endl;
+		// map.tree.rotation_lr(map.tree.root->left_child->left_child);
+
+
+
+
+		// map.test_print_val();
+		// // std::cout << "testing " <<  map.tree.root->left_child->left_child->left_child->left_child << std::endl;
+		// map.tree.rotation_rl(map.tree.root->left_child->left_child);
+		// map.test_print_val();
+		// // std::cout << "testing " <<  map.tree.root->left_child->left_child->left_child->left_child << std::endl;
+		// map.tree.rotation_rr(map.tree.root->left_child->left_child);
+		// map.test_print_val();
+
+
+
+
 
 		// std::cout << "test " <<  map.tree.root->right_child->right_child->value->key << std::endl;
 
