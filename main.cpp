@@ -213,27 +213,33 @@ int main()
 		// ft::r_b_tree<ft::pair<int, int>, ft::pair_compare > tree;
 		// ft::r_b_tree	tree(compare_function, std::allocator<ft::pair>);
 		// tree.insert
+
+
+
+
+
+
 		ft::map<int, int>  map;
 
-		ft::pair<int, int> test1(1, 1);
-		ft::pair<int, int> test2(2, 2);
-		ft::pair<int, int> test3(3, 3);
-		ft::pair<int, int> test4(4, 4);
-		ft::pair<int, int> test5(5, 5);
-		ft::pair<int, int> test6(6, 6);
-		ft::pair<int, int> test7(7, 7);
-		ft::pair<int, int> test8(8, 8);
-		ft::pair<int, int> test9(9, 9);
-		ft::pair<int, int> test10(10, 10);
-		ft::pair<int, int> test11(11, 11);
-		ft::pair<int, int> test12(12, 12);
-		ft::pair<int, int> test13(13, 13);
-		ft::pair<int, int> test18(18, 18);
-		ft::pair<int, int> test14(14, 14);
-		ft::pair<int, int> test17(17, 17);
-		ft::pair<int, int> test19(19, 19);
-		ft::pair<int, int> test22(22, 22);
-		ft::pair<int, int> test20(20, 20);
+		ft::pair<int, int> test1 = ft::make_pair(1, 1);
+		ft::pair<int, int> test2 = ft::make_pair(2, 2);
+		ft::pair<int, int> test3 = ft::make_pair(3, 3);
+		ft::pair<int, int> test4 = ft::make_pair(4, 4);
+		ft::pair<int, int> test5 = ft::make_pair(5, 5);
+		ft::pair<int, int> test6 = ft::make_pair(6, 6);
+		ft::pair<int, int> test7 = ft::make_pair(7, 7);
+		ft::pair<int, int> test8 = ft::make_pair(8, 8);
+		ft::pair<int, int> test9 = ft::make_pair(9, 9);
+		ft::pair<int, int> test10 = ft::make_pair(10, 10);
+		ft::pair<int, int> test11 = ft::make_pair(11, 11);
+		ft::pair<int, int> test12 = ft::make_pair(12, 12);
+		ft::pair<int, int> test13 = ft::make_pair(13, 13);
+		ft::pair<int, int> test18 = ft::make_pair(18, 18);
+		ft::pair<int, int> test14 = ft::make_pair(14, 14);
+		ft::pair<int, int> test17 = ft::make_pair(17, 17);
+		ft::pair<int, int> test19 = ft::make_pair(19, 19);
+		ft::pair<int, int> test22 = ft::make_pair(22, 22);
+		ft::pair<int, int> test20 = ft::make_pair(20, 20);
 
 
 
@@ -247,7 +253,18 @@ int main()
 		map.tree.insert(test7);
 		map.tree.insert(test7);
 		map.tree.insert(test3);
+
 		
+		
+
+
+		std::cout << "this " << (map.tree.successor(map.tree.root->left_child->left_child))->value->key << " is the successor of " << map.tree.root->left_child->left_child->value->key << std::endl << std::endl;
+		std::cout << "this " << (map.tree.successor(map.tree.root->left_child))->value->key << " is the successor of " << map.tree.root->left_child->value->key << std::endl << std::endl;
+		std::cout << "this " << (map.tree.successor(map.tree.root))->value->key << " is the successor of " << map.tree.root->value->key << std::endl << std::endl;
+		std::cout << "this " << (map.tree.successor(map.tree.root->right_child))->value->key << " is the successor of " << map.tree.root->right_child->value->key << std::endl << std::endl;
+
+
+
 		// map.tree.insert(test4);
 		// map.tree.insert(test3);
 		// map.tree.insert(test2);
@@ -329,6 +346,14 @@ int main()
 
 		map.test_print_val();
 
+
+		// std::cout << "test " <<  map.tree.root->left_child->value->key << std::endl << "return = " << map.tree.erase(map.tree.root->left_child)->value->key << std::endl;
+		// map.tree.erase(map.tree.root->left_child);
+		// std::cout << "test " <<  map.tree.nil_node->value->key << std::endl;
+		// map.tree.replace(map.tree.root, map.tree.root->left_child);
+
+
+		map.test_print_val();
 	}
 	catch(const std::exception& e)
 	{

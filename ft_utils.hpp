@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 14:19:44 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/09/13 19:25:15 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/09/14 16:42:16 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,10 @@ namespace ft
 			~pair(void)
 			{
 			}
+
+
+			
+			
 			// const pair & operator=( const pair & other )
 			// {
 			// 	key = other.key;
@@ -46,6 +50,54 @@ namespace ft
 			// 	new (this) pair(other.first, other.second); // creates new pair 
 			// 	return (*this);
 			// }
+	};
+
+	template< class X, class Y >
+	bool operator==(const pair<X, Y>& first, const pair<X, Y>& second)
+	{
+		return (first.key == second.key && first.val == second.val);
+	}
+
+	template< class X, class Y >
+	bool operator!=(const pair<X, Y>& first, const pair<X, Y>& second)
+	{
+		return (first.key != second.key || first.val != second.val);
+	}	
+	
+	template< class X, class Y >
+	bool operator<(const pair<X, Y>& first, const pair<X, Y>& second)
+	{
+		return (first < second);
+	}	
+	
+	template< class X, class Y >
+	bool operator<=(const pair<X, Y>& first, const pair<X, Y>& second)
+	{
+		return (!(first > second));
+	}	
+
+	template< class X, class Y >
+	bool operator>(const pair<X, Y>& first, const pair<X, Y>& second)
+	{
+		return (first > second);
+	}	
+	
+	template< class X, class Y >
+	bool operator>=(const pair<X, Y>& first, const pair<X, Y>& second)
+	{
+		return (!(first < second));
+	}
+
+
+
+
+
+	
+
+	template< class X, class Y >
+	ft::pair<X,Y>		make_pair( X key_, Y val_ )
+	{
+		return (pair<X, Y>(key_, val_));
 	};
 }
 

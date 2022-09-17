@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 12:57:27 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/09/08 18:00:33 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/09/16 16:21:52 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,7 @@
 // #include "namespace.hpp"
 
 namespace ft
-{
-	
-
-
-	
+{	
 	template <	class T1, class T2, class Compare = std::less<T1>,
 				class Allocator = std::allocator<std::pair<const T1, T2> > >
 	class map
@@ -67,6 +63,7 @@ namespace ft
 
 		private:
 			typedef ft::r_b_tree< value_type, value_compare, allocator_type >		tree_type;		
+			// typedef ft::map_tree< value_type, value_compare, allocator_type >		tree_type;		
 		public:
 			tree_type			tree;							// will be private
 		public:
