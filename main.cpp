@@ -4,6 +4,15 @@
 // #include "vector.hpp"
 #include "r_b_tree.hpp"
 
+
+#define _testnode map.tree.root->right_child->right_child
+
+
+void	print_rel_error(std::string rel, int key)
+{
+	std::cout << "testing " << rel << " of " << key << " is " << "NULL ptr" << std::endl;
+}
+
 int main()
 {
 	try
@@ -221,25 +230,25 @@ int main()
 
 		ft::map<int, int>  map;
 
-		ft::pair<int, int> test1 = ft::make_pair(1, 1);
-		ft::pair<int, int> test2 = ft::make_pair(2, 2);
-		ft::pair<int, int> test3 = ft::make_pair(3, 3);
-		ft::pair<int, int> test4 = ft::make_pair(4, 4);
-		ft::pair<int, int> test5 = ft::make_pair(5, 5);
-		ft::pair<int, int> test6 = ft::make_pair(6, 6);
-		ft::pair<int, int> test7 = ft::make_pair(7, 7);
-		ft::pair<int, int> test8 = ft::make_pair(8, 8);
-		ft::pair<int, int> test9 = ft::make_pair(9, 9);
-		ft::pair<int, int> test10 = ft::make_pair(10, 10);
-		ft::pair<int, int> test11 = ft::make_pair(11, 11);
-		ft::pair<int, int> test12 = ft::make_pair(12, 12);
-		ft::pair<int, int> test13 = ft::make_pair(13, 13);
-		ft::pair<int, int> test18 = ft::make_pair(18, 18);
-		ft::pair<int, int> test14 = ft::make_pair(14, 14);
-		ft::pair<int, int> test17 = ft::make_pair(17, 17);
-		ft::pair<int, int> test19 = ft::make_pair(19, 19);
-		ft::pair<int, int> test22 = ft::make_pair(22, 22);
-		ft::pair<int, int> test20 = ft::make_pair(20, 20);
+		const ft::pair<int, int> test1 = ft::make_pair(1, 1);
+		const ft::pair<int, int> test2 = ft::make_pair(2, 2);
+		const ft::pair<int, int> test3 = ft::make_pair(3, 3);
+		const ft::pair<int, int> test4 = ft::make_pair(4, 4);
+		const ft::pair<int, int> test5 = ft::make_pair(5, 5);
+		const ft::pair<int, int> test6 = ft::make_pair(6, 6);
+		const ft::pair<int, int> test7 = ft::make_pair(7, 7);
+		const ft::pair<int, int> test8 = ft::make_pair(8, 8);
+		const ft::pair<int, int> test9 = ft::make_pair(9, 9);
+		const ft::pair<int, int> test10 = ft::make_pair(10, 10);
+		const ft::pair<int, int> test11 = ft::make_pair(11, 11);
+		const ft::pair<int, int> test12 = ft::make_pair(12, 12);
+		const ft::pair<int, int> test13 = ft::make_pair(13, 13);
+		const ft::pair<int, int> test18 = ft::make_pair(18, 18);
+		const ft::pair<int, int> test14 = ft::make_pair(14, 14);
+		const ft::pair<int, int> test17 = ft::make_pair(17, 17);
+		const ft::pair<int, int> test19 = ft::make_pair(19, 19);
+		const ft::pair<int, int> test22 = ft::make_pair(22, 22);
+		const ft::pair<int, int> test20 = ft::make_pair(20, 20);
 
 
 
@@ -253,15 +262,20 @@ int main()
 		map.tree.insert(test7);
 		map.tree.insert(test7);
 		map.tree.insert(test3);
+		map.tree.insert(test20);
+		map.tree.insert(test22);
+		map.tree.insert(test19);
+		map.tree.insert(test17);
+		map.tree.insert(test11);
 
 		
 		
 
 
-		std::cout << "this " << (map.tree.successor(map.tree.root->left_child->left_child))->value->key << " is the successor of " << map.tree.root->left_child->left_child->value->key << std::endl << std::endl;
-		std::cout << "this " << (map.tree.successor(map.tree.root->left_child))->value->key << " is the successor of " << map.tree.root->left_child->value->key << std::endl << std::endl;
-		std::cout << "this " << (map.tree.successor(map.tree.root))->value->key << " is the successor of " << map.tree.root->value->key << std::endl << std::endl;
-		std::cout << "this " << (map.tree.successor(map.tree.root->right_child))->value->key << " is the successor of " << map.tree.root->right_child->value->key << std::endl << std::endl;
+		// std::cout << "this " << (map.tree.successor(map.tree.root->left_child->left_child))->value->key << " is the successor of " << map.tree.root->left_child->left_child->value->key << std::endl << std::endl;
+		// std::cout << "this " << (map.tree.successor(map.tree.root->left_child))->value->key << " is the successor of " << map.tree.root->left_child->value->key << std::endl << std::endl;
+		// std::cout << "this " << (map.tree.successor(map.tree.root))->value->key << " is the successor of " << map.tree.root->value->key << std::endl << std::endl;
+		// std::cout << "this " << (map.tree.successor(map.tree.root->right_child))->value->key << " is the successor of " << map.tree.root->right_child->value->key << std::endl << std::endl;
 
 
 
@@ -344,7 +358,7 @@ int main()
 		// std::cout << "test " <<  map.tree.root->right_child->right_child->value->key << std::endl;
 
 
-		map.test_print_val();
+		// map.test_print_val();
 
 
 		// std::cout << "test " <<  map.tree.root->left_child->value->key << std::endl << "return = " << map.tree.erase(map.tree.root->left_child)->value->key << std::endl;
@@ -352,8 +366,61 @@ int main()
 		// std::cout << "test " <<  map.tree.nil_node->value->key << std::endl;
 		// map.tree.replace(map.tree.root, map.tree.root->left_child);
 
+		// map.test_print_val();
+
+		// // std::cout << "hiello " << _testnode->value->key << "also " << map.tree.nil_node <<  std::endl;
+
+		// void *tmp;
+		// // void *test_node = _testnode;
+
+		// tmp = map.tree.niece(_testnode);
+		// // std::cout << "hiello " << tmp << std::endl;
+		// if (!tmp)
+		// 	print_rel_error("niece", _testnode->value->key);
+		// else
+		// 	std::cout << "testing niece of " << _testnode->value->key << " is " << map.tree.niece(_testnode)->value->key << std::endl;
+
+
+		// tmp = map.tree.nephew(_testnode);
+		// if (!tmp)
+		// 	print_rel_error("nephew", _testnode->value->key);
+		// else
+		// 	std::cout << "testing nephew of " << _testnode->value->key << " is " << map.tree.nephew(_testnode)->value->key << std::endl;
+
+
+
+		// tmp = map.tree.aunt(_testnode);
+		// if (!tmp)
+		// 	print_rel_error("aunt", _testnode->value->key);
+		// else
+		// 	std::cout << "testing aunt of " << _testnode->value->key << " is " << map.tree.aunt(_testnode)->value->key << std::endl;
+
+
+
+
+
+		// std::cout << "testing nephew of " << _testnode->value->key << " is " << map.tree.nephew(_testnode)->value->key << std::endl;
+		// std::cout << "testing aunt of " << _testnode->value->key << " is " << map.tree.aunt(_testnode)->value->key << std::endl;
+
+		std::cout << "nil_node value ptr " << map.tree.nil_node->value << std::endl;
+
 
 		map.test_print_val();
+
+		// std::cout << "this is da node " << _testnode->value->key << std::endl;
+
+		map.tree.erase_orig2(test5);
+		map.tree.erase_orig2(test13);
+		map.tree.erase_orig2(test6);
+		map.tree.erase_orig2(test12);
+		map.tree.erase_orig2(test7);
+		// std::cout << "nil_node value ptr " << map.tree.nil_node->value << std::endl;
+
+		// std::cout << "this is after erase" << std::endl;
+		map.test_print_val();
+		map.tree.clear();
+
+		// std::cout << map.tree.root->left_child->right_child->is_left << std::endl;
 	}
 	catch(const std::exception& e)
 	{
