@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 14:19:44 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/09/14 16:42:16 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/09/19 14:32:00 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,6 @@ namespace ft
 	}
 
 
-
-
-
-	
 
 	template< class X, class Y >
 	ft::pair<X,Y>		make_pair( X key_, Y val_ )

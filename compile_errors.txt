@@ -1,0 +1,193 @@
+c++ main.cpp -o executable
+In file included from main.cpp:1:
+In file included from ./namespace.hpp:8:
+./r_b_tree.hpp:120:11: error: no matching function for call to object of type 'ft::r_b_tree<ft::pair<const int, int>, ft::map<int, int, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, int> > >::value_compare, std::__1::allocator<std::__1::pair<const int, int> > >::value_compare' (aka 'ft::map<int, int, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, int> > >::value_compare')
+                                                if (compare(new_node->value, tmp->value))                               // new_node is bigger
+                                                    ^~~~~~~
+main.cpp:255:12: note: in instantiation of member function 'ft::r_b_tree<ft::pair<const int, int>, ft::map<int, int, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, int> > >::value_compare, std::__1::allocator<std::__1::pair<const int, int> > >::insert' requested here
+                map.tree.insert(test5);
+                         ^
+./ft_map.hpp:51:10: note: candidate function not viable: no known conversion from 'ft::r_b_tree<ft::pair<const int, int>, ft::map<int, int, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, int> > >::value_compare, std::__1::allocator<std::__1::pair<const int, int> > >::pointer' (aka 'std::__1::pair<const int, int> *') to 'const ft::map<int, int, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, int> > >::value_type *' (aka 'const pair<const int, int> *') for 1st argument
+                                bool    operator()(const value_type *first, const value_type *second) const
+                                        ^
+In file included from main.cpp:1:
+In file included from ./namespace.hpp:8:
+./r_b_tree.hpp:133:10: error: no matching function for call to object of type 'ft::r_b_tree<ft::pair<const int, int>, ft::map<int, int, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, int> > >::value_compare, std::__1::allocator<std::__1::pair<const int, int> > >::value_compare' (aka 'ft::map<int, int, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, int> > >::value_compare')
+                                        if (compare(new_node->value, tmp_parent->value))                        // if new node is bigger
+                                            ^~~~~~~
+./ft_map.hpp:51:10: note: candidate function not viable: no known conversion from 'ft::r_b_tree<ft::pair<const int, int>, ft::map<int, int, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, int> > >::value_compare, std::__1::allocator<std::__1::pair<const int, int> > >::pointer' (aka 'std::__1::pair<const int, int> *') to 'const ft::map<int, int, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, int> > >::value_type *' (aka 'const pair<const int, int> *') for 1st argument
+                                bool    operator()(const value_type *first, const value_type *second) const
+                                        ^
+In file included from main.cpp:1:
+In file included from ./namespace.hpp:8:
+./r_b_tree.hpp:72:28: error: assigning to 'ft::r_b_tree<ft::pair<const int, int>, ft::map<int, int, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, int> > >::value_compare, std::__1::allocator<std::__1::pair<const int, int> > >::pointer' (aka 'std::__1::pair<const int, int> *') from incompatible type 'std::__1::allocator<ft::pair<const int, int> >::pointer' (aka 'ft::pair<const int, int> *')
+                                pair_out = value_alloc.allocate(1);
+                                           ~~~~~~~~~~~~^~~~~~~~~~~
+./r_b_tree.hpp:113:13: note: in instantiation of member function 'ft::r_b_tree<ft::pair<const int, int>, ft::map<int, int, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, int> > >::value_compare, std::__1::allocator<std::__1::pair<const int, int> > >::get_node' requested here
+                                        root = get_node(BLCK, val);
+                                               ^
+main.cpp:255:12: note: in instantiation of member function 'ft::r_b_tree<ft::pair<const int, int>, ft::map<int, int, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, int> > >::value_compare, std::__1::allocator<std::__1::pair<const int, int> > >::insert' requested here
+                map.tree.insert(test5);
+                         ^
+In file included from main.cpp:1:
+In file included from ./namespace.hpp:8:
+./r_b_tree.hpp:73:17: error: no matching member function for call to 'construct'
+                                value_alloc.construct(pair_out, data);
+                                ~~~~~~~~~~~~^~~~~~~~~
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1895:9: note: candidate function template not viable: no known conversion from 'ft::r_b_tree<ft::pair<const int, int>, ft::map<int, int, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, int> > >::value_compare, std::__1::allocator<std::__1::pair<const int, int> > >::pointer' (aka 'std::__1::pair<const int, int> *') to 'std::__1::allocator<ft::pair<const int, int> >::pointer' (aka 'ft::pair<const int, int> *') for 1st argument
+        construct(pointer __p, _A0& __a0)
+        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1902:9: note: candidate function template not viable: no known conversion from 'ft::r_b_tree<ft::pair<const int, int>, ft::map<int, int, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, int> > >::value_compare, std::__1::allocator<std::__1::pair<const int, int> > >::pointer' (aka 'std::__1::pair<const int, int> *') to 'std::__1::allocator<ft::pair<const int, int> >::pointer' (aka 'ft::pair<const int, int> *') for 1st argument
+        construct(pointer __p, const _A0& __a0)
+        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1910:9: note: candidate function template not viable: requires 3 arguments, but 2 were provided
+        construct(pointer __p, _A0& __a0, _A1& __a1)
+        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1917:9: note: candidate function template not viable: requires 3 arguments, but 2 were provided
+        construct(pointer __p, const _A0& __a0, _A1& __a1)
+        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1924:9: note: candidate function template not viable: requires 3 arguments, but 2 were provided
+        construct(pointer __p, _A0& __a0, const _A1& __a1)
+        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1931:9: note: candidate function template not viable: requires 3 arguments, but 2 were provided
+        construct(pointer __p, const _A0& __a0, const _A1& __a1)
+        ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1886:9: note: candidate function not viable: requires single argument '__p', but 2 arguments were provided
+        construct(pointer __p)
+        ^
+In file included from main.cpp:1:
+In file included from ./namespace.hpp:8:
+./r_b_tree.hpp:162:46: error: no member named 'key' in 'std::__1::pair<const int, int>'
+                                                        std::cout << RED_COL << node_->value->key << DEFAULT_COL << std::endl;
+                                                                                ~~~~~~~~~~~~  ^
+./r_b_tree.hpp:200:5: note: in instantiation of member function 'ft::r_b_tree<ft::pair<const int, int>, ft::map<int, int, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, int> > >::value_compare, std::__1::allocator<std::__1::pair<const int, int> > >::print_rec' requested here
+                                print_rec("", root, false, false);
+                                ^
+./ft_map.hpp:89:10: note: in instantiation of member function 'ft::r_b_tree<ft::pair<const int, int>, ft::map<int, int, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, int> > >::value_compare, std::__1::allocator<std::__1::pair<const int, int> > >::print_tree_val' requested here
+                                tree.print_tree_val();
+                                     ^
+main.cpp:408:7: note: in instantiation of member function 'ft::map<int, int, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, int> > >::test_print_val' requested here
+                map.test_print_val();
+                    ^
+In file included from main.cpp:1:
+In file included from ./namespace.hpp:8:
+./r_b_tree.hpp:778:26: error: invalid operands to binary expression ('ft::r_b_tree<ft::pair<const int, int>, ft::map<int, int, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, int> > >::value_compare, std::__1::allocator<std::__1::pair<const int, int> > >::pointer' (aka 'std::__1::pair<const int, int> *') and 'const ft::r_b_tree<ft::pair<const int, int>, ft::map<int, int, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, int> > >::value_compare, std::__1::allocator<std::__1::pair<const int, int> > >::value_type' (aka 'const ft::pair<const int, int>'))
+                                while ((node->value) != val && node != nil_node)
+                                       ~~~~~~~~~~~~~ ^  ~~~
+./r_b_tree.hpp:520:18: note: in instantiation of member function 'ft::r_b_tree<ft::pair<const int, int>, ft::map<int, int, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, int> > >::value_compare, std::__1::allocator<std::__1::pair<const int, int> > >::find' requested here
+                                node_ptr        x = find(val);
+                                                    ^
+main.cpp:412:12: note: in instantiation of member function 'ft::r_b_tree<ft::pair<const int, int>, ft::map<int, int, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, int> > >::value_compare, std::__1::allocator<std::__1::pair<const int, int> > >::erase_orig2' requested here
+                map.tree.erase_orig2(test5);
+                         ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/system_error:419:1: note: candidate function not viable: no known conversion from 'ft::r_b_tree<ft::pair<const int, int>, ft::map<int, int, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, int> > >::value_compare, std::__1::allocator<std::__1::pair<const int, int> > >::pointer' (aka 'std::__1::pair<const int, int> *') to 'const std::__1::error_code' for 1st argument
+operator!=(const error_code& __x, const error_code& __y) _NOEXCEPT
+^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/system_error:424:1: note: candidate function not viable: no known conversion from 'ft::r_b_tree<ft::pair<const int, int>, ft::map<int, int, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, int> > >::value_compare, std::__1::allocator<std::__1::pair<const int, int> > >::pointer' (aka 'std::__1::pair<const int, int> *') to 'const std::__1::error_code' for 1st argument
+operator!=(const error_code& __x, const error_condition& __y) _NOEXCEPT
+^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/system_error:429:1: note: candidate function not viable: no known conversion from 'ft::r_b_tree<ft::pair<const int, int>, ft::map<int, int, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, int> > >::value_compare, std::__1::allocator<std::__1::pair<const int, int> > >::pointer' (aka 'std::__1::pair<const int, int> *') to 'const std::__1::error_condition' for 1st argument
+operator!=(const error_condition& __x, const error_code& __y) _NOEXCEPT
+^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/system_error:434:1: note: candidate function not viable: no known conversion from 'ft::r_b_tree<ft::pair<const int, int>, ft::map<int, int, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, int> > >::value_compare, std::__1::allocator<std::__1::pair<const int, int> > >::pointer' (aka 'std::__1::pair<const int, int> *') to 'const std::__1::error_condition' for 1st argument
+operator!=(const error_condition& __x, const error_condition& __y) _NOEXCEPT
+^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/utility:584:1: note: candidate template ignored: could not match 'pair<type-parameter-0-0, type-parameter-0-1>' against 'std::__1::pair<const int, int> *'
+operator!=(const pair<_T1,_T2>& __x, const pair<_T1,_T2>& __y)
+^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/iterator:823:1: note: candidate template ignored: could not match 'reverse_iterator<type-parameter-0-0>' against 'std::__1::pair<const int, int> *'
+operator!=(const reverse_iterator<_Iter1>& __x, const reverse_iterator<_Iter2>& __y)
+^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/iterator:1045:1: note: candidate template ignored: could not match 'istream_iterator<type-parameter-0-0, type-parameter-0-1, type-parameter-0-2, type-parameter-0-3>' against 'std::__1::pair<const int, int> *'
+operator!=(const istream_iterator<_Tp, _CharT, _Traits, _Distance>& __x,
+^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/iterator:1146:6: note: candidate template ignored: could not match 'istreambuf_iterator<type-parameter-0-0, type-parameter-0-1>' against 'std::__1::pair<const int, int> *'
+bool operator!=(const istreambuf_iterator<_CharT,_Traits>& __a,
+     ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/iterator:1259:1: note: candidate template ignored: could not match 'move_iterator<type-parameter-0-0>' against 'std::__1::pair<const int, int> *'
+operator!=(const move_iterator<_Iter1>& __x, const move_iterator<_Iter2>& __y)
+^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/iterator:1635:1: note: candidate template ignored: could not match '__wrap_iter<type-parameter-0-0>' against 'std::__1::pair<const int, int> *'
+operator!=(const __wrap_iter<_Iter1>& __x, const __wrap_iter<_Iter2>& __y) _NOEXCEPT
+^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/iterator:1667:1: note: candidate template ignored: could not match '__wrap_iter<type-parameter-0-0>' against 'std::__1::pair<const int, int> *'
+operator!=(const __wrap_iter<_Iter1>& __x, const __wrap_iter<_Iter1>& __y) _NOEXCEPT
+^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:2046:6: note: candidate template ignored: could not match 'allocator<type-parameter-0-0>' against 'std::__1::pair<const int, int> *'
+bool operator!=(const allocator<_Tp>&, const allocator<_Up>&) _NOEXCEPT {return false;}
+     ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:2882:1: note: candidate template ignored: could not match 'unique_ptr<type-parameter-0-0, type-parameter-0-1>' against 'std::__1::pair<const int, int> *'
+operator!=(const unique_ptr<_T1, _D1>& __x, const unique_ptr<_T2, _D2>& __y) {return !(__x == __y);}
+^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:2929:1: note: candidate template ignored: could not match 'unique_ptr<type-parameter-0-0, type-parameter-0-1>' against 'std::__1::pair<const int, int> *'
+operator!=(const unique_ptr<_T1, _D1>& __x, nullptr_t) _NOEXCEPT
+^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:2937:1: note: candidate template ignored: could not match 'unique_ptr' against 'pair'
+operator!=(nullptr_t, const unique_ptr<_T1, _D1>& __x) _NOEXCEPT
+^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:4434:1: note: candidate template ignored: could not match 'shared_ptr<type-parameter-0-0>' against 'std::__1::pair<const int, int> *'
+operator!=(const shared_ptr<_Tp>& __x, const shared_ptr<_Up>& __y) _NOEXCEPT
+^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:4496:1: note: candidate template ignored: could not match 'shared_ptr<type-parameter-0-0>' against 'std::__1::pair<const int, int> *'
+operator!=(const shared_ptr<_Tp>& __x, nullptr_t) _NOEXCEPT
+^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:4504:1: note: candidate template ignored: could not match 'shared_ptr' against 'pair'
+operator!=(nullptr_t, const shared_ptr<_Tp>& __x) _NOEXCEPT
+^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__functional_03:1578:1: note: candidate template ignored: could not match 'function<type-parameter-0-0>' against 'std::__1::pair<const int, int> *'
+operator!=(const function<_Fp>& __f, nullptr_t) {return (bool)__f;}
+^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__functional_03:1583:1: note: candidate template ignored: could not match 'function' against 'pair'
+operator!=(nullptr_t, const function<_Fp>& __f) {return (bool)__f;}
+^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/string_view:643:6: note: candidate template ignored: could not match 'basic_string_view<type-parameter-0-0, type-parameter-0-1>' against 'std::__1::pair<const int, int> *'
+bool operator!=(basic_string_view<_CharT, _Traits> __lhs, basic_string_view<_CharT, _Traits> __rhs) _NOEXCEPT
+     ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/string_view:652:6: note: candidate template ignored: could not match 'basic_string_view<type-parameter-0-0, type-parameter-0-1>' against 'std::__1::pair<const int, int> *'
+bool operator!=(basic_string_view<_CharT, _Traits> __lhs,
+     ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/string_view:662:6: note: candidate template ignored: could not match 'basic_string_view' against 'pair'
+bool operator!=(typename common_type<basic_string_view<_CharT, _Traits> >::type __lhs,
+     ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/string:568:6: note: candidate template ignored: could not match 'fpos<type-parameter-0-0>' against 'std::__1::pair<const int, int> *'
+bool operator!=(const fpos<_StateT>& __x, const fpos<_StateT>& __y)
+     ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/string:3907:1: note: candidate template ignored: could not match 'basic_string<type-parameter-0-0, type-parameter-0-1, type-parameter-0-2>' against 'std::__1::pair<const int, int> *'
+operator!=(const basic_string<_CharT,_Traits,_Allocator>& __lhs,
+^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/string:3916:1: note: candidate template ignored: could not match 'basic_string' against 'pair'
+operator!=(const _CharT* __lhs,
+^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/string:3925:1: note: candidate template ignored: could not match 'basic_string<type-parameter-0-0, type-parameter-0-1, type-parameter-0-2>' against 'std::__1::pair<const int, int> *'
+operator!=(const basic_string<_CharT, _Traits, _Allocator>& __lhs,
+^
+./ft_utils.hpp:62:7: note: candidate template ignored: could not match 'pair<type-parameter-0-0, type-parameter-0-1>' against 'std::__1::pair<const int, int> *'
+        bool operator!=(const pair<X, Y>& first, const pair<X, Y>& second)
+             ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:3344:1: note: candidate template ignored: could not match 'vector<type-parameter-0-0, type-parameter-0-1>' against 'std::__1::pair<const int, int> *'
+operator!=(const vector<_Tp, _Allocator>& __x, const vector<_Tp, _Allocator>& __y)
+^
+In file included from main.cpp:1:
+In file included from ./namespace.hpp:8:
+./r_b_tree.hpp:466:26: error: cannot initialize a parameter of type 'std::__1::allocator<ft::pair<const int, int> >::pointer' (aka 'ft::pair<const int, int> *') with an lvalue of type 'ft::r_b_tree<ft::pair<const int, int>, ft::map<int, int, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, int> > >::value_compare, std::__1::allocator<std::__1::pair<const int, int> > >::pointer' (aka 'std::__1::pair<const int, int> *')
+                                        value_alloc.destroy(x->value);
+                                                            ^~~~~~~~
+./r_b_tree.hpp:568:6: note: in instantiation of member function 'ft::r_b_tree<ft::pair<const int, int>, ft::map<int, int, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, int> > >::value_compare, std::__1::allocator<std::__1::pair<const int, int> > >::delete_node' requested here
+                                        delete_node(x);
+                                        ^
+main.cpp:412:12: note: in instantiation of member function 'ft::r_b_tree<ft::pair<const int, int>, ft::map<int, int, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, int> > >::value_compare, std::__1::allocator<std::__1::pair<const int, int> > >::erase_orig2' requested here
+                map.tree.erase_orig2(test5);
+                         ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1936:52: note: passing argument to parameter '__p' here
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                   ^
+In file included from main.cpp:1:
+In file included from ./namespace.hpp:8:
+./r_b_tree.hpp:467:29: error: cannot initialize a parameter of type 'std::__1::allocator<ft::pair<const int, int> >::pointer' (aka 'ft::pair<const int, int> *') with an lvalue of type 'ft::r_b_tree<ft::pair<const int, int>, ft::map<int, int, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, int> > >::value_compare, std::__1::allocator<std::__1::pair<const int, int> > >::pointer' (aka 'std::__1::pair<const int, int> *')
+                                        value_alloc.deallocate(x->value, 1);
+                                                               ^~~~~~~~
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:1871:55: note: passing argument to parameter '__p' here
+    _LIBCPP_INLINE_VISIBILITY void deallocate(pointer __p, size_type __n) _NOEXCEPT
+                                                      ^
+8 errors generated.
+make: *** [all] Error 1

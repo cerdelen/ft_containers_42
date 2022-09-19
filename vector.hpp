@@ -5,6 +5,7 @@
 #include <iterator>
 #include "namespace.hpp"
 #include "stdexcept"
+#include "namespace.hpp"
 
 namespace ft
 {

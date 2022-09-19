@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 15:29:46 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/09/18 23:52:14 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/09/19 15:31:51 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ namespace ft
 				node_ptr				parent;
 				node_ptr				left_child;
 				node_ptr				right_child;
-				value_type					*value;
+				pointer					value;
 			};
 
 		public:									//this has to be private (only public for debguging)
@@ -57,9 +57,9 @@ namespace ft
 			node_ptr					nil_node;	//this has to be private (only public for debguging)
 			size_t						heigth;
 			value_compare				compare;
-			allocator_type				alloc;
+			allocator_type				value_alloc;
 			std::allocator<node>		node_alloc;
-			std::allocator<T>			value_alloc;
+			// std::allocator<>			value_alloc;
 			size_t						size;
 
 
@@ -68,17 +68,14 @@ namespace ft
 			{
 				node_ptr		out;
 				out = node_alloc.allocate(sizeof(struct node));
-				pair_ptr  		pair_out;
-				pair_out = value_alloc.allocate(1);
-				value_alloc.construct(pair_out, data);
-				
 			
 				out->parent = NULL;
 				out->left_child = nil_node;
 				out->right_child = nil_node;
 				out->col = col;
 				out->is_left = true;
-				out->value = pair_out;
+				out->value = value_alloc.allocate(1);
+				value_alloc.construct(out->value, data);
 				return (out);
 			}
 
@@ -94,7 +91,7 @@ namespace ft
 			}
 			
 		public:
-			r_b_tree(const value_compare &compare_, const allocator_type &alloc_) : compare(compare_), alloc(alloc_), heigth(0), size(0)
+			r_b_tree(const value_compare &compare_, const allocator_type &alloc_) : compare(compare_), value_alloc(alloc_), heigth(0), size(0)
 			{
 				root = NULL;
 				nil_node = init_nil();
@@ -117,9 +114,9 @@ namespace ft
 					while (tmp != nil_node)
 					{
 						tmp_parent = tmp;
-						if (compare(new_node->value, tmp->value))				// new_node is bigger
+						if (compare(*(new_node->value), *(tmp->value)))				// new_node is bigger
 							tmp = tmp->right_child;
-						else if (compare(tmp->value, new_node->value))			// new_node is smaller
+						else if (compare(*(tmp->value), *(new_node->value)))			// new_node is smaller
 							tmp = tmp->left_child;
 						else													// both values are same    maybee exception??
 						{
@@ -130,7 +127,7 @@ namespace ft
 					}
 					//setting parent ptr and arents child ptr to new node
 					new_node->parent = tmp_parent;
-					if (compare(new_node->value, tmp_parent->value))			// if new node is bigger
+					if (compare(*(new_node->value), *(tmp_parent->value)))			// if new node is bigger
 					{
 						tmp_parent->right_child = new_node;
 						new_node->is_left = false;
@@ -478,7 +475,7 @@ namespace ft
 
 			void		swap_val_ptr(node_ptr a, node_ptr b)
 			{
-				value_type	*tmp;
+				pointer		tmp;
 
 				tmp = a->value;
 				a->value = b->value;
@@ -517,9 +514,13 @@ namespace ft
 			}
 			void		erase_orig2(const value_type &val)
 			{
+				// std::cout << "starting erase_orig2 for node before find " << val.key << std::endl;
 				node_ptr	x = find(val);
 				node_ptr	y;
-
+				// std::cout << "starting erase_orig2 for node after find " << x->value->key << std::endl;
+				
+				// if (x == NULL)
+					std::cout << "HIEEELLOOO" << std::endl;
 				if (x == nil_node || x == NULL)
 					return ;
 
@@ -568,7 +569,7 @@ namespace ft
 					delete_node(x);
 				}
 
-				
+				size--;
 				// erase_fixup();				// write fixup
 				// // return (y);
 			}
@@ -576,6 +577,7 @@ namespace ft
 
 			void	erase_fixup(node_ptr x)
 			{
+				std::cout << "starting erase fixup for node " << x->value->key << std::endl;
 				while (x != root && x->col == BLCK)
 				{
 					if (sibling(x)->col == RED)					// case 1
@@ -709,7 +711,7 @@ namespace ft
 		void	clear()
 		{
 			clearTreeRec(root);
-			std::cout << "hielloooo" << std::endl;
+			// std::cout << "hielloooo" << std::endl;
 			delete_node(nil_node);
 			root = NULL;
 		}
@@ -775,13 +777,17 @@ namespace ft
 			{
 				node_ptr node = root;
 
-				while ((node->value) != val && node != nil_node)
+				if (node == NULL)
+					return (nil_node);
+				while (node != nil_node)
 				{
-					if (compare((node->value), val))
-						node = node->right_child;
-					else
+					if (*(node->value) == val)
+						break ;
+					if (compare(*(node->value), val))
 						node = node->left_child;
-				}	
+					else
+						node = node->right_child;
+				}
 				return (node);
 			}
 

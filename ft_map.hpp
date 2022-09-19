@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 12:57:27 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/09/16 16:21:52 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/09/19 14:36:24 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 namespace ft
 {	
 	template <	class T1, class T2, class Compare = std::less<T1>,
-				class Allocator = std::allocator<std::pair<const T1, T2> > >
+				class Allocator = std::allocator<ft::pair<const T1, T2> > >
 	class map
 	{
 
@@ -48,9 +48,9 @@ namespace ft
 				key_compare		comp;
 				value_compare(key_compare c) : comp(c) {}
 			public:
-				bool	operator()(const value_type *first, const value_type *second) const
+				bool	operator()(const value_type &first, const value_type &second) const
 				{
-					return (first->key > second->key);
+					return (comp(first.key, second.key));
 				}		
 		};
 

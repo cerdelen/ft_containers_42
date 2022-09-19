@@ -2,7 +2,7 @@
 #include <vector>
 #include <iterator>
 // #include "vector.hpp"
-#include "r_b_tree.hpp"
+// #include "r_b_tree.hpp"
 
 
 #define _testnode map.tree.root->right_child->right_child
@@ -230,25 +230,25 @@ int main()
 
 		ft::map<int, int>  map;
 
-		const ft::pair<int, int> test1 = ft::make_pair(1, 1);
-		const ft::pair<int, int> test2 = ft::make_pair(2, 2);
-		const ft::pair<int, int> test3 = ft::make_pair(3, 3);
-		const ft::pair<int, int> test4 = ft::make_pair(4, 4);
-		const ft::pair<int, int> test5 = ft::make_pair(5, 5);
-		const ft::pair<int, int> test6 = ft::make_pair(6, 6);
-		const ft::pair<int, int> test7 = ft::make_pair(7, 7);
-		const ft::pair<int, int> test8 = ft::make_pair(8, 8);
-		const ft::pair<int, int> test9 = ft::make_pair(9, 9);
-		const ft::pair<int, int> test10 = ft::make_pair(10, 10);
-		const ft::pair<int, int> test11 = ft::make_pair(11, 11);
-		const ft::pair<int, int> test12 = ft::make_pair(12, 12);
-		const ft::pair<int, int> test13 = ft::make_pair(13, 13);
-		const ft::pair<int, int> test18 = ft::make_pair(18, 18);
-		const ft::pair<int, int> test14 = ft::make_pair(14, 14);
-		const ft::pair<int, int> test17 = ft::make_pair(17, 17);
-		const ft::pair<int, int> test19 = ft::make_pair(19, 19);
-		const ft::pair<int, int> test22 = ft::make_pair(22, 22);
-		const ft::pair<int, int> test20 = ft::make_pair(20, 20);
+		 ft::pair<int, int> test1 = ft::make_pair(1, 1);
+		 ft::pair<int, int> test2 = ft::make_pair(2, 2);
+		 ft::pair<int, int> test3 = ft::make_pair(3, 3);
+		 ft::pair<int, int> test4 = ft::make_pair(4, 4);
+		 ft::pair<int, int> test5 = ft::make_pair(5, 5);
+		 ft::pair<int, int> test6 = ft::make_pair(6, 6);
+		 ft::pair<int, int> test7 = ft::make_pair(7, 7);
+		 ft::pair<int, int> test8 = ft::make_pair(8, 8);
+		 ft::pair<int, int> test9 = ft::make_pair(9, 9);
+		 ft::pair<int, int> test10 = ft::make_pair(10, 10);
+		 ft::pair<int, int> test11 = ft::make_pair(11, 11);
+		 ft::pair<int, int> test12 = ft::make_pair(12, 12);
+		 ft::pair<int, int> test13 = ft::make_pair(13, 13);
+		 ft::pair<int, int> test18 = ft::make_pair(18, 18);
+		 ft::pair<int, int> test14 = ft::make_pair(14, 14);
+		 ft::pair<int, int> test17 = ft::make_pair(17, 17);
+		 ft::pair<int, int> test19 = ft::make_pair(19, 19);
+		 ft::pair<int, int> test22 = ft::make_pair(22, 22);
+		 ft::pair<int, int> test20 = ft::make_pair(20, 20);
 
 
 
