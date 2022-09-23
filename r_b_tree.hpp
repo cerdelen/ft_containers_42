@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 15:29:46 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/09/23 15:17:56 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/09/23 18:34:43 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,9 +162,9 @@ namespace ft
 
 						// print the value of the node
 						if (node_->col == RED)
-							std::cout << RED_COL << node_->value->key << DEFAULT_COL << std::endl;
+							std::cout << RED_COL << node_->value->first << DEFAULT_COL << std::endl;
 						else
-							std::cout << BLUE_COL << node_->value->key << DEFAULT_COL << std::endl;
+							std::cout << BLUE_COL << node_->value->first << DEFAULT_COL << std::endl;
 						print_rec(prefix + (right ? "│   " : "    "), node_->right_child, true, true);
 						print_rec(prefix + (right ? "│   " : "    "), node_->left_child, false, true);
 
@@ -181,9 +181,9 @@ namespace ft
 
 						// print the value of the node
 						if (node_->col == RED)
-							std::cout << RED_COL << node_->value->val << DEFAULT_COL << std::endl;
+							std::cout << RED_COL << node_->value->second << DEFAULT_COL << std::endl;
 						else
-							std::cout << BLUE_COL << node_->value->val << DEFAULT_COL << std::endl;
+							std::cout << BLUE_COL << node_->value->second << DEFAULT_COL << std::endl;
 						print_rec(prefix + (right ? "│   " : "    "), node_->right_child, true, false);
 						print_rec(prefix + (right ? "│   " : "    "), node_->left_child, false, false);
 
@@ -201,9 +201,9 @@ namespace ft
 
 					// print the value of the node
 					if (node_->col == RED)
-						std::cout << RED_COL << node_->value->key << " = " << node_->value->val << DEFAULT_COL << std::endl;
+						std::cout << RED_COL << node_->value->first << " = " << node_->value->second << DEFAULT_COL << std::endl;
 					else
-						std::cout << BLUE_COL << node_->value->key << " = " << node_->value->val << DEFAULT_COL << std::endl;
+						std::cout << BLUE_COL << node_->value->first << " = " << node_->value->second << DEFAULT_COL << std::endl;
 					print_rec_complete(prefix + (right ? "│   " : "    "), node_->right_child, true, false);
 					print_rec_complete(prefix + (right ? "│   " : "    "), node_->left_child, false, false);
 

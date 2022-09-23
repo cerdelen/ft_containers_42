@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 12:57:27 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/09/23 15:20:16 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/09/23 18:33:28 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ namespace ft
 			public:
 				bool	operator()(const value_type &first, const value_type &second) const
 				{
-					return (comp(first.key, second.key));
+					return (comp(first.first, second.first));
 				}		
 		};
 
@@ -66,7 +66,8 @@ namespace ft
 		private:
 			typedef ft::r_b_tree< value_type, value_compare, allocator_type >		tree_type;		
 		public:
-			typedef				rbt_iterator<value_type, tree_type>			iterator;
+			typedef				rbt_iterator<value_type, tree_type>					iterator;
+			typedef				const_rbt_iterator<value_type, tree_type>			const_iterator;
 			// typedef ft::map_tree< value_type, value_compare, allocator_type >		tree_type;		
 		public:
 			tree_type			tree;							// will be private
@@ -144,21 +145,21 @@ namespace ft
 			mapped_type&			at( const key_type& key_ )
 			{
 				iterator	it = find(key_);
-				return ((*it).val);
+				return ((*it).second);
 			}
 			
 			const mapped_type&		at( const key_type& key_ ) const
 			{
 				iterator	it = find(key_);
-				return ((*it).val);
+				return ((*it).second);
 			}
 
 			mapped_type&			operator[]( const key_type& key_ )
 			{
 				iterator	it = find(key_);
 				if (it != end())
-					return ((*it).val);
-				return ((*(insert(ft::make_pair(key_, mapped_type())))).val);
+					return ((*it).second);
+				return ((*(insert(ft::make_pair(key_, mapped_type())))).second);
 				
 			}
 
@@ -173,17 +174,20 @@ namespace ft
 				return (iterator(tree.begin(), &tree));
 			}
 			
-			// const_iterator		begin( void ) const						//still have to do
-			// {
+			const_iterator		begin( void ) const						//still have to do
+			{
 				
-			// }
+			}
 
 			iterator				end( void )
 			{
 				return (iterator(tree.nil_node, &tree));
 			}
 			
-			// const_iterator		end() const;							//still have to do
+			const_iterator		end() const							//still have to do
+			{
+				
+			}
 
 
 
@@ -222,19 +226,25 @@ namespace ft
 			}
 			ft::pair<iterator, bool> insert( const value_type& value )								//still have to do
 			{
-				iterator	it = find(value.key);
+				iterator	it = find(value.first);
 				if (it == end())
 				{
 					tree.insert(value);
-					it = find(value.key);
+					it = find(value.first);
 					return (ft::make_pair(it ,true));
 				}
 				return(ft::make_pair(it, false));
 			}
-			// iterator insert( iterator hint, const value_type& value );							//still have to do
+			iterator insert( iterator hint, const value_type& value )							//still have to do
+			{
+
+			}
 			
-			// template< class InputIt >
-			// void insert( InputIt first, InputIt last );											//still have to do
+			template< class InputIt >
+			void insert( InputIt first, InputIt last )											//still have to do
+			{
+
+			}
 			
 			void				erase( iterator pos )
 			{
@@ -247,9 +257,9 @@ namespace ft
 					erase(first);
 			}
 			
-			size_type			erase( const key_type & key )			//returns the number of elements lost (0 or 1)
+			size_type			erase( const key_type & key_ )			//returns the number of elements lost (0 or 1)
 			{
-				iterator	it = find(key);
+				iterator	it = find(key_);
 				if (it != end())
 				{
 					erase(it);
@@ -258,10 +268,10 @@ namespace ft
 				return (0);
 			}
 			
-			// void			swap( map& other )							//still have to do
-			// {
+			void			swap( map& other )							//still have to do
+			{
 				
-			// }
+			}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -277,14 +287,14 @@ namespace ft
 				iterator	it_end = iterator(tree.end(), &tree);
 				for (; it.base() != it_end.base(); it++)
 				{
-					if ((*it).key == key_)
+					if ((*it).first == key_)
 						break ;
 				}
 				return (it);
 			}
 			// const_iterator find( const key_type& key ) const;
 
-			ft::pair<iterator,iterator>					equal_range( const key_type& key )				//still have to do
+			ft::pair<iterator,iterator>					equal_range( const key_type& key_ )				//still have to do
 			{
 				
 			}
@@ -339,6 +349,49 @@ namespace ft
 			}
 			
 	};	
+
+
+template <class Key, class T, class Compare, class Allocator>
+	bool operator ==(	const map<Key, T, Compare, Allocator>& first,
+						const map<Key, T, Compare, Allocator>& second)
+	{
+		return ((first.size() != second.size()) && ft::equal(first.begin(), first.end(), second.begin(), second.end()));
+	}
+
+	template <class Key, class T, class Compare, class Allocator>
+	bool operator !=(	const map<Key, T, Compare, Allocator>& first,
+						const map<Key, T, Compare, Allocator>& second)
+	{
+		return (!(first == second));
+	}
+	
+	template <class Key, class T, class Compare, class Allocator>
+	bool operator <(	const map<Key, T, Compare, Allocator>& first,
+						const map<Key, T, Compare, Allocator>& second)
+	{
+		return (ft::lexicographical_compare(first.begin(), first.end(), second.begin(), second.end()));
+	}
+	
+	template <class Key, class T, class Compare, class Allocator>
+	bool operator >(	const map<Key, T, Compare, Allocator>& first,
+						const map<Key, T, Compare, Allocator>& second)
+	{
+		return (second < first);
+	}
+	
+	template <class Key, class T, class Compare, class Allocator>
+	bool operator >=(	const map<Key, T, Compare, Allocator>& first,
+						const map<Key, T, Compare, Allocator>& second)
+	{
+		return (!(first < second));
+	}
+	
+	template <class Key, class T, class Compare, class Allocator>
+	bool operator <=(	const map<Key, T, Compare, Allocator>& first,
+						const map<Key, T, Compare, Allocator>& second)
+	{
+		return (!(first > second));
+	}
 }
 
 #endif

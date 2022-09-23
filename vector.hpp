@@ -5,9 +5,6 @@
 #include <iterator>
 #include "random_access_iterator.hpp"
 #include "ft_utils.hpp"
-// #include "namespace.hpp"
-// #include "stdexcept"
-// #include "namespace.hpp"
 
 namespace ft
 {
@@ -797,8 +794,9 @@ namespace ft
 	{
 		x.swap(y);
 	}
+
+		// still have to do
 		// rend und rbegin
-		// logical comparison operators (either lexicographical compare or equal)
 
 }
 #endif
