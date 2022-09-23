@@ -1,8 +1,6 @@
 #include "namespace.hpp"
 #include <vector>
 #include <iterator>
-// #include "vector.hpp"
-// #include "r_b_tree.hpp"
 
 #define tree_max_size 10
 
@@ -43,10 +41,10 @@ ft::map<int, char>	init_tree_fixed(size_t n)
 void	erase_map_func(ft::map<int, char> *map, int del)
 {
 	std::cout << "before erase " << del << "!" << std::endl;
-	map->test_print_key();
+	map->test_print_comp();
 	map->tree.erase(ft::make_pair(del, del));
 	std::cout << "after erase " << del << "!" << std::endl;
-	map->test_print_key();
+	map->test_print_comp();
 }
 
 int main()

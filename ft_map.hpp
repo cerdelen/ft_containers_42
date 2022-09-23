@@ -6,14 +6,16 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 12:57:27 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/09/23 12:45:50 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/09/23 15:20:16 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_MAP_CPE
 #define FT_MAP_CPE
-// #include "namespace.hpp"
+#include "ft_utils.hpp"
 #include "rbt_iterator.hpp"
+#include "r_b_tree.hpp"
+
 
 namespace ft
 {	
@@ -330,6 +332,10 @@ namespace ft
 			void	test_print_val( void )
 			{
 				tree.print_tree_val();
+			}
+			void	test_print_comp( void )
+			{
+				tree.print_tree_comp();
 			}
 			
 	};	

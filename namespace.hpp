@@ -1,11 +1,2 @@
-#include <iostream>
-#include "colours.h"
-#include "random_access_iterator.hpp"
-// #include "vector.hpp"
-#include "ft_utils.hpp"
-
-
-#include "r_b_tree.hpp"
+#include "vector.hpp"
 #include "ft_map.hpp"
-#include "rbt_iterator.hpp"
-

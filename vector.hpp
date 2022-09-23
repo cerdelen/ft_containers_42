@@ -4,6 +4,7 @@
 #include <memory>
 #include <iterator>
 #include "random_access_iterator.hpp"
+#include "ft_utils.hpp"
 // #include "namespace.hpp"
 // #include "stdexcept"
 // #include "namespace.hpp"
@@ -29,7 +30,7 @@ namespace ft
 			
 			
 			typedef typename ft::random_access_iterator<value_type> 		iterator;
-			// typedef	typename ft::const_random_access_iterator<value_type>	const_iterator;
+			typedef	typename ft::const_random_access_iterator<value_type>	const_iterator;
 			// typedef typename ft::reverse_iterator<iterator>					reverse_iterator;
 			// typedef typename ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 
@@ -179,7 +180,7 @@ namespace ft
 //Private Helper functions///////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-			unsigned int		next_pow_2(unsigned int v)
+			size_type		next_pow_2(unsigned int v)
 			{
 				register unsigned int r; // result of log2(v) will go here
 				register unsigned int shift;
@@ -189,7 +190,8 @@ namespace ft
 				shift = (v > 0xF   ) << 2; v >>= shift; r |= shift;
 				shift = (v > 0x3   ) << 1; v >>= shift; r |= shift;
 														r |= (v >> 1);
-				unsigned int	out = 1 << (r + 1);
+
+				size_type	out = 1 << (r + 1);
 				return (out);
 			}
 			void				make_it_empty( void )
@@ -361,25 +363,25 @@ namespace ft
 		//////////////////////////////////////////////
 		//begin///////////////////////////////////////
 		//////////////////////////////////////////////
-			iterator			begin(void)
+			iterator			begin(void) const
 			{
 				return (iterator(_start));
 			}
 		//////////////////////////////////////////////
 		//rbegin//////////////////////////////////////
 		//////////////////////////////////////////////
-			void				rbegin();			//still have to do
+			void				rbegin() const;			//still have to do
 		//////////////////////////////////////////////
 		//end/////////////////////////////////////////
 		//////////////////////////////////////////////
-			iterator			end(void)
+			iterator			end(void) const
 			{
 				return (iterator(_end));
 			}
 		//////////////////////////////////////////////
 		//rend////////////////////////////////////////
 		//////////////////////////////////////////////
-			void				rend();			//still have to do
+			void				rend() const;			//still have to do
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -397,7 +399,7 @@ namespace ft
 		//////////////////////////////////////////////
 		//size////////////////////////////////////////
 		//////////////////////////////////////////////
-			size_type			size( void )
+			size_type			size( void ) const
 			{
 				return (_end - _start);
 			}
@@ -650,7 +652,10 @@ namespace ft
 			{
 				size_type	old_size = size();
 				if (old_size + 1 > _capacity)
-					resize(next_pow_2(old_size), 0);				// probably should be old_size + 1 or just capacity
+				{
+					size_type	davai = next_pow_2(old_size);
+					resize(next_pow_2(old_size), T());				// probably should be old_size + 1 or just capacity
+				}
 				_alloc.construct(_end, value);
 				_end++;
 			}
@@ -670,6 +675,7 @@ namespace ft
 			void				resize( size_type count, T value = T() )
 			{
 				size_type	old_size = size();
+
 				if ( count > old_size )
 				{
 					reserve(count);
@@ -715,12 +721,6 @@ namespace ft
 			}
 		
 
-
-
-
-
-
-
 				
 			void	 test_print()
 			{
@@ -738,9 +738,65 @@ namespace ft
 		if (first.size() != second.size())
 			return (false);
 		
+		typename ft::vector<T, Alloc>::const_iterator it_one = first.begin();
+		typename ft::vector<T, Alloc>::const_iterator it_two = second.begin();
+		typename ft::vector<T, Alloc>::const_iterator end_first = first.end();
+		typename ft::vector<T, Alloc>::const_iterator end_second = second.end();
+
+		while (it_one != end_first)
+		{
+			if (*it_one != *it_two || it_two == end_second)
+				return (false);
+
+			it_one++;
+			it_two++;
+		}
+		if (it_two == end_second)
+			return (true);
+		return (false);
 	}
 
-		// const iterators
+
+	template<class T, class Alloc>
+	bool		operator!=(const vector<T, Alloc> &first, const vector<T, Alloc> &second)
+	{
+		return (!(first == second));
+	}
+
+
+	template<class T, class Alloc>
+	bool		operator<(const vector<T, Alloc> &first, const vector<T, Alloc> &second)
+	{
+		return (ft::lexicographical_compare(first.begin(), first.end(), second.begin(), second.end()));
+	}
+
+
+	template<class T, class Alloc>
+	bool		operator<=(const vector<T, Alloc> &first, const vector<T, Alloc> &second)
+	{
+		return (!(first > second));
+	}
+
+
+	template<class T, class Alloc>
+	bool		operator>(const vector<T, Alloc> &first, const vector<T, Alloc> &second)
+	{
+		return (second < first);
+	}
+	
+
+	template<class T, class Alloc>
+	bool		operator>=(const vector<T, Alloc> &first, const vector<T, Alloc> &second)
+	{
+		return (!(first < second));
+	}
+
+
+	template<class T, class Alloc>
+	void swap(vector<T, Alloc> &x, vector<T, Alloc> &y)
+	{
+		x.swap(y);
+	}
 		// rend und rbegin
 		// logical comparison operators (either lexicographical compare or equal)
 

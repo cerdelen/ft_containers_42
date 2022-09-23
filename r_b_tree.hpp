@@ -6,15 +6,17 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 15:29:46 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/09/22 18:25:00 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/09/23 15:17:56 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef R_B_TREE
 #define R_B_TREE
-// #include "namespace.hpp"
 #define RED true
 #define BLCK false
+#define DEFAULT_COL "\33[0m"
+#define BLUE_COL "\33[34m"
+#define RED_COL "\33[1;31m"
 
 namespace ft
 {
@@ -150,8 +152,6 @@ namespace ft
 			}
 			void	print_rec(const std::string& prefix, node_ptr node_, bool right, bool key) const
 			{
-				// if (right == node_->is_left)
-				// 	std::cout << "SAMTHING IS WRONK HERE!!!" << std::endl;
 				if (key)
 				{
 					if (node_ != nil_node)
@@ -191,6 +191,25 @@ namespace ft
 					}
 				}
 			}
+			void	print_rec_complete(const std::string& prefix, node_ptr node_, bool right, bool key) const
+			{
+				if (node_ != nil_node)
+				{		
+					std::cout << prefix;
+
+					std::cout << (right ? "├──" : "└──" );
+
+					// print the value of the node
+					if (node_->col == RED)
+						std::cout << RED_COL << node_->value->key << " = " << node_->value->val << DEFAULT_COL << std::endl;
+					else
+						std::cout << BLUE_COL << node_->value->key << " = " << node_->value->val << DEFAULT_COL << std::endl;
+					print_rec_complete(prefix + (right ? "│   " : "    "), node_->right_child, true, false);
+					print_rec_complete(prefix + (right ? "│   " : "    "), node_->left_child, false, false);
+
+					// enter the next tree level - left and right branch
+				}
+			}
 			void print_tree_key() const
 			{
 				std::cout << "Tree height is " << heigth << " and size is " << size << std::endl;
@@ -201,6 +220,12 @@ namespace ft
 			{
 				std::cout << "Tree height is " << heigth << " and size is " << size << std::endl;
 				print_rec("", root, false, false);
+				std::cout << "This tree is finished here!" << size << std::endl;
+			}
+			void print_tree_comp() const
+			{
+				std::cout << "Tree height is " << heigth << " and size is " << size << std::endl;
+				print_rec_complete("", root, false, false);
 				std::cout << "This tree is finished here!" << size << std::endl;
 			}
 

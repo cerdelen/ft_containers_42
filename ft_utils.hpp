@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 14:19:44 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/09/19 14:32:00 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/09/23 14:12:41 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,13 +88,29 @@ namespace ft
 		return (!(first < second));
 	}
 
-
-
 	template< class X, class Y >
 	ft::pair<X,Y>		make_pair( X key_, Y val_ )
 	{
 		return (pair<X, Y>(key_, val_));
 	};
+
+
+	//Checks if the first range (first1, last1) is lexicographically less than the second range (first2, last2).
+	template<class T1, class T2>
+	bool		lexicographical_compare(T1 start1, T1 end1, T2 start2, T2 end2)
+	{
+		while(start1 != end1 && start2 != end2)
+		{
+			if (*start1 < *start2)
+				return (true);
+			if (*start1 > *start2)
+				return (false);
+			start1++;
+			start2++;
+		}
+		// if both conditions 2 it means first range is smaller and second range is not reached end therefore returns true
+		return (start1 == end1 && start2 != end2);
+	}
 }
 
 #endif
