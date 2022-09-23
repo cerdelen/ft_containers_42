@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 15:29:46 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/09/19 15:31:51 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/09/22 18:25:00 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ namespace ft
 			typedef typename		allocator_type::pointer				pointer;
 			typedef typename		allocator_type::const_pointer		const_pointer;
 			typedef					ptrdiff_t							difference_type;
-			typedef					size_t								size_type;
+			typedef typename		allocator_type::size_type			size_type;
 			typedef					node*								node_ptr;
 			typedef					T*									pair_ptr;
 			// typedef	const			node*								const_iter;
@@ -51,18 +51,21 @@ namespace ft
 				pointer					value;
 			};
 
+		private:
+			size_type					size;
 		public:									//this has to be private (only public for debguging)
 			node_ptr					root;	//this has to be private (only public for debguging)
 		// protected:
 			node_ptr					nil_node;	//this has to be private (only public for debguging)
-			size_t						heigth;
+			size_type					heigth;
 			value_compare				compare;
 			allocator_type				value_alloc;
 			std::allocator<node>		node_alloc;
 			// std::allocator<>			value_alloc;
-			size_t						size;
 
 
+
+			
 
 			node_ptr	get_node(bool col, const value_type &data)
 			{
@@ -96,7 +99,10 @@ namespace ft
 				root = NULL;
 				nil_node = init_nil();
 			}
-			~r_b_tree() {};
+			~r_b_tree()
+			{
+				delete_node(nil_node);
+			};
 
 
 			void	insert( const value_type &val )
@@ -115,9 +121,9 @@ namespace ft
 					{
 						tmp_parent = tmp;
 						if (compare(*(new_node->value), *(tmp->value)))				// new_node is bigger
-							tmp = tmp->right_child;
-						else if (compare(*(tmp->value), *(new_node->value)))			// new_node is smaller
 							tmp = tmp->left_child;
+						else if (compare(*(tmp->value), *(new_node->value)))			// new_node is smaller
+							tmp = tmp->right_child;
 						else													// both values are same    maybee exception??
 						{
 							delete_node(new_node);
@@ -129,11 +135,11 @@ namespace ft
 					new_node->parent = tmp_parent;
 					if (compare(*(new_node->value), *(tmp_parent->value)))			// if new node is bigger
 					{
-						tmp_parent->right_child = new_node;
+						tmp_parent->left_child = new_node;
 						new_node->is_left = false;
 					}
 					else
-						tmp_parent->left_child = new_node;
+						tmp_parent->right_child = new_node;
 					// std::cout << RED_COL << "starting a new insert of nr " << DEFAULT_COL << new_node->value->key << std::endl;
 					insert_fixup(new_node);
 					// std::cout << RED_COL << "finished a new insert of nr " << DEFAULT_COL << new_node->value->key << std::endl << std::endl;
@@ -353,6 +359,16 @@ namespace ft
 				// print_tree_key();
 			}
 
+			size_type		max_size( void ) const
+			{
+				return  (value_alloc.max_size());	
+			}
+
+			bool		empty() const
+			{
+				return (size == 0);
+			}
+
 			node_ptr	min_subtree(node_ptr x)
 			{
 				while (x->left_child != nil_node)
@@ -380,67 +396,16 @@ namespace ft
 				return (y);
 			}
 
-			node_ptr	erase(node_ptr x)				// returns the node so i can delete it
+			
+			
+
+			node_ptr	end( void )
 			{
-				node_ptr	y;
-
-				// if (x->left_child == nil_node && x->right_child == nil_node)			// we just remove x and be done with it
-				// {
-					
-				// }
-				// else if (x->left_child == nil_node || x->right_child == nil_node)
-				
-				// // std::cout << "print 1 x = " << x->value->key << std::endl;
-				// if (x->left_child == nil_node || x->right_child == nil_node)
-				// 	y = x;
-				// else
-				// 	y = successor(x);
-
-				// std::cout << "print 2 x = " << x->value->key << " and y = " << y->value->key << std::endl;
-																					// y wird zum successor, ansonsten 
-				if (y->left_child != nil_node)
-					x = y->left_child;
-				else
-					x = y->right_child;
-
-				// if (x != nil_node)
-				// 	std::cout << "print 3 x = " << x->value->key << " and y = " << y->value->key << std::endl;
-				// else
-				// 	std::cout << "print 3 x = nil_node" << " and y = " << y->value->key << std::endl;
-
-
-				
-				if (x != nil_node)
-					x->parent = y->parent;
-
-					
-				// if (x != nil_node)
-				// 	std::cout << "print 4 x = " << x->value->key << " and y = " << y->value->key << std::endl;
-				// else
-				// 	std::cout << "print 4 x = nil_node" << " and y = " << y->value->key << std::endl;
-
-
-				
-				if (y->parent == NULL)
-					root = x;
-				else if (y == y->parent->left_child)
-					y->parent->left_child = x;
-				else
-					y->parent->right_child = x;
-				if (y != x)
-					x->value = y->value;
-
-				// erase_fixup();				// write fixup
-				return (y);
+				return (nil_node);
 			}
-			node_ptr	erase_self(node_ptr x)				// returns the node so i can delete it
+			node_ptr	begin( void )
 			{
-				node_ptr	temp;
-
-				if (x->left_child == nil_node && x->right_child == nil_node)
-				{
-					
-				}
+				return (min_subtree(root));
 			}
 			
 			void		purge_node(node_ptr x)
@@ -482,37 +447,7 @@ namespace ft
 				b->value = tmp;
 			}
 
-			node_ptr	erase_orig(node_ptr x)
-			{
-				node_ptr	y;
-
-				if (x->left_child == nil_node || x->right_child == nil_node)
-					y = x;
-				else
-					y = successor(x);
-				if (y->left_child != nil_node)
-					x = y->left_child;
-				else
-					x = y->right_child;
-				if (x != nil_node)
-					x->parent = y->parent;
-				if (y->parent == NULL)
-					root = x;
-				else if (y == y->parent->left_child)
-					y->parent->left_child = x;
-				else
-					y->parent->right_child = x;
-				if (y != x)
-					x->value = y->value;
-				if (y->is_left)
-					y->parent->left_child = nil_node;
-				else
-					y->parent->right_child = nil_node;
-				// erase_fixup();				// write fixup
-				delete_node(y);
-				return (y);
-			}
-			void		erase_orig2(const value_type &val)
+			void		erase(const value_type &val)
 			{
 				// std::cout << "starting erase_orig2 for node before find " << val.key << std::endl;
 				node_ptr	x = find(val);
@@ -520,7 +455,7 @@ namespace ft
 				// std::cout << "starting erase_orig2 for node after find " << x->value->key << std::endl;
 				
 				// if (x == NULL)
-					std::cout << "HIEEELLOOO" << std::endl;
+					// std::cout << "HIEEELLOOO" << std::endl;
 				if (x == nil_node || x == NULL)
 					return ;
 
@@ -577,7 +512,7 @@ namespace ft
 
 			void	erase_fixup(node_ptr x)
 			{
-				std::cout << "starting erase fixup for node " << x->value->key << std::endl;
+				// std::cout << "starting erase fixup for node " << x->value->key << std::endl;
 				while (x != root && x->col == BLCK)
 				{
 					if (sibling(x)->col == RED)					// case 1
@@ -642,10 +577,10 @@ namespace ft
 
 
 
-		void	replace(node_ptr one, node_ptr two)
-		{
-			one->value = two->value;
-		}
+		// void	replace(node_ptr one, node_ptr two)
+		// {
+		// 	one->value = two->value;
+		// }
 
 		node_ptr	sibling(node_ptr x) const
 		{
@@ -703,6 +638,7 @@ namespace ft
 				clearTreeRec(x->right_child);
 			// std::cout << "this is da node to be cleared " << x->value->key << std::endl;
 			delete_node(x);
+			size--;
 		}
 	
 
@@ -711,8 +647,7 @@ namespace ft
 		void	clear()
 		{
 			clearTreeRec(root);
-			// std::cout << "hielloooo" << std::endl;
-			delete_node(nil_node);
+			// delete_node(nil_node);
 			root = NULL;
 		}
 
@@ -732,47 +667,6 @@ namespace ft
 
 
 
-
-
-
-
-
-
-
-// 			1  if left[x] = NIL or right[x] = NIL
-
-// 2      then y  x
-
-// 3      else y  TREE-SUCCESSOR(x)
-
-// 4  if left[y]  NIL
-
-// 5      then a  left[y]
-
-// 6      else a  right[y]
-
-// 7  if a  NIL
-
-// 8      then p[a]  p[y]
-
-// 9  if p[y] = NIL
-
-// 10      then root[T]  a
-
-// 11      else if y = left[p[y]]
-
-// 12              then left[p[y]]  a
-
-// 13              else right[p[y]]  a
-
-// 14  if y  x
-
-// 15      then key[x]  key[y]
-
-// 16            If y has other fields, copy them, too.
-
-// 17  return y
-
 			node_ptr find(const value_type &val)
 			{
 				node_ptr node = root;
@@ -791,6 +685,12 @@ namespace ft
 				return (node);
 			}
 
+			size_type	getSize( void ) const
+			{
+				return (size);
+			}
+
+
 			// node_ptr find_key(const value_type &val)
 			// {
 			// 	node_ptr node = root;
@@ -805,180 +705,6 @@ namespace ft
 			// 	return (node);
 			// }			
 	};
-	
-			// void	rotation_ll(node_ptr patient)					// grandparent becomes parents right son
-			// {
-			// 	if (!patient)
-			// 		return ;
-			// 	node_ptr		patient_father = patient->parent;
-				
-			// 	if (!patient_father)
-			// 		return ;
-			// 	node_ptr		grandparent = patient_father->parent;
-				
-			// 	if (!grandparent )
-			// 		return ;				
-			// 	if (grandparent->left_child == patient_father)
-			// 		grandparent->left_child = nil_node;
-			// 	patient_father->parent = grandparent->parent;
-			// 	if (patient_father->parent)
-			// 	{
-			// 		if (compare(patient_father->value, patient_father->parent->value))			// if new node is bigger
-			// 			patient_father->parent->right_child = patient_father;
-			// 		else
-			// 			patient_father->parent->left_child = patient_father;	
-			// 	}
-			// 	else
-			// 		root = patient_father;
-			// 	patient_father->right_child = grandparent;
-			// 	grandparent->parent = patient_father;
-			// }
-			
-			// void	rotation_lr(node_ptr patient)					// parent becomes childs left child
-			// {
-			// 	std::cout << "patient = " << patient->value->key << std::endl; 
-			// 	if (!patient)
-			// 		return ;
-			// 	node_ptr		patient_father = patient->parent;
 
-			// 	if (!patient_father)
-			// 		return ;
-				
-			// 	node_ptr		grandparent = patient_father->parent;
-
-			// 	if (grandparent)
-			// 	{
-			// 		patient->parent = grandparent;
-			// 		if (grandparent->left_child == patient_father)
-			// 			grandparent->left_child = patient;
-			// 		else
-			// 			grandparent->right_child = patient;
-			// 	}
-			// 	else
-			// 	{
-			// 		root = patient;
-			// 		patient->parent = nil_node;
-			// 	}
-			// 	if (patient->left_child)
-			// 	{
-			// 		patient_father->left_child = patient->left_child;
-			// 		std::cout << " hai " << patient->left_child->value->key << std::endl;
-			// 	}
-			// 	patient->left_child = patient_father;
-			// 	patient_father->parent = patient;
-			// 	if (patient_father->right_child == patient)
-			// 		patient_father->right_child = nil_node;
-			// 	if (patient_father->left_child == patient)
-			// 		patient_father->left_child = nil_node;
-			// }
-			
-			// void	rotation_rr(node_ptr patient)									// grandparent becomes parents left son
-			// {
-			// 	if (!patient)
-			// 		return ;
-			// 	node_ptr		patient_father = patient->parent;
-				
-			// 	if (!patient_father)
-			// 		return ;
-			// 	node_ptr		grandparent = patient_father->parent;
-				
-			// 	if (!grandparent )
-			// 		return ;				
-			// 	if (grandparent->right_child == patient_father)
-			// 		grandparent->right_child = nil_node;
-			// 	patient_father->parent = grandparent->parent;
-			// 	if (patient_father->parent)
-			// 	{
-			// 		if (compare(patient_father->value, patient_father->parent->value))			// if new node is bigger
-			// 			patient_father->parent->right_child = patient_father;
-			// 		else
-			// 			patient_father->parent->left_child = patient_father;	
-			// 	}
-			// 	else
-			// 		root = patient_father;
-			// 	patient_father->left_child = grandparent;
-			// 	grandparent->parent = patient_father;
-			// }
-			
-			// void	rotation_rl(node_ptr patient)									// parent becomes childs right child
-			// {
-			// 	if (!patient)
-			// 		return ;
-			// 	node_ptr		patient_father = patient->parent;
-
-			// 	if (!patient_father)
-			// 		return ;
-				
-			// 	node_ptr		grandparent = patient_father->parent;
-
-			// 	if (grandparent)
-			// 	{
-			// 		patient->parent = grandparent;
-			// 		if (grandparent->left_child == patient_father)
-			// 			grandparent->left_child = patient;
-			// 		else
-			// 			grandparent->right_child = patient;
-			// 	}
-			// 	else
-			// 	{
-			// 		root = patient;
-			// 		patient->parent = nil_node;
-			// 	}
-			// 	patient->right_child = patient_father;
-			// 	patient_father->parent = patient;
-			// 	if (patient_father->right_child == patient)
-			// 		patient_father->right_child = nil_node;
-			// 	else
-			// 		patient_father->left_child = nil_node;
-			// }
-
-
-
-			
-	// template <class T, class Compare, class allocator >
-	// class map_tree : public r_b_tree<T, Compare, allocator>
-	// {
-	// 	private:
-	// 		struct node;
-	// 		// typedef					node*								node_ptr;
-
-	// 		// typedef					Key									key_type;
-	// 		// typedef					T									mapped_type;
-	// 		typedef					T									value_type;
-	// 		typedef					allocator							allocator_type;
-	// 		typedef typename		allocator_type::reference			reference;
-	// 		typedef typename		allocator_type::const_reference		const_reference;
-	// 		typedef typename		allocator_type::pointer				pointer;
-	// 		typedef typename		allocator_type::const_pointer		const_pointer;
-	// 		typedef					ptrdiff_t							difference_type;
-	// 		typedef					size_t								size_type;
-	// 		typedef					node*								node_ptr;
-	// 		typedef					T*									pair_ptr;
-	// 		// typedef	const			node*								const_iter;
-	// 		typedef					Compare								value_compare;
-	// 	public:
-	// 		map_tree(const value_compare &compare_, const allocator_type &alloc_) : compare(compare_), alloc(alloc_), heigth(0), size(0)
-	// 		{
-	// 			root = NULL;
-	// 			nil_node = init_nil();
-	// 			std::cout << "i got through this :)" << std::endl;
-	// 		};
-	// 		~map_tree();
-
-
-	// 		node_ptr find_key(const value_type &val)
-	// 		{
-	// 			node_ptr node = root;
-
-	// 			while (node->value.key != val && node != nil_node)
-	// 			{
-	// 				if (compare(node->value, val))
-	// 					node = node->right_child;
-	// 				else
-	// 					node = node->left_child;
-	// 			}	
-	// 			return (node);
-	// 		}	
-	// };
 }
 #endif

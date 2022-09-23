@@ -3,9 +3,10 @@
 #include <iostream>
 #include <memory>
 #include <iterator>
-#include "namespace.hpp"
-#include "stdexcept"
-#include "namespace.hpp"
+#include "random_access_iterator.hpp"
+// #include "namespace.hpp"
+// #include "stdexcept"
+// #include "namespace.hpp"
 
 namespace ft
 {
@@ -729,6 +730,15 @@ namespace ft
 					std::cout << *temp++ << std::endl; 
 			}
 	};
+
+
+	template<class T, class Alloc>
+	bool		operator==(const vector<T, Alloc> &first, const vector<T, Alloc> &second)
+	{
+		if (first.size() != second.size())
+			return (false);
+		
+	}
 
 		// const iterators
 		// rend und rbegin
