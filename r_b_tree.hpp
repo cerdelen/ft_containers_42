@@ -6,12 +6,17 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 15:29:46 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/09/23 18:34:43 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/03 14:05:50 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef R_B_TREE
 #define R_B_TREE
+
+#include <iostream>
+// #include "rbt_iterator.hpp"
+#include "ft_utils.hpp"
+
 #define RED true
 #define BLCK false
 #define DEFAULT_COL "\33[0m"
@@ -24,10 +29,6 @@ namespace ft
 	class r_b_tree
 	{
 		public:
-			struct		node;
-
-			// typedef					Key									key_type;
-			// typedef					T									mapped_type;
 			typedef					T									value_type;
 			typedef					allocator							allocator_type;
 			typedef typename		allocator_type::reference			reference;
@@ -36,22 +37,14 @@ namespace ft
 			typedef typename		allocator_type::const_pointer		const_pointer;
 			typedef					ptrdiff_t							difference_type;
 			typedef typename		allocator_type::size_type			size_type;
-			typedef					node*								node_ptr;
+			typedef					rbt_node<T>*						node_ptr;
 			typedef					T*									pair_ptr;
 			// typedef	const			node*								const_iter;
 			typedef					Compare								value_compare;
 
 
 
-			struct node
-			{
-				bool					col;
-				bool					is_left;
-				node_ptr				parent;
-				node_ptr				left_child;
-				node_ptr				right_child;
-				pointer					value;
-			};
+			
 
 		private:
 			size_type					size;
@@ -62,7 +55,7 @@ namespace ft
 			size_type					heigth;
 			value_compare				compare;
 			allocator_type				value_alloc;
-			std::allocator<node>		node_alloc;
+			std::allocator<rbt_node<T> >		node_alloc;
 			// std::allocator<>			value_alloc;
 
 
@@ -72,7 +65,7 @@ namespace ft
 			node_ptr	get_node(bool col, const value_type &data)
 			{
 				node_ptr		out;
-				out = node_alloc.allocate(sizeof(struct node));
+				out = node_alloc.allocate(sizeof(struct rbt_node<value_type>));
 			
 				out->parent = NULL;
 				out->left_child = nil_node;
@@ -86,7 +79,7 @@ namespace ft
 
 			node_ptr	init_nil( void )
 			{
-				node_ptr		out = node_alloc.allocate(sizeof(struct node));	
+				node_ptr		out = node_alloc.allocate(sizeof(struct rbt_node<value_type>));	
 				out->parent = NULL;
 				out->left_child = NULL;
 				out->right_child = NULL;
@@ -103,10 +96,19 @@ namespace ft
 			}
 			~r_b_tree()
 			{
+				// std::cout << "called tree deconstructor" << std::endl;
+				clear();
 				delete_node(nil_node);
+				// std::cout << "after" << std::endl;
 			};
 
 
+
+			allocator_type get_allocator(void) const
+			{
+				return (this->value_alloc);
+			}
+		
 			void	insert( const value_type &val )
 			{
 				node_ptr	tmp = root;
@@ -210,6 +212,25 @@ namespace ft
 					// enter the next tree level - left and right branch
 				}
 			}
+			void	print_rec_complete_with_ptr(const std::string& prefix, node_ptr node_, bool right, bool key) const
+			{
+				if (node_ != nil_node)
+				{		
+					std::cout << prefix;
+
+					std::cout << (right ? "├──" : "└──" );
+
+					// print the value of the node
+					if (node_->col == RED)
+						std::cout << RED_COL << node_ << " " << node_->value->first << " = " << node_->value->second << DEFAULT_COL << std::endl;
+					else
+						std::cout << BLUE_COL << node_ << " " << node_->value->first << " = " << node_->value->second << DEFAULT_COL << std::endl;
+					print_rec_complete_with_ptr(prefix + (right ? "│   " : "    "), node_->right_child, true, false);
+					print_rec_complete_with_ptr(prefix + (right ? "│   " : "    "), node_->left_child, false, false);
+
+					// enter the next tree level - left and right branch
+				}
+			}
 			void print_tree_key() const
 			{
 				std::cout << "Tree height is " << heigth << " and size is " << size << std::endl;
@@ -226,6 +247,12 @@ namespace ft
 			{
 				std::cout << "Tree height is " << heigth << " and size is " << size << std::endl;
 				print_rec_complete("", root, false, false);
+				std::cout << "This tree is finished here!" << size << std::endl;
+			}
+			void print_tree_comp_with_ptr() const
+			{
+				std::cout << "Tree height is " << heigth << " and size is " << size << std::endl;
+				print_rec_complete_with_ptr("", root, false, false);
 				std::cout << "This tree is finished here!" << size << std::endl;
 			}
 
@@ -394,20 +421,20 @@ namespace ft
 				return (size == 0);
 			}
 
-			node_ptr	min_subtree(node_ptr x)
+			node_ptr	min_subtree(node_ptr x) const
 			{
 				while (x->left_child != nil_node)
 					x = x->left_child;
 				return (x);
 			}
-			node_ptr	max_subtree(node_ptr x)
+			node_ptr	max_subtree(node_ptr x) const
 			{
 				while (x->right_child != nil_node)
 					x = x->right_child;
 				return (x);
 			}
 
-			node_ptr	successor(node_ptr x)
+			node_ptr	successor(node_ptr x) const
 			{
 				if (x->right_child != nil_node)
 					return (min_subtree(x->right_child));
@@ -424,14 +451,30 @@ namespace ft
 			
 			
 
-			node_ptr	end( void )
+			node_ptr	end( void ) const
 			{
 				return (nil_node);
 			}
-			node_ptr	begin( void )
+			node_ptr	begin( void ) const
 			{
 				return (min_subtree(root));
 			}
+			// rbt_iterator<node, r_b_t_>	end( void )
+			// {
+			// 	return (rbt_iterator(nil_node, *this));
+			// }
+			// rbt_iterator<>	begin( void )
+			// {
+			// 	return (rbt_iterator(min_subtree(root), *this));
+			// }
+			// const_rbt_iterator<>	cend( void ) const
+			// {
+			// 	return (rbt_iterator(nil_node, *this));
+			// }
+			// const_rbt_iterator<>	cbegin( void ) const
+			// {
+			// 	return (rbt_iterator(min_subtree(root), *this));
+			// }
 			
 			void		purge_node(node_ptr x)
 			{
@@ -573,40 +616,23 @@ namespace ft
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 		// void	replace(node_ptr one, node_ptr two)
 		// {
 		// 	one->value = two->value;
 		// }
 
+		node_ptr	get_nil_node( void ) const
+		{
+			return(nil_node);
+		}
+		
+		node_ptr	last_node( void ) const
+		{
+			if (root)
+				return(max_subtree(root));
+			return (nil_node);
+		}
+		
 		node_ptr	sibling(node_ptr x) const
 		{
 			if (x->parent == NULL)
@@ -692,7 +718,7 @@ namespace ft
 
 
 
-			node_ptr find(const value_type &val)
+			node_ptr find(const value_type &val) const
 			{
 				node_ptr node = root;
 

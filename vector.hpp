@@ -5,6 +5,7 @@
 #include <iterator>
 #include "random_access_iterator.hpp"
 #include "ft_utils.hpp"
+#include "reverse_iterator.hpp"
 
 namespace ft
 {
@@ -26,10 +27,10 @@ namespace ft
 			
 			
 			
-			typedef typename ft::random_access_iterator<value_type> 		iterator;
-			typedef	typename ft::const_random_access_iterator<value_type>	const_iterator;
-			// typedef typename ft::reverse_iterator<iterator>					reverse_iterator;
-			// typedef typename ft::reverse_iterator<const_iterator>			const_reverse_iterator;
+			typedef typename ft::random_access_iterator<T> 		iterator;
+			typedef	typename ft::const_random_access_iterator<const T>	const_iterator;
+			typedef typename ft::reverse_iterator<iterator>					reverse_iterator;
+			typedef typename ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 
 
 			// difference_type	
@@ -360,25 +361,47 @@ namespace ft
 		//////////////////////////////////////////////
 		//begin///////////////////////////////////////
 		//////////////////////////////////////////////
-			iterator			begin(void) const
+			iterator			begin(void)
 			{
 				return (iterator(_start));
+			}
+			const_iterator			begin(void) const
+			{
+				return (const_iterator(_start));
 			}
 		//////////////////////////////////////////////
 		//rbegin//////////////////////////////////////
 		//////////////////////////////////////////////
-			void				rbegin() const;			//still have to do
+			reverse_iterator		rbegin()
+			{
+				return (reverse_iterator(_end - 1));
+			}
+			const_reverse_iterator		rbegin() const
+			{
+				return (const_reverse_iterator(_end - 1));
+			}
 		//////////////////////////////////////////////
 		//end/////////////////////////////////////////
 		//////////////////////////////////////////////
-			iterator			end(void) const
+			iterator			end(void)
 			{
 				return (iterator(_end));
+			}
+			const_iterator			end(void) const
+			{
+				return (const_iterator(_end));
 			}
 		//////////////////////////////////////////////
 		//rend////////////////////////////////////////
 		//////////////////////////////////////////////
-			void				rend() const;			//still have to do
+			reverse_iterator				rend()
+			{
+				return (reverse_iterator(_start));
+			}
+			const_reverse_iterator				rend() const
+			{
+				return (const_reverse_iterator(_start));
+			}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////

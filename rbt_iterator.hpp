@@ -10,13 +10,9 @@ namespace ft
 	class rbt_iterator : ft::iterator<ft::bidirectional_iterator_tag, T>
 	{
 		public:
-			typedef T																							value_type;
-			typedef T*																							value_ptr;
-
+			typedef typename	Tree::value_type																value_type;
 			typedef typename	Tree::node*																		node_ptr;
 			typedef				Tree*																			tree_ptr;
-
-			// typedef typename T::value																			value_type; 
 	
 			typedef typename	ft::iterator<ft::bidirectional_iterator_tag, value_type>::iterator_category		iterator_category;
 			typedef typename	ft::iterator<ft::bidirectional_iterator_tag, value_type>::difference_type		difference_type;
@@ -116,39 +112,19 @@ namespace ft
 				return (base() != other.base());
 			}
 		
-			node_ptr	min_subtree(node_ptr x)
+			node_ptr	min_subtree(node_ptr x) const
 			{
 				while (x->left_child != _tree->nil_node)
 					x = x->left_child;
 				return (x);
 			}
 
-			node_ptr	max_subtree(node_ptr x)
+			node_ptr	max_subtree(node_ptr x) const
 			{
 				while (x->right_child != _tree->nil_node)
 					x = x->right_child;
 				return (x);
 			}
-
-
-			// node_ptr	successor(node_ptr x)
-			// {
-			// 	if (x->right_child != _tree->nil_node)
-			// 		return (min_subtree(x->right_child));
-			// 	node_ptr	y = x->parent;
-			// 	node_ptr	z = x;
-			// 	while (y->parent != NULL && x == y->right_child)		// WHY IS IT A WHILE?????
-			// 	{
-			// 		x = y;
-			// 		y = y->parent;
-			// 	}
-			// 	// if (compare(z->value, y->value))
-			// 	if (compare(z->value, y->value))
-			// 		return (y);
-			// 	return (_tree->nil_node);
-			// }
-
-
 
 			node_ptr	precessor(node_ptr x)
 			{
@@ -170,7 +146,7 @@ namespace ft
 				return (y);
 			}
 
-			node_ptr	successor(node_ptr x)
+			node_ptr	successor(node_ptr x) const
 			{
 				if (x == _tree->nil_node)									//x == nil means _end
 					return (x);
@@ -195,18 +171,14 @@ namespace ft
 	class const_rbt_iterator : ft::iterator<ft::bidirectional_iterator_tag, T>
 	{
 		public:
-			typedef const T																							value_type;
-			typedef T*																							value_ptr;
-
-			typedef typename	Tree::node*																		node_ptr;
-			typedef				Tree*																			tree_ptr;
-
-			// typedef typename T::value																			value_type; 
+			typedef const typename	Tree::value_type																value_type;
+			typedef typename		Tree::node*																		node_ptr;
+			typedef					Tree*																			tree_ptr;
 	
-			typedef typename	ft::iterator<ft::bidirectional_iterator_tag, value_type>::iterator_category		iterator_category;
-			typedef typename	ft::iterator<ft::bidirectional_iterator_tag, value_type>::difference_type		difference_type;
-			typedef typename	ft::iterator<ft::bidirectional_iterator_tag, value_type>::pointer				pointer;
-			typedef typename	ft::iterator<ft::bidirectional_iterator_tag, value_type>::reference				reference;
+			typedef typename		ft::iterator<ft::bidirectional_iterator_tag, value_type>::iterator_category		iterator_category;
+			typedef typename		ft::iterator<ft::bidirectional_iterator_tag, value_type>::difference_type		difference_type;
+			typedef typename		ft::iterator<ft::bidirectional_iterator_tag, value_type>::pointer				pointer;
+			typedef typename		ft::iterator<ft::bidirectional_iterator_tag, value_type>::reference				reference;
 
 		// private:
 		public:
@@ -244,7 +216,7 @@ namespace ft
 				return (_ptr);
 			}
 
-			value_type			&operator*( void ) const
+			const reference		operator*( void ) const
 			{
 				if (_ptr == _tree->nil_node)
 					throw const_rbt_iterator::TooHighBounds();
@@ -253,7 +225,7 @@ namespace ft
 				return (*(_ptr->value));
 			}
 
-			value_type			*operator->( void ) const
+			const pointer		operator->( void ) const
 			{
 				if (_ptr == _tree->nil_node)
 					throw const_rbt_iterator::TooHighBounds();
@@ -302,41 +274,21 @@ namespace ft
 				return (base() != other.base());
 			}
 		
-			node_ptr	min_subtree(node_ptr x)
+			node_ptr	min_subtree(node_ptr x) const
 			{
 				while (x->left_child != _tree->nil_node)
 					x = x->left_child;
 				return (x);
 			}
 
-			node_ptr	max_subtree(node_ptr x)
+			node_ptr	max_subtree(node_ptr x) const
 			{
 				while (x->right_child != _tree->nil_node)
 					x = x->right_child;
 				return (x);
 			}
 
-
-			// node_ptr	successor(node_ptr x)
-			// {
-			// 	if (x->right_child != _tree->nil_node)
-			// 		return (min_subtree(x->right_child));
-			// 	node_ptr	y = x->parent;
-			// 	node_ptr	z = x;
-			// 	while (y->parent != NULL && x == y->right_child)		// WHY IS IT A WHILE?????
-			// 	{
-			// 		x = y;
-			// 		y = y->parent;
-			// 	}
-			// 	// if (compare(z->value, y->value))
-			// 	if (compare(z->value, y->value))
-			// 		return (y);
-			// 	return (_tree->nil_node);
-			// }
-
-
-
-			node_ptr	precessor(node_ptr x)
+			node_ptr	precessor(node_ptr x) const
 			{
 				if (x == _tree->nil_node)									//x == nil means _end
 					return (max_subtree(_tree->root));
@@ -356,7 +308,7 @@ namespace ft
 				return (y);
 			}
 
-			node_ptr	successor(node_ptr x)
+			node_ptr	successor(node_ptr x) const
 			{
 				if (x == _tree->nil_node)									//x == nil means _end
 					return (x);

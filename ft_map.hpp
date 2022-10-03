@@ -6,16 +6,16 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 12:57:27 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/09/23 18:33:28 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/03 17:30:20 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_MAP_CPE
 #define FT_MAP_CPE
 #include "ft_utils.hpp"
-#include "rbt_iterator.hpp"
+// #include "rbt_iterator.hpp"
 #include "r_b_tree.hpp"
-
+#include "rbt_iterator_new.hpp"
 
 namespace ft
 {	
@@ -59,18 +59,54 @@ namespace ft
 		public:
 			// map( void );  do i need a standard constructor?
 			explicit map( const key_compare & comp = key_compare(), const allocator_type &alloc = allocator_type()) : alloc_(alloc), tree(comp, alloc)     //why explicit?
-			{};
-			~map() {};
+			{
+				#if DEBUG
+					std::cout << "default map constructor called" << std::endl;
+				#endif
+			};
+
+			~map()
+			{
+				#if DEBUG
+					std::cout << "default map Deconstructor called" << std::endl;
+				#endif
+			};
+
+			map( const map& other ) : tree(key_compare(), allocator_type())
+			{
+				#if DEBUG
+					std::cout << "copy map constructor called" << std::endl;
+				#endif
+				*this = other;
+			};
+			
+			template< class InputIt >
+			map( InputIt first, InputIt last, const Compare& comp = Compare(), const Allocator& alloc = Allocator() )
+			{
+				#if DEBUG
+					std::cout << "map range input constructor called" << std::endl;
+				#endif
+				while (first != last)
+				{
+					insert(*first);
+					first++;
+				}
+			};
+
+
+
+
 
 
 		private:
-			typedef ft::r_b_tree< value_type, value_compare, allocator_type >		tree_type;		
+			typedef ft::r_b_tree< value_type, value_compare, allocator_type >				tree_type;		
 		public:
-			typedef				rbt_iterator<value_type, tree_type>					iterator;
-			typedef				const_rbt_iterator<value_type, tree_type>			const_iterator;
-			// typedef ft::map_tree< value_type, value_compare, allocator_type >		tree_type;		
+			typedef				rbt_iterator_new<ft::rbt_node<value_type> >					iterator;
+			typedef				const_rbt_iterator_new<ft::rbt_node<value_type> >			const_iterator;
+			// typedef				rbt_iterator<value_type, tree_type>					iterator;
+			// typedef				const_rbt_iterator<value_type, tree_type>			const_iterator;
 		public:
-			tree_type			tree;							// will be private
+			tree_type																tree;							// will be private		//still have to do (set private)
 		public:
 		
 
@@ -133,8 +169,25 @@ namespace ft
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-			// 	operator=								//still have to do
-			// 	get_allocator							//still have to do
+			// map&				operator=( const map& other )
+			// {
+			// 	this->clear();
+			// 	const_iterator	first = other.begin();
+			// 	const_iterator	last = other.end();
+			// 	while(first != last)
+			// 	{
+			// 		this->tree.insert(*first);
+			// 		first++;
+			// 	}
+			// 	return (*this);	
+			// }
+
+			allocator_type		get_allocator( void ) const
+			{
+				return (this->tree.get_allocator());
+			}
+			
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -171,22 +224,38 @@ namespace ft
 
 			iterator				begin( void )
 			{
-				return (iterator(tree.begin(), &tree));
+				#if DEBUG
+					std::cout << "non_const map.begin() called" << std::endl;
+				#endif
+				return (iterator(tree.begin()));
+			}
+			
+			iterator				end( void )
+			{
+				#if DEBUG
+					std::cout << "non_const map.end() called" << std::endl;
+				#endif
+				iterator		out = tree.last_node();
+				out++;
+				return (out);			
 			}
 			
 			const_iterator		begin( void ) const						//still have to do
 			{
-				
+				#if DEBUG
+					std::cout << "const map.begin() called" << std::endl;
+				#endif
+				return (const_iterator(tree.begin()));
 			}
 
-			iterator				end( void )
-			{
-				return (iterator(tree.nil_node, &tree));
-			}
-			
 			const_iterator		end() const							//still have to do
 			{
-				
+				#if DEBUG
+					std::cout << "const map.end() called" << std::endl;
+				#endif
+				const_iterator		out = tree.last_node();
+				out++;
+				return (out);	
 			}
 
 
@@ -346,6 +415,10 @@ namespace ft
 			void	test_print_comp( void )
 			{
 				tree.print_tree_comp();
+			}
+			void	test_print_comp_with_ptr( void )
+			{
+				tree.print_tree_comp_with_ptr();
 			}
 			
 	};	

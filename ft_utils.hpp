@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 14:19:44 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/09/23 18:32:59 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/01 14:41:31 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,18 @@
 
 namespace ft
 {
+	template<class T>
+	struct rbt_node
+	{
+		typedef T				value_type;
+		bool					col;
+		bool					is_left;
+		rbt_node*				parent;
+		rbt_node*				left_child;
+		rbt_node*				right_child;
+		T*						value;
+	};
+	
 	template <class T1, class T2>
 	class pair
 	{
@@ -61,7 +73,7 @@ namespace ft
 	template< class X, class Y >
 	bool operator!=(const pair<X, Y>& first, const pair<X, Y>& second)
 	{
-		return (!(first, second));
+		return (!(first == second));
 	}	
 	
 	template< class X, class Y >
