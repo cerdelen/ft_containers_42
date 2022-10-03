@@ -1,8 +1,7 @@
 #ifndef C_P_VECTOR
 #define C_P_VECTOR
-#include <iostream>
 #include <memory>
-#include <iterator>
+// #include <iterator>
 #include "random_access_iterator.hpp"
 #include "ft_utils.hpp"
 #include "reverse_iterator.hpp"
@@ -27,8 +26,8 @@ namespace ft
 			
 			
 			
-			typedef typename ft::random_access_iterator<T> 		iterator;
-			typedef	typename ft::const_random_access_iterator<const T>	const_iterator;
+			typedef typename ft::random_access_iterator<T> 					iterator;
+			typedef	typename ft::const_random_access_iterator<const T>		const_iterator;
 			typedef typename ft::reverse_iterator<iterator>					reverse_iterator;
 			typedef typename ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 

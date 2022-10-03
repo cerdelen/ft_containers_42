@@ -1,7 +1,7 @@
 #include "namespace.hpp"
 #include <vector>
 #include <iterator>
-#include "reverse_iterator.hpp"
+// #include "reverse_iterator.hpp"
 
 #define tree_max_size 10
 
@@ -119,4 +119,6 @@ int main()
 	{
 		std::cerr << std::endl << e.what() << std::endl;
 	}
+
+	std::cout << "end of main" << std::endl;
 }

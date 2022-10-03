@@ -6,14 +6,13 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 12:57:27 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/03 17:55:14 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/03 18:46:59 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_MAP_CPE
 #define FT_MAP_CPE
 #include "ft_utils.hpp"
-// #include "rbt_iterator.hpp"
 #include "r_b_tree.hpp"
 #include "rbt_iterator_new.hpp"
 
@@ -81,7 +80,7 @@ namespace ft
 			};
 			
 			template< class InputIt >
-			map( InputIt first, InputIt last, const Compare& comp = Compare(), const Allocator& alloc = Allocator() )
+			map( InputIt first, InputIt last, const Compare& comp = Compare(), const Allocator& alloc = Allocator() ) : alloc_(alloc), tree(comp, alloc)
 			{
 				#if DEBUG
 					std::cout << "[MAP] Range constructor called" << std::endl;
@@ -103,6 +102,8 @@ namespace ft
 		public:
 			typedef				rbt_iterator_new<ft::rbt_node<value_type> >					iterator;
 			typedef				const_rbt_iterator_new<ft::rbt_node<value_type> >			const_iterator;
+			typedef				ft::reverse_iterator<iterator>								reverse_iterator;
+			typedef				ft::reverse_iterator<const_iterator>						const_reverse_iterator;
 			// typedef				rbt_iterator<value_type, tree_type>					iterator;
 			// typedef				const_rbt_iterator<value_type, tree_type>			const_iterator;
 		public:
@@ -258,6 +259,40 @@ namespace ft
 				return (out);	
 			}
 
+			//	REVERSE ITERATORS
+
+			reverse_iterator				rbegin( void )
+			{
+				#if DEBUG
+					std::cout << "non_const_reverse map.rbegin() called" << std::endl;
+				#endif
+				return (reverse_iterator(end()));
+			}
+			
+			reverse_iterator				rend( void )
+			{
+				#if DEBUG
+					std::cout << "non_const_reverse map.rend() called" << std::endl;
+				#endif
+				return (reverse_iterator(begin()));			
+			}
+			
+			const_reverse_iterator					rbegin( void ) const						//still have to do
+			{
+				#if DEBUG
+					std::cout << "const_reverse map.rbegin() called" << std::endl;
+				#endif
+				return (reverse_iterator(end()));
+			}
+
+			const_reverse_iterator					rend() const							//still have to do
+			{
+				#if DEBUG
+					std::cout << "const_reverse map.rend() called" << std::endl;
+				#endif
+				return (reverse_iterator(begin()));	
+			}
+
 
 
 
@@ -304,16 +339,16 @@ namespace ft
 				}
 				return(ft::make_pair(it, false));
 			}
-			iterator insert( iterator hint, const value_type& value )							//still have to do
-			{
+			// iterator insert( iterator hint, const value_type& value )							//still have to do
+			// {
 
-			}
+			// }
 			
-			template< class InputIt >
-			void insert( InputIt first, InputIt last )											//still have to do
-			{
+			// template< class InputIt >
+			// void insert( InputIt first, InputIt last )											//still have to do
+			// {
 
-			}
+			// }
 			
 			void				erase( iterator pos )
 			{
@@ -337,10 +372,10 @@ namespace ft
 				return (0);
 			}
 			
-			void			swap( map& other )							//still have to do
-			{
+			// void			swap( map& other )							//still have to do
+			// {
 				
-			}
+			// }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -363,10 +398,10 @@ namespace ft
 			}
 			// const_iterator find( const key_type& key ) const;
 
-			ft::pair<iterator,iterator>					equal_range( const key_type& key_ )				//still have to do
-			{
+			// ft::pair<iterator,iterator>					equal_range( const key_type& key_ )				//still have to do
+			// {
 				
-			}
+			// }
 
 			// ft::pair<const_iterator,const_iterator>		equal_range( const key_type& key ) const		//still have to do
 			// {

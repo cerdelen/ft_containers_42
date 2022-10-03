@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 15:29:46 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/03 14:05:50 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/03 18:10:52 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,20 +47,33 @@ namespace ft
 			
 
 		private:
-			size_type					size;
-		public:									//this has to be private (only public for debguging)
-			node_ptr					root;	//this has to be private (only public for debguging)
-		// protected:
-			node_ptr					nil_node;	//this has to be private (only public for debguging)
-			size_type					heigth;
 			value_compare				compare;
 			allocator_type				value_alloc;
+			size_type					heigth;
+			size_type					size;
+			node_ptr					nil_node;	//this has to be private (only public for debguging)
+			node_ptr					root;	//this has to be private (only public for debguging)
 			std::allocator<rbt_node<T> >		node_alloc;
-			// std::allocator<>			value_alloc;
-
-
-
+		public:									//this has to be private (only public for debguging)
 			
+			r_b_tree(const value_compare &compare_, const allocator_type &alloc_) : compare(compare_), value_alloc(alloc_), heigth(0), size(0), root(NULL)
+			{
+				#if DEBUG
+					std::cout << "[RBT] Default constructor called" << std::endl;
+				#endif
+				nil_node = init_nil();
+			}
+			~r_b_tree()
+			{
+				#if DEBUG
+					std::cout << "[RBT] Deconstructor called" << std::endl;
+				#endif
+				// std::cout << "called tree deconstructor" << std::endl;
+				clear();
+				delete_node(nil_node);
+				// std::cout << "after" << std::endl;
+			};
+
 
 			node_ptr	get_node(bool col, const value_type &data)
 			{
@@ -87,22 +100,6 @@ namespace ft
 				out->value = NULL;
 				return (out);	
 			}
-			
-		public:
-			r_b_tree(const value_compare &compare_, const allocator_type &alloc_) : compare(compare_), value_alloc(alloc_), heigth(0), size(0)
-			{
-				root = NULL;
-				nil_node = init_nil();
-			}
-			~r_b_tree()
-			{
-				// std::cout << "called tree deconstructor" << std::endl;
-				clear();
-				delete_node(nil_node);
-				// std::cout << "after" << std::endl;
-			};
-
-
 
 			allocator_type get_allocator(void) const
 			{
@@ -193,7 +190,7 @@ namespace ft
 					}
 				}
 			}
-			void	print_rec_complete(const std::string& prefix, node_ptr node_, bool right, bool key) const
+			void	print_rec_complete(const std::string& prefix, node_ptr node_, bool right) const
 			{
 				if (node_ != nil_node)
 				{		
@@ -206,13 +203,13 @@ namespace ft
 						std::cout << RED_COL << node_->value->first << " = " << node_->value->second << DEFAULT_COL << std::endl;
 					else
 						std::cout << BLUE_COL << node_->value->first << " = " << node_->value->second << DEFAULT_COL << std::endl;
-					print_rec_complete(prefix + (right ? "│   " : "    "), node_->right_child, true, false);
-					print_rec_complete(prefix + (right ? "│   " : "    "), node_->left_child, false, false);
+					print_rec_complete(prefix + (right ? "│   " : "    "), node_->right_child, true);
+					print_rec_complete(prefix + (right ? "│   " : "    "), node_->left_child, false);
 
 					// enter the next tree level - left and right branch
 				}
 			}
-			void	print_rec_complete_with_ptr(const std::string& prefix, node_ptr node_, bool right, bool key) const
+			void	print_rec_complete_with_ptr(const std::string& prefix, node_ptr node_, bool right) const
 			{
 				if (node_ != nil_node)
 				{		
@@ -225,8 +222,8 @@ namespace ft
 						std::cout << RED_COL << node_ << " " << node_->value->first << " = " << node_->value->second << DEFAULT_COL << std::endl;
 					else
 						std::cout << BLUE_COL << node_ << " " << node_->value->first << " = " << node_->value->second << DEFAULT_COL << std::endl;
-					print_rec_complete_with_ptr(prefix + (right ? "│   " : "    "), node_->right_child, true, false);
-					print_rec_complete_with_ptr(prefix + (right ? "│   " : "    "), node_->left_child, false, false);
+					print_rec_complete_with_ptr(prefix + (right ? "│   " : "    "), node_->right_child, true);
+					print_rec_complete_with_ptr(prefix + (right ? "│   " : "    "), node_->left_child, false);
 
 					// enter the next tree level - left and right branch
 				}
@@ -246,13 +243,13 @@ namespace ft
 			void print_tree_comp() const
 			{
 				std::cout << "Tree height is " << heigth << " and size is " << size << std::endl;
-				print_rec_complete("", root, false, false);
+				print_rec_complete("", root, false);
 				std::cout << "This tree is finished here!" << size << std::endl;
 			}
 			void print_tree_comp_with_ptr() const
 			{
 				std::cout << "Tree height is " << heigth << " and size is " << size << std::endl;
-				print_rec_complete_with_ptr("", root, false, false);
+				print_rec_complete_with_ptr("", root, false);
 				std::cout << "This tree is finished here!" << size << std::endl;
 			}
 
