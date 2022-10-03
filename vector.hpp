@@ -48,6 +48,9 @@ namespace ft
 //				(empty container with no elements)
 
 			explicit vector(const allocator_type &alloc = allocator_type()) : _alloc(alloc), _start(NULL), _end(NULL), _capacity(0){
+				#if DEBUG
+					std::cout << "[VECTOR] Default constructor called" << std::endl;
+				#endif
 			};
 
 //		Fill Constructor:
@@ -56,6 +59,9 @@ namespace ft
 			explicit vector(size_t n, const value_type &val,\
 				const allocator_type &alloc = allocator_type()) : _alloc(alloc), _start(NULL), _end(NULL), _capacity(n)
 			{
+				#if DEBUG
+					std::cout << "[VECTOR] Fill constructor called" << std::endl;
+				#endif
 				_start = _alloc.allocate(n);
 				_end = _start;
 				while (n--)
@@ -74,6 +80,9 @@ namespace ft
 				typename std::enable_if<!std::is_integral<InputIterator>::value>::type* = NULL)
 				: _alloc(alloc), _start(NULL), _end(NULL), _capacity(last.base() - first.base())
 				{
+					#if DEBUG
+						std::cout << "[VECTOR] Range constructor called" << std::endl;
+					#endif
 					_start = _alloc.allocate(last.base() - first.base());
 					_end = _start;
 					while(first != last)
@@ -89,6 +98,9 @@ namespace ft
 
 			vector ( const vector& x, const allocator_type &alloc = allocator_type()): _alloc(alloc), _start(NULL), _end(NULL), _capacity(0)
 			{
+				#if DEBUG
+					std::cout << "[VECTOR] Copy constructor called" << std::endl;
+				#endif
 				assign(x.begin(), x.end());
 			}
 

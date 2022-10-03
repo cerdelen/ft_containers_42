@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 12:57:27 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/03 17:47:14 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/03 17:55:14 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,21 +61,21 @@ namespace ft
 			explicit map( const key_compare & comp = key_compare(), const allocator_type &alloc = allocator_type()) : alloc_(alloc), tree(comp, alloc)     //why explicit?
 			{
 				#if DEBUG
-					std::cout << "default map constructor called" << std::endl;
+					std::cout << "[MAP] Default constructor called" << std::endl;
 				#endif
 			};
 
 			~map()
 			{
 				#if DEBUG
-					std::cout << "default map Deconstructor called" << std::endl;
+					std::cout << "[MAP] Deconstructor called" << std::endl;
 				#endif
 			};
 
 			map( const map& other ) : tree(key_compare(), allocator_type())
 			{
 				#if DEBUG
-					std::cout << "copy map constructor called" << std::endl;
+					std::cout << "[MAP] Copy constructor called" << std::endl;
 				#endif
 				*this = other;
 			};
@@ -84,7 +84,7 @@ namespace ft
 			map( InputIt first, InputIt last, const Compare& comp = Compare(), const Allocator& alloc = Allocator() )
 			{
 				#if DEBUG
-					std::cout << "map range input constructor called" << std::endl;
+					std::cout << "[MAP] Range constructor called" << std::endl;
 				#endif
 				while (first != last)
 				{
