@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 12:57:27 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/03 17:30:20 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/03 17:47:14 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -352,8 +352,8 @@ namespace ft
 			// 	find										//still have to do
 			iterator find( const key_type& key_ )
 			{
-				iterator	it = iterator(tree.begin(), &tree);
-				iterator	it_end = iterator(tree.end(), &tree);
+				iterator	it = iterator(tree.begin());
+				iterator	it_end = iterator(tree.end());
 				for (; it.base() != it_end.base(); it++)
 				{
 					if ((*it).first == key_)
