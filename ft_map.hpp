@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 12:57:27 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/04 17:26:27 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/04 23:23:56 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ namespace ft
 				bool	operator()(const value_type &first, const value_type &second) const
 				{
 					return (comp(first.first, second.first));
-				}		
+				}
 		};
 
 		public:
@@ -81,7 +81,7 @@ namespace ft
 			};
 			
 			template< class InputIt >
-			map( InputIt first, InputIt last, const Compare& comp = Compare(), const Allocator& alloc = Allocator() ) : alloc_(alloc), tree(comp, alloc)
+			map( InputIt first, InputIt last,  const key_compare & comp = key_compare(), const Allocator& alloc = Allocator() ) : alloc_(alloc), tree(comp, alloc)
 			{
 				#if DEBUG
 					std::cout << "[MAP] Range constructor called" << std::endl;
@@ -242,7 +242,7 @@ namespace ft
 				return (out);			
 			}
 			
-			const_iterator		begin( void ) const						//still have to do
+			const_iterator		begin( void ) const
 			{
 				#if DEBUG
 					std::cout << "const map.begin() called" << std::endl;
@@ -250,7 +250,7 @@ namespace ft
 				return (const_iterator(tree.begin()));
 			}
 
-			const_iterator		end() const							//still have to do
+			const_iterator		end() const
 			{
 				#if DEBUG
 					std::cout << "const map.end() called" << std::endl;
@@ -278,7 +278,7 @@ namespace ft
 				return (reverse_iterator(begin()));			
 			}
 			
-			const_reverse_iterator					rbegin( void ) const						//still have to do
+			const_reverse_iterator					rbegin( void ) const
 			{
 				#if DEBUG
 					std::cout << "const_reverse map.rbegin() called" << std::endl;
@@ -286,19 +286,13 @@ namespace ft
 				return (reverse_iterator(end()));
 			}
 
-			const_reverse_iterator					rend() const							//still have to do
+			const_reverse_iterator					rend() const
 			{
 				#if DEBUG
 					std::cout << "const_reverse map.rend() called" << std::endl;
 				#endif
 				return (reverse_iterator(begin()));	
 			}
-
-
-
-
-			// 	rbegin														//still have to do
-			// 	rend														//still have to do
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -345,11 +339,17 @@ namespace ft
 
 			// }
 			
-			// template< class InputIt >
-			// void insert( InputIt first, InputIt last )											//still have to do
-			// {
-
-			// }
+			template< class InputIt >
+			void insert( InputIt first, InputIt last )											//still have to do
+			{
+				while(first != last)
+				{
+					std::cout << "hiello" << std::endl;
+					insert(*(first));
+					std::cout << "hiello2" << std::endl;
+					first++;
+				}
+			}
 			
 			void				erase( iterator pos )
 			{
@@ -384,12 +384,14 @@ namespace ft
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-			// 	count										//still have to do
-			// 	find										//still have to do
+			size_type count( const key_type& key_ ) const
+			{
+				return (find(key_) != end());
+			}
 			iterator find( const key_type& key_ )
 			{
-				iterator	it = iterator(tree.begin());
-				iterator	it_end = iterator(tree.end());
+				iterator	it = begin();
+				iterator	it_end = end();
 				for (; it.base() != it_end.base(); it++)
 				{
 					if ((*it).first == key_)
@@ -397,7 +399,18 @@ namespace ft
 				}
 				return (it);
 			}
-			// const_iterator find( const key_type& key ) const;
+
+			const_iterator find( const key_type& key_ ) const
+			{
+				const_iterator	it = begin();
+				const_iterator	it_end = end();
+				for (; it.base() != it_end.base(); it++)
+				{
+					if ((*it).first == key_)
+						break ;
+				}
+				return (it);
+			}
 
 			// ft::pair<iterator,iterator>					equal_range( const key_type& key_ )				//still have to do
 			// {
@@ -419,26 +432,22 @@ namespace ft
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-			// key_compare key_comp() const			//still have to do
-			// {
-			// 	return (key_compare());
-			// }
+			key_compare			key_comp() const
+			{
+				return (tree.get_compare());
+			}
 
-				// value_comp						//still have to do
+			value_compare		value_comp() const
+			{
+				return (value_compare(key_comp()));
+			}
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Non-member functions///////////////////////////////////////////////////////////////////////////////////
+//Testing functions//////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-			// 	operator==					//still have to do
-			// 	operator!=					//still have to do
-			// 	operator<					//still have to do
-			// 	operator<=					//still have to do
-			// 	operator>					//still have to do
-			// 	operator>=					//still have to do
-
 
 			void	test_print_key( void )
 			{
@@ -459,6 +468,11 @@ namespace ft
 			
 	};	
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Non-member functions///////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template <class Key, class T, class Compare, class Allocator>
 	bool operator ==(	const map<Key, T, Compare, Allocator>& first,

@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 15:29:46 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/03 18:10:52 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/04 23:00:25 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,11 @@ namespace ft
 			allocator_type get_allocator(void) const
 			{
 				return (this->value_alloc);
+			}
+
+			value_compare	get_compare() const
+			{
+				return (compare);
 			}
 		
 			void	insert( const value_type &val )

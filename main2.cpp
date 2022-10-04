@@ -86,19 +86,38 @@ void	try_catch_derefference_it_decreased(ft::map<int, char> &mappy, ft::map<int,
 // 	// std::cout << "Zwischenstopp 4" << std::endl;
 // }
 
+// int main()
+// {
+// 	ft::map<int ,char>   mappy = init_tree_fixed(15);
+
+// 	ft::map<int, char>::reverse_iterator		it = mappy.rbegin();
+// 	// std::cout << "this is _nil " << mappy.tree.nil_node << std::endl;
+// 	// mappy.test_print_comp_with_ptr();
+// 	try_catch_derefference_it_increased(mappy, it, 20);
+// 	std::cout << "Zwischenstopp" << std::endl;
+// 	try_catch_derefference_it_decreased(mappy, it, 20);
+// 	std::cout << "Zwischenstopp 2" << std::endl;
+// 	try_catch_derefference_it_increased(mappy, it, 20);
+// 	std::cout << "Zwischenstopp 3" << std::endl;
+// 	try_catch_derefference_it_decreased(mappy, it, 20);
+// 	std::cout << "Zwischenstopp 4" << std::endl;
+// }
 int main()
 {
 	ft::map<int ,char>   mappy = init_tree_fixed(15);
+	ft::map<int ,char>   mappy2;
 
-	ft::map<int, char>::reverse_iterator		it = mappy.rbegin();
-	// std::cout << "this is _nil " << mappy.tree.nil_node << std::endl;
-	// mappy.test_print_comp_with_ptr();
-	try_catch_derefference_it_increased(mappy, it, 20);
-	std::cout << "Zwischenstopp" << std::endl;
-	try_catch_derefference_it_decreased(mappy, it, 20);
-	std::cout << "Zwischenstopp 2" << std::endl;
-	try_catch_derefference_it_increased(mappy, it, 20);
-	std::cout << "Zwischenstopp 3" << std::endl;
-	try_catch_derefference_it_decreased(mappy, it, 20);
-	std::cout << "Zwischenstopp 4" << std::endl;
+	std::cout << "XD" << std::endl;
+	mappy2.insert(mappy.begin(), mappy.end());
+	// ft::map<int, char>::reverse_iterator		it = mappy.rbegin();
+	// // std::cout << "this is _nil " << mappy.tree.nil_node << std::endl;
+	// // mappy.test_print_comp_with_ptr();
+	// try_catch_derefference_it_increased(mappy, it, 20);
+	// std::cout << "Zwischenstopp" << std::endl;
+	// try_catch_derefference_it_decreased(mappy, it, 20);
+	// std::cout << "Zwischenstopp 2" << std::endl;
+	// try_catch_derefference_it_increased(mappy, it, 20);
+	// std::cout << "Zwischenstopp 3" << std::endl;
+	// try_catch_derefference_it_decreased(mappy, it, 20);
+	// std::cout << "Zwischenstopp 4" << std::endl;
 }
