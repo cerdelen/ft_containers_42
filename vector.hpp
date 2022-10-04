@@ -575,49 +575,65 @@ namespace ft
 			void				insert( iterator pos, InputIt first, InputIt last, 
 				typename std::enable_if<!std::is_integral<InputIt>::value>::type* = NULL)
 			{
-				size_type	old_size = size();
-				size_type	old_capacity = capacity();
-				size_type	new_capacity;
 				pointer		tmp;
-				size_type	i = 0;
-				size_type	count = last.base() - first.base();
+				size_type	weirdo;
+				try
+				{
+					size_type	old_size = size();
+					size_type	old_capacity = capacity();
+					size_type	new_capacity;
+					size_type	i = 0;
+					size_type	count = last.base() - first.base();
 
-				if ( old_size + count > _capacity )
-				{
-					if (_capacity * 2 >= old_size + count)
-						new_capacity = _capacity * 2;
-					else
-						new_capacity = old_size + count;
-					if ( new_capacity > max_size())
-						throw std::length_error("Bigger than max_size");
-					tmp = _alloc.allocate(new_capacity);
-					_capacity = new_capacity;	
+					if ( old_size + count > _capacity )
+					{
+						if (_capacity * 2 >= old_size + count)
+							new_capacity = _capacity * 2;
+						else
+							new_capacity = old_size + count;
+						if ( new_capacity > max_size())
+							throw std::length_error("Bigger than max_size");
+						tmp = _alloc.allocate(new_capacity);
+						weirdo = new_capacity;
+					}
+					else 
+					{
+						tmp = _alloc.allocate(_capacity);
+						weirdo = _capacity;
+					}
+					while(_start + i != pos.base())
+					{
+						_alloc.construct(tmp + i, *(_start + i));
+						_alloc.destroy(_start + i);
+						i++;
+					}
+					while (first != last)
+					{
+						_alloc.construct(tmp + i, *first);
+						i++;
+						first++;
+					}
+					while (_start + i - count != _end)
+					{
+						_alloc.construct(tmp + i, *(_start + i - count));
+						_alloc.destroy(_start + i - count);
+						i++;
+					}
+					_alloc.deallocate(_start, old_capacity);
+					_start = tmp;
+					_end = _start + old_size + count;
+					_capacity = new_capacity;
 				}
-				else 
+				catch(...)
 				{
-					tmp = _alloc.allocate(_capacity);
+					for (size_type i = 0; i < weirdo; i++)
+					{
+						_alloc.destroy(tmp + i);
+					}
+					_alloc.deallocate(tmp, weirdo);
+					throw ;
 				}
-				while(_start + i != pos.base())
-				{
-					_alloc.construct(tmp + i, *(_start + i));
-					_alloc.destroy(_start + i);
-					i++;
-				}
-				while (first != last)
-				{
-					_alloc.construct(tmp + i, *first);
-					i++;
-					first++;
-				}
-				while (_start + i - count != _end)
-				{
-					_alloc.construct(tmp + i, *(_start + i - count));
-					_alloc.destroy(_start + i - count);
-					i++;
-				}
-				_alloc.deallocate(_start, old_capacity);
-				_start = tmp;
-				_end = _start + old_size + count;
+				
 			}
 		//////////////////////////////////////////////
 		//erase///////////////////////////////////////
@@ -626,27 +642,44 @@ namespace ft
 			{
 				if (!(pos.base() >= _start && pos.base() < _end))
 					throw std::out_of_range("Input Iterator for erase() pointing outside vectors range");
-				pointer		tmp = _alloc.allocate(_capacity);
-				pointer		pos_base = pos.base();
-				size_type	i = 0;
 
-				for(; _start + i != pos_base; i++)
+				pointer		ptr = pos.base();
+				_alloc.destroy(ptr);
+				iterator		out(ptr);
+
+				for (;ptr + 1 != _end; ptr++)
 				{
-					_alloc.construct(tmp + i, *(_start + i));
-					_alloc.destroy(_start + i);
+					_alloc.construct(ptr, *(ptr + 1));
+					_alloc.destroy(ptr + 1);
 				}
-				iterator	out(tmp + i);
-				_alloc.destroy(_start + i++);
-				for(;_start + i != _end; i ++)
-				{
-					_alloc.construct(tmp + i - 1, *(_start + i));
-					_alloc.destroy(_start + i);
-				}
-				_alloc.deallocate(_start, _capacity);
-				_start = tmp;
-				_end = _start + i - 1;
+				_end = ptr;
 				return (out);
 			}
+			// iterator			erase( iterator pos )					//working slower backup :)
+			// {
+			// 	if (!(pos.base() >= _start && pos.base() < _end))
+			// 		throw std::out_of_range("Input Iterator for erase() pointing outside vectors range");
+			// 	pointer		tmp = _alloc.allocate(_capacity);
+			// 	pointer		pos_base = pos.base();
+			// 	size_type	i = 0;
+
+			// 	for(; _start + i != pos_base; i++)
+			// 	{
+			// 		_alloc.construct(tmp + i, *(_start + i));
+			// 		_alloc.destroy(_start + i);
+			// 	}
+			// 	iterator	out(tmp + i);
+			// 	_alloc.destroy(_start + i++);
+			// 	for(;_start + i != _end; i ++)
+			// 	{
+			// 		_alloc.construct(tmp + i - 1, *(_start + i));
+			// 		_alloc.destroy(_start + i);
+			// 	}
+			// 	_alloc.deallocate(_start, _capacity);
+			// 	_start = tmp;
+			// 	_end = _start + i - 1;
+			// 	return (out);
+			// }
 			iterator			erase( iterator first, iterator last )
 			{
 				if (first.base() > last.base())
@@ -666,7 +699,7 @@ namespace ft
 				}
 				j = i;
 				iterator	out(tmp + i);
-				for(; _start + i <= last_base; i++)
+				for(; _start + i < last_base; i++)
 				{
 					_alloc.destroy(_start + i);
 				}
@@ -840,9 +873,19 @@ namespace ft
 		return (!(first < second));
 	}
 
+	// template<class T, class Alloc>
+	// void swap(vector<T, Alloc> &x, vector<T, Alloc> &y)
+	// {
+	// 	x.swap(y);
+	// }
+}
 
+
+// this overload so the normal swap calls my swap which otherwise it wont :)
+namespace std
+{
 	template<class T, class Alloc>
-	void swap(vector<T, Alloc> &x, vector<T, Alloc> &y)
+	void swap(ft::vector<T, Alloc> &x, ft::vector<T, Alloc> &y)
 	{
 		x.swap(y);
 	}
