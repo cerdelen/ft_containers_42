@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 12:57:27 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/03 18:46:59 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/04 17:26:27 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "ft_utils.hpp"
 #include "r_b_tree.hpp"
 #include "rbt_iterator_new.hpp"
+#include "reverse_iterator.hpp"
 
 namespace ft
 {	

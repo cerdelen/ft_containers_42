@@ -1,4 +1,4 @@
-#ifndef C_P_VECTOR
+ #ifndef C_P_VECTOR
 #define C_P_VECTOR
 #include <memory>
 // #include <iterator>
@@ -577,16 +577,21 @@ namespace ft
 			{
 				size_type	old_size = size();
 				size_type	old_capacity = capacity();
+				size_type	new_capacity;
 				pointer		tmp;
 				size_type	i = 0;
 				size_type	count = last.base() - first.base();
 
 				if ( old_size + count > _capacity )
 				{
-					if ( _capacity + count > max_size())
+					if (_capacity * 2 >= old_size + count)
+						new_capacity = _capacity * 2;
+					else
+						new_capacity = old_size + count;
+					if ( new_capacity > max_size())
 						throw std::length_error("Bigger than max_size");
-					tmp = _alloc.allocate(_capacity + count);
-					_capacity = _capacity + count;	
+					tmp = _alloc.allocate(new_capacity);
+					_capacity = new_capacity;	
 				}
 				else 
 				{
@@ -684,10 +689,14 @@ namespace ft
 				size_type	old_size = size();
 				if (old_size + 1 > _capacity)
 				{
+					// std::cout << "hiello from inside push_back" << std::endl;
 					size_type	davai = next_pow_2(old_size);
-					resize(next_pow_2(old_size), T());				// probably should be old_size + 1 or just capacity
+					// std::cout << "hiello from after next_pow_2" << std::endl;
+					reserve(next_pow_2(old_size));				// probably should be old_size + 1 or just capacity
+					// std::cout << "hiello from after resize" << std::endl;
 				}
 				_alloc.construct(_end, value);
+				// std::cout << "hiello from after construct" << std::endl;
 				_end++;
 			}
 		//////////////////////////////////////////////
@@ -707,13 +716,22 @@ namespace ft
 			{
 				size_type	old_size = size();
 
+
+				// std::cout << "old size = " << old_size << " count = " << count << std::endl;
 				if ( count > old_size )
 				{
-					reserve(count);
+					if (capacity() < count)
+					{
+						if (capacity() * 2 >= count)
+							reserve(capacity() * 2);
+						else 
+							reserve(count);
+					}
 					for (; old_size < count; old_size++)
 					{
 						_alloc.construct(_start + old_size, value);
 					}
+					_end = _start + count;
 					return ;
 				}
 				if ( count < old_size )
@@ -828,9 +846,5 @@ namespace ft
 	{
 		x.swap(y);
 	}
-
-		// still have to do
-		// rend und rbegin
-
 }
 #endif

@@ -1,0 +1,14 @@
+Step 1 my size = 99000000 and capacity = 99000000
+Step 1 og size = 99000000 and capacity = 99000000
+
+Step 2 my size = 50000000 and capacity = 99000000
+Step 2 og size = 50000000 and capacity = 99000000
+
+Step 3 my size = 50000000 and capacity = 99000000
+Step 3 og size = 50000000 and capacity = 99000000
+
+Step 4 my size = 50000000 and capacity = 99000000
+Step 4 og size = 70000000 and capacity = 99000000
+
+Step 5 my size = 50000000 and capacity = 153000000
+Step 5 og size = 153000000 and capacity = 198000000
