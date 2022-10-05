@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 12:57:27 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/04 23:23:56 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/05 15:05:28 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,8 @@ namespace ft
 			typedef				ft::reverse_iterator<const_iterator>						const_reverse_iterator;
 			// typedef				rbt_iterator<value_type, tree_type>					iterator;
 			// typedef				const_rbt_iterator<value_type, tree_type>			const_iterator;
-		public:
-			tree_type																tree;							// will be private		//still have to do (set private)
+		private:
+			tree_type																tree;
 		public:
 		
 
@@ -171,18 +171,14 @@ namespace ft
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-			// map&				operator=( const map& other )
-			// {
-			// 	this->clear();
-			// 	const_iterator	first = other.begin();
-			// 	const_iterator	last = other.end();
-			// 	while(first != last)
-			// 	{
-			// 		this->tree.insert(*first);
-			// 		first++;
-			// 	}
-			// 	return (*this);	
-			// }
+			map&				operator=( const map& other )
+			{
+				clear();
+				const_iterator	first = other.begin();
+				const_iterator	last = other.end();
+				insert(first, last);
+				return (*this);	
+			}
 
 			allocator_type		get_allocator( void ) const
 			{
@@ -238,7 +234,14 @@ namespace ft
 					std::cout << "non_const map.end() called" << std::endl;
 				#endif
 				iterator		out = tree.last_node();
+				
+				#if DEBUG
+					std::cout << "middle of non_const map.end() with out == " << out.base() << " nil == " << tree.get_nil_node() << std::endl;
+				#endif
 				out++;
+				#if DEBUG
+					std::cout << "end of non_const map.end()" << std::endl;
+				#endif
 				return (out);			
 			}
 			
@@ -323,7 +326,7 @@ namespace ft
 			{
 				tree.clear();
 			}
-			ft::pair<iterator, bool> insert( const value_type& value )								//still have to do
+			ft::pair<iterator, bool> insert( const value_type& value )
 			{
 				iterator	it = find(value.first);
 				if (it == end())
@@ -334,21 +337,51 @@ namespace ft
 				}
 				return(ft::make_pair(it, false));
 			}
-			// iterator insert( iterator hint, const value_type& value )							//still have to do
-			// {
 
-			// }
+			iterator insert( iterator hint, const value_type& value )
+			{
+				#if DEBUG
+					std::cout << "map.insert() with hint called" << std::endl;
+				#endif
+				if (!(hint.base() == NULL || hint.base() == tree.get_nil_node()))
+				{
+					value_compare	com(key_comp());
+					iterator		tmp = hint;	
+					if (((++tmp)--).base() == tree.get_nil_node())									//if hint is last node
+					{
+						if (com((*tmp), value))													//check if new value is bigger than hint
+						{
+							#if DEBUG	
+								std::cout << "map.insert() case 1" << std::endl;
+							#endif
+							return (iterator(tree.insert_with_hint(hint.base(), value)));
+						}
+					}
+					else																			//check if new value is bigger than hint and smaller than hint + 1
+					{
+						if (com((*tmp++), value) && com(value, *tmp))
+						{
+							#if DEBUG
+								std::cout << "map.insert() case 2" << std::endl;
+							#endif
+							
+							return (iterator(tree.insert_with_hint(hint.base(), value)));
+						}
+					}
+				}
+
+				#if DEBUG
+					std::cout << "map.insert() case 3" << std::endl;
+				#endif
+				ft::pair<iterator, bool> out = insert(value);
+				return (out.first);
+			}
 			
 			template< class InputIt >
-			void insert( InputIt first, InputIt last )											//still have to do
+			void insert( InputIt first, InputIt last )
 			{
 				while(first != last)
-				{
-					std::cout << "hiello" << std::endl;
-					insert(*(first));
-					std::cout << "hiello2" << std::endl;
-					first++;
-				}
+					insert(*(first++));
 			}
 			
 			void				erase( iterator pos )
@@ -373,10 +406,14 @@ namespace ft
 				return (0);
 			}
 			
-			// void			swap( map& other )							//still have to do
-			// {
-				
-			// }
+			void			swap( map& other )
+			{
+				tree_type	tmp;
+
+				tmp = other.tree;
+				other.tree = tree;
+				tree = tmp;
+			}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -388,28 +425,40 @@ namespace ft
 			{
 				return (find(key_) != end());
 			}
+
 			iterator find( const key_type& key_ )
 			{
-				iterator	it = begin();
-				iterator	it_end = end();
-				for (; it.base() != it_end.base(); it++)
-				{
-					if ((*it).first == key_)
-						break ;
-				}
-				return (it);
+				#if DEBUG
+					std::cout << "start of map.find() with key = " << key_ << std::endl;
+				#endif
+				// value_type			val(make_pair<key_type, mapped_type>(key_, mapped_type()));
+				// val = make_pair<key_type, mapped_type>(key_, mapped_type());
+				return (iterator(tree.find(ft::make_pair<key_type, mapped_type>(key_, mapped_type()))));
+				// return (iterator(tree.find(ft::make_pair<key_type, value_type>(key_, value_type()))));
+				// iterator	it = begin();
+				// iterator	it_end = end();
+				// for (; it.base() != it_end.base(); it++)
+				// {
+				// 	if ((*it).first == key_)
+				// 		break ;
+				// }
+				// #if DEBUG
+				// 	std::cout << "end of map.find() with iterator to = " << it.base() << std::endl;
+				// #endif
+				// return (it);
 			}
 
 			const_iterator find( const key_type& key_ ) const
 			{
-				const_iterator	it = begin();
-				const_iterator	it_end = end();
-				for (; it.base() != it_end.base(); it++)
-				{
-					if ((*it).first == key_)
-						break ;
-				}
-				return (it);
+				return (const_iterator(tree.find(ft::make_pair<key_type, mapped_type>(key_, mapped_type()))));
+				// const_iterator	it = begin();
+				// const_iterator	it_end = end();
+				// for (; it.base() != it_end.base(); it++)
+				// {
+				// 	if ((*it).first == key_)
+				// 		break ;
+				// }
+				// return (it);
 			}
 
 			// ft::pair<iterator,iterator>					equal_range( const key_type& key_ )				//still have to do
@@ -434,7 +483,7 @@ namespace ft
 
 			key_compare			key_comp() const
 			{
-				return (tree.get_compare());
+				return (key_compare());
 			}
 
 			value_compare		value_comp() const

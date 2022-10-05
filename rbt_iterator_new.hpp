@@ -118,6 +118,7 @@ namespace ft
 			rbt_iterator_new		&operator--( void )
 			{
 				node_ptr			_tmp = _ptr;
+
 				_ptr = precessor(_ptr);
 				if (_ptr != _tmp)
 					_prev = _tmp;
@@ -127,7 +128,14 @@ namespace ft
 			rbt_iterator_new		&operator++( void )
 			{
 				node_ptr			_tmp = _ptr;
+
+				#if DEBUG
+					std::cout << "non_const rbt_iterator operator++ before successor ptr = " << _ptr << std::endl;
+				#endif
 				_ptr = successor(_ptr);
+				#if DEBUG
+					std::cout << "non_const rbt_iterator operator++ after successor ptr = " << _ptr << std::endl;
+				#endif
 				if (_ptr != _tmp)
 					_prev = _tmp;
 				return (*this);
@@ -159,30 +167,42 @@ namespace ft
 		
 			node_ptr	find_nil(node_ptr x) const
 			{
-				while (x->left_child != NULL)
-					x = x->left_child;
+				if(x)
+				{
+					while (x->left_child != NULL)
+						x = x->left_child;
+				}
 				return (x);
 			}
 
 			node_ptr	min_subtree(node_ptr x) const
 			{
-				while (x->left_child != _nil)
-					x = x->left_child;
+				if(x)
+				{
+					while (x->left_child != _nil)
+						x = x->left_child;
+				}			
 				return (x);
 			}
 
 			node_ptr	max_subtree(node_ptr x) const
 			{
-				while (x->right_child != _nil)
-					x = x->right_child;
+				if(x)
+				{
+					while (x->right_child != _nil)
+						x = x->right_child;
+				}			
 				return (x);
 			}
 
 
 			node_ptr		find_root(node_ptr x) const
 			{
-				while(x->parent != NULL)
-					x = x->parent;
+				if(x)
+				{
+					while(x->parent != NULL)
+						x = x->parent;
+				}				
 				return (x);
 			}
 
@@ -194,12 +214,17 @@ namespace ft
 
 			node_ptr	precessor(node_ptr x) const
 			{
+				#if DEBUG
+					std::cout << "const rbt_iterator precessor called" << std::endl;
+				#endif
 				if (x == _nil)												//x == nil means _end
 					return (_prev);
 				if (x == NULL)												//x == NULL means _start - 1;
 					return (x);
 				if (x->left_child != _nil)
 					return (max_subtree(x->left_child));
+				if (x == find_root(x))
+					return (NULL);
 				node_ptr	y = x->parent;
 				
 				while (y->parent != NULL && x == y->left_child)
@@ -214,12 +239,17 @@ namespace ft
 
 			node_ptr	successor(node_ptr x) const
 			{
+				#if DEBUG
+					std::cout << "const rbt_iterator successor called with x = " << x << std::endl;
+				#endif
 				if (x == _nil)												//x == nil means _end
 					return (x);
 				if (x == NULL)												//x == NULL means _start - 1;
 					return (_prev);
 				if (x->right_child != _nil)
 					return (min_subtree(x->right_child));
+				if (x == find_root(x))
+					return (_nil);
 				node_ptr	y = x->parent;
 				
 				while (y->parent != NULL && x == y->right_child)

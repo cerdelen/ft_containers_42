@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 15:29:46 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/04 23:00:25 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/05 14:59:31 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #define R_B_TREE
 
 #include <iostream>
-// #include "rbt_iterator.hpp"
 #include "ft_utils.hpp"
 
 #define RED true
@@ -49,14 +48,13 @@ namespace ft
 		private:
 			value_compare				compare;
 			allocator_type				value_alloc;
-			size_type					heigth;
 			size_type					size;
 			node_ptr					nil_node;	//this has to be private (only public for debguging)
 			node_ptr					root;	//this has to be private (only public for debguging)
 			std::allocator<rbt_node<T> >		node_alloc;
 		public:									//this has to be private (only public for debguging)
 			
-			r_b_tree(const value_compare &compare_, const allocator_type &alloc_) : compare(compare_), value_alloc(alloc_), heigth(0), size(0), root(NULL)
+			r_b_tree(const value_compare &compare_, const allocator_type &alloc_) : compare(compare_), value_alloc(alloc_), size(0), root(NULL)
 			{
 				#if DEBUG
 					std::cout << "[RBT] Default constructor called" << std::endl;
@@ -68,10 +66,11 @@ namespace ft
 				#if DEBUG
 					std::cout << "[RBT] Deconstructor called" << std::endl;
 				#endif
-				// std::cout << "called tree deconstructor" << std::endl;
 				clear();
 				delete_node(nil_node);
-				// std::cout << "after" << std::endl;
+				#if DEBUG
+					std::cout << "[RBT] Deconstructor finished" << std::endl;
+				#endif
 			};
 
 
@@ -111,12 +110,25 @@ namespace ft
 				return (compare);
 			}
 		
+			node_ptr		insert_with_hint( node_ptr x, const value_type &val )
+			{
+				node_ptr	new_node;
+				
+				new_node = get_node(RED, val);
+				//setting parent ptr and arents child ptr to new node
+				new_node->parent = x;
+				if (x->right_child != nil_node)
+					new_node->right_child = x->right_child;
+				x->right_child = new_node;
+				insert_fixup(new_node);
+				size++;
+				return (new_node);
+			}
 			void	insert( const value_type &val )
 			{
 				node_ptr	tmp = root;
 				node_ptr	tmp_parent = NULL;
 				node_ptr	new_node;
-				size_t		new_heigth = 1;
 				
 				if (!root)
 					root = get_node(BLCK, val);
@@ -135,7 +147,6 @@ namespace ft
 							delete_node(new_node);
 							return ;
 						}
-						new_heigth++;
 					}
 					//setting parent ptr and arents child ptr to new node
 					new_node->parent = tmp_parent;
@@ -146,13 +157,9 @@ namespace ft
 					}
 					else
 						tmp_parent->right_child = new_node;
-					// std::cout << RED_COL << "starting a new insert of nr " << DEFAULT_COL << new_node->value->key << std::endl;
 					insert_fixup(new_node);
-					// std::cout << RED_COL << "finished a new insert of nr " << DEFAULT_COL << new_node->value->key << std::endl << std::endl;
 				}
 				size++;
-				if (new_heigth > heigth)
-					heigth = new_heigth;
 			}
 			void	print_rec(const std::string& prefix, node_ptr node_, bool right, bool key) const
 			{
@@ -235,27 +242,27 @@ namespace ft
 			}
 			void print_tree_key() const
 			{
-				std::cout << "Tree height is " << heigth << " and size is " << size << std::endl;
+				std::cout << "Tree size is " << size << std::endl;
 				print_rec("", root, false, true);
-				std::cout << "This tree is finished here!" << size << std::endl;
+				std::cout << "This tree is finished here with size of " << size << std::endl;
 			}
 			void print_tree_val() const
 			{
-				std::cout << "Tree height is " << heigth << " and size is " << size << std::endl;
+				std::cout << "Tree size is " << size << std::endl;
 				print_rec("", root, false, false);
-				std::cout << "This tree is finished here!" << size << std::endl;
+				std::cout << "This tree is finished here with size of " << size << std::endl;
 			}
 			void print_tree_comp() const
 			{
-				std::cout << "Tree height is " << heigth << " and size is " << size << std::endl;
+				std::cout << "Tree size is " << size << std::endl;
 				print_rec_complete("", root, false);
-				std::cout << "This tree is finished here!" << size << std::endl;
+				std::cout << "This tree is finished here with size of " << size << std::endl;
 			}
 			void print_tree_comp_with_ptr() const
 			{
-				std::cout << "Tree height is " << heigth << " and size is " << size << std::endl;
+				std::cout << "Tree size is " << size << std::endl;
 				print_rec_complete_with_ptr("", root, false);
-				std::cout << "This tree is finished here!" << size << std::endl;
+				std::cout << "This tree is finished here with size of " << size << std::endl;
 			}
 
 
@@ -425,14 +432,20 @@ namespace ft
 
 			node_ptr	min_subtree(node_ptr x) const
 			{
-				while (x->left_child != nil_node)
-					x = x->left_child;
+				if (x)
+				{
+					while (x->left_child != nil_node)
+						x = x->left_child;
+				}
 				return (x);
 			}
 			node_ptr	max_subtree(node_ptr x) const
 			{
-				while (x->right_child != nil_node)
-					x = x->right_child;
+				if (x)
+				{
+					while (x->right_child != nil_node)
+						x = x->right_child;
+				}
 				return (x);
 			}
 
@@ -457,26 +470,13 @@ namespace ft
 			{
 				return (nil_node);
 			}
+
 			node_ptr	begin( void ) const
 			{
+				if (root == NULL)
+					return (end());
 				return (min_subtree(root));
 			}
-			// rbt_iterator<node, r_b_t_>	end( void )
-			// {
-			// 	return (rbt_iterator(nil_node, *this));
-			// }
-			// rbt_iterator<>	begin( void )
-			// {
-			// 	return (rbt_iterator(min_subtree(root), *this));
-			// }
-			// const_rbt_iterator<>	cend( void ) const
-			// {
-			// 	return (rbt_iterator(nil_node, *this));
-			// }
-			// const_rbt_iterator<>	cbegin( void ) const
-			// {
-			// 	return (rbt_iterator(min_subtree(root), *this));
-			// }
 			
 			void		purge_node(node_ptr x)
 			{
@@ -517,6 +517,66 @@ namespace ft
 				b->value = tmp;
 			}
 
+			void		erase(node_ptr x)
+			{
+				// std::cout << "starting erase_orig2 for node before find " << val.key << std::endl;
+				node_ptr	y;
+				// std::cout << "starting erase_orig2 for node after find " << x->value->key << std::endl;
+				
+				// if (x == NULL)
+					// std::cout << "HIEEELLOOO" << std::endl;
+				if (x == nil_node || x == NULL)
+					return ;
+
+				if (x->left_child == nil_node && x->right_child == nil_node)				//	no children
+				{
+					if (x == root)
+					{
+						clear();
+						return ;
+					}
+					y = x;
+					if (y->is_left)
+						y->parent->left_child = nil_node;
+					else
+						y->parent->right_child = nil_node;
+					erase_fixup(y);				// write fixup
+					purge_node(y);
+				}
+				else if (x->left_child != nil_node && x->right_child != nil_node)			//	two children
+				{
+					y = successor(x);
+					swap_val_ptr(y, x);
+					if (y->is_left)
+						y->parent->left_child = nil_node;
+					else
+						y->parent->right_child = nil_node;
+					erase_fixup(y);				// write fixup
+					purge_node(y);
+				}
+				else																		//	1 child
+				{
+					if (x->left_child != nil_node)
+						y = x->left_child;
+					else
+						y = x->right_child;
+
+					if (x == root)
+						root = y;		
+					else if (x->is_left)
+						x->parent->left_child = y;
+					else
+						x->parent->right_child = y;
+					y->parent = x->parent;
+					y = x;
+					erase_fixup(y);				// write fixup
+					delete_node(x);
+				}
+
+				size--;
+				// erase_fixup();				// write fixup
+				// // return (y);
+			}
 			void		erase(const value_type &val)
 			{
 				// std::cout << "starting erase_orig2 for node before find " << val.key << std::endl;
@@ -717,46 +777,72 @@ namespace ft
 
 
 
+		// node_ptr find_key(const key_type &key_) const
+		// {
+		// 	node_ptr		out = root;
+			
+		// 	if (out == NULL)
+		// 		return (nil_node);
+		// 	while (node != nil_node)
+		// 	{
+		// 		if (*(node->value->first) == key_)
+		// 			break ;
+		// 		if (compare(*(node->value), val))
+		// 			node = node->left_child;
+		// 		else
+		// 			node = node->right_child;
+		// 	}
+		// 	return (node);
+		// }
 
 
 
-			node_ptr find(const value_type &val) const
+		node_ptr find(const value_type &val) const
+		{
+			node_ptr node = root;
+
+			if (node == NULL)
+				return (nil_node);
+			while (node != nil_node)
 			{
-				node_ptr node = root;
-
-				if (node == NULL)
-					return (nil_node);
-				while (node != nil_node)
-				{
-					if (*(node->value) == val)
-						break ;
-					if (compare(*(node->value), val))
-						node = node->left_child;
-					else
-						node = node->right_child;
-				}
-				return (node);
+				if (*(node->value) == val)
+					break ;
+				if (compare(*(node->value), val))
+					node = node->left_child;
+				else
+					node = node->right_child;
 			}
+			return (node);
+		}
 
-			size_type	getSize( void ) const
-			{
-				return (size);
-			}
+		size_type	getSize( void ) const
+		{
+			return (size);
+		}
 
 
-			// node_ptr find_key(const value_type &val)
-			// {
-			// 	node_ptr node = root;
+		r_b_tree &operator=(const r_b_tree& copy)
+		{
+			compare = copy.compare;
+			value_alloc = copy.value_alloc;
+			size = copy.size;
+			nil_node = copy.nil_node;
+			root = copy.root;
+			node_alloc = copy.node_alloc;	
+		}
+		// node_ptr find_key(const value_type &val)
+		// {
+		// 	node_ptr node = root;
 
-			// 	while (node->value != val && node != nil_node)
-			// 	{
-			// 		if (compare(node->value, val))
-			// 			node = node->right_child;
-			// 		else
-			// 			node = node->left_child;
-			// 	}	
-			// 	return (node);
-			// }			
+		// 	while (node->value != val && node != nil_node)
+		// 	{
+		// 		if (compare(node->value, val))
+		// 			node = node->right_child;
+		// 		else
+		// 			node = node->left_child;
+		// 	}	
+		// 	return (node);
+		// }			
 	};
 
 }

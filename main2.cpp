@@ -8,7 +8,7 @@ ft::map<int, char>	init_tree_fixed(size_t n)
 
 	for (size_t i = 0; i < n; i++)
 	{
-		map.tree.insert(ft::make_pair(i + 1, val + i));
+		map.insert(ft::make_pair(i + 1, val + i));
 	}
 	return (map);
 }
@@ -106,9 +106,21 @@ int main()
 {
 	ft::map<int ,char>   mappy = init_tree_fixed(15);
 	ft::map<int ,char>   mappy2;
+	ft::map<int ,char>   mappy3;
 
-	std::cout << "XD" << std::endl;
-	mappy2.insert(mappy.begin(), mappy.end());
+	// mappy2.insert(mappy.begin(), mappy.end());
+	// mappy2.insert(mappy2.begin(), ft::make_pair(100, 'y'));
+	ft::pair<ft::map<int, char>::iterator, bool > x = mappy3.insert(ft::make_pair(1, 'a'));
+	ft::map<int, char>::iterator		hint = x.first;
+	char				val = 'b';
+	for (size_t i = 1; i < 15; i++)
+	{
+		hint = mappy3.insert(hint, ft::make_pair(i, val++));
+	}
+	
+	// mappy.test_print_comp();
+	// mappy2.test_print_comp();
+	// mappy3.test_print_comp();
 	// ft::map<int, char>::reverse_iterator		it = mappy.rbegin();
 	// // std::cout << "this is _nil " << mappy.tree.nil_node << std::endl;
 	// // mappy.test_print_comp_with_ptr();
