@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 12:57:27 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/05 15:05:28 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/09 18:41:09 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,8 @@ namespace ft
 			typedef				const_rbt_iterator_new<ft::rbt_node<value_type> >			const_iterator;
 			typedef				ft::reverse_iterator<iterator>								reverse_iterator;
 			typedef				ft::reverse_iterator<const_iterator>						const_reverse_iterator;
-			// typedef				rbt_iterator<value_type, tree_type>					iterator;
-			// typedef				const_rbt_iterator<value_type, tree_type>			const_iterator;
-		private:
+
+		public:
 			tree_type																tree;
 		public:
 		
@@ -328,11 +327,17 @@ namespace ft
 			}
 			ft::pair<iterator, bool> insert( const value_type& value )
 			{
+				std::cout << "Inserting node with value " << value.first << std::endl;
+				test_print_(true, true, true, false);
+				std::cout << std::endl;
 				iterator	it = find(value.first);
 				if (it == end())
 				{
 					tree.insert(value);
 					it = find(value.first);
+					test_print_(true, true, true, false);
+					std::cout << "Finished inserting node with value " << value.first << std::endl;
+					std::cout << std::endl;
 					return (ft::make_pair(it ,true));
 				}
 				return(ft::make_pair(it, false));
@@ -364,12 +369,10 @@ namespace ft
 							#if DEBUG
 								std::cout << "map.insert() case 2" << std::endl;
 							#endif
-							
 							return (iterator(tree.insert_with_hint(hint.base(), value)));
 						}
 					}
 				}
-
 				#if DEBUG
 					std::cout << "map.insert() case 3" << std::endl;
 				#endif
@@ -392,7 +395,12 @@ namespace ft
 			void				erase( iterator first, iterator last )
 			{
 				for (; first != last; first++)
+				{
+					std::cout << "Trying to del " << first->first << std::endl;
 					erase(first);
+					test_print_(true, true, true, false);
+					
+				}
 			}
 			
 			size_type			erase( const key_type & key_ )			//returns the number of elements lost (0 or 1)
@@ -408,9 +416,7 @@ namespace ft
 			
 			void			swap( map& other )
 			{
-				tree_type	tmp;
-
-				tmp = other.tree;
+				tree_type	tmp = other.tree;
 				other.tree = tree;
 				tree = tmp;
 			}
@@ -433,7 +439,7 @@ namespace ft
 				#endif
 				// value_type			val(make_pair<key_type, mapped_type>(key_, mapped_type()));
 				// val = make_pair<key_type, mapped_type>(key_, mapped_type());
-				return (iterator(tree.find(ft::make_pair<key_type, mapped_type>(key_, mapped_type()))));
+				return (iterator(tree.find_key(ft::make_pair<key_type, mapped_type>(key_, mapped_type()))));
 				// return (iterator(tree.find(ft::make_pair<key_type, value_type>(key_, value_type()))));
 				// iterator	it = begin();
 				// iterator	it_end = end();
@@ -450,7 +456,7 @@ namespace ft
 
 			const_iterator find( const key_type& key_ ) const
 			{
-				return (const_iterator(tree.find(ft::make_pair<key_type, mapped_type>(key_, mapped_type()))));
+				return (const_iterator(tree.find_key(ft::make_pair<key_type, mapped_type>(key_, mapped_type()))));
 				// const_iterator	it = begin();
 				// const_iterator	it_end = end();
 				// for (; it.base() != it_end.base(); it++)
@@ -498,23 +504,10 @@ namespace ft
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-			void	test_print_key( void )
+			void	test_print_( bool key_, bool col_, bool direction, bool mapped_ )
 			{
-				tree.print_tree_key();
+				tree.print_("", tree.get_root_node(), false, key_, mapped_, direction, col_);
 			}
-			void	test_print_val( void )
-			{
-				tree.print_tree_val();
-			}
-			void	test_print_comp( void )
-			{
-				tree.print_tree_comp();
-			}
-			void	test_print_comp_with_ptr( void )
-			{
-				tree.print_tree_comp_with_ptr();
-			}
-			
 	};	
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////

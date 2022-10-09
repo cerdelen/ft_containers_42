@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 15:29:46 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/05 14:59:31 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/09 18:40:53 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ namespace ft
 			value_compare				compare;
 			allocator_type				value_alloc;
 			size_type					size;
-			node_ptr					nil_node;	//this has to be private (only public for debguging)
-			node_ptr					root;	//this has to be private (only public for debguging)
+			node_ptr					nil_node;
+			node_ptr					root;
 			std::allocator<rbt_node<T> >		node_alloc;
-		public:									//this has to be private (only public for debguging)
+		public:									
 			
 			r_b_tree(const value_compare &compare_, const allocator_type &alloc_) : compare(compare_), value_alloc(alloc_), size(0), root(NULL)
 			{
@@ -113,13 +113,14 @@ namespace ft
 			node_ptr		insert_with_hint( node_ptr x, const value_type &val )
 			{
 				node_ptr	new_node;
-				
+
 				new_node = get_node(RED, val);
 				//setting parent ptr and arents child ptr to new node
 				new_node->parent = x;
 				if (x->right_child != nil_node)
 					new_node->right_child = x->right_child;
 				x->right_child = new_node;
+				x->is_left = false;
 				insert_fixup(new_node);
 				size++;
 				return (new_node);
@@ -153,130 +154,33 @@ namespace ft
 					if (compare(*(new_node->value), *(tmp_parent->value)))			// if new node is bigger
 					{
 						tmp_parent->left_child = new_node;
-						new_node->is_left = false;
+						new_node->is_left = true;
 					}
 					else
+					{
 						tmp_parent->right_child = new_node;
+						new_node->is_left = false;
+					}
+					print_("", get_root_node(), !(get_root_node()->is_left), true, false, true, true);
 					insert_fixup(new_node);
 				}
 				size++;
 			}
-			void	print_rec(const std::string& prefix, node_ptr node_, bool right, bool key) const
-			{
-				if (key)
-				{
-					if (node_ != nil_node)
-					{		
-						std::cout << prefix;
-
-						std::cout << (right ? "├──" : "└──" );
-
-						// print the value of the node
-						if (node_->col == RED)
-							std::cout << RED_COL << node_->value->first << DEFAULT_COL << std::endl;
-						else
-							std::cout << BLUE_COL << node_->value->first << DEFAULT_COL << std::endl;
-						print_rec(prefix + (right ? "│   " : "    "), node_->right_child, true, true);
-						print_rec(prefix + (right ? "│   " : "    "), node_->left_child, false, true);
-
-						// enter the next tree level - left and right branch
-					}
-				}
-				else
-				{
-					if (node_ != nil_node)
-					{		
-						std::cout << prefix;
-
-						std::cout << (right ? "├──" : "└──" );
-
-						// print the value of the node
-						if (node_->col == RED)
-							std::cout << RED_COL << node_->value->second << DEFAULT_COL << std::endl;
-						else
-							std::cout << BLUE_COL << node_->value->second << DEFAULT_COL << std::endl;
-						print_rec(prefix + (right ? "│   " : "    "), node_->right_child, true, false);
-						print_rec(prefix + (right ? "│   " : "    "), node_->left_child, false, false);
-
-						// enter the next tree level - left and right branch
-					}
-				}
-			}
-			void	print_rec_complete(const std::string& prefix, node_ptr node_, bool right) const
-			{
-				if (node_ != nil_node)
-				{		
-					std::cout << prefix;
-
-					std::cout << (right ? "├──" : "└──" );
-
-					// print the value of the node
-					if (node_->col == RED)
-						std::cout << RED_COL << node_->value->first << " = " << node_->value->second << DEFAULT_COL << std::endl;
-					else
-						std::cout << BLUE_COL << node_->value->first << " = " << node_->value->second << DEFAULT_COL << std::endl;
-					print_rec_complete(prefix + (right ? "│   " : "    "), node_->right_child, true);
-					print_rec_complete(prefix + (right ? "│   " : "    "), node_->left_child, false);
-
-					// enter the next tree level - left and right branch
-				}
-			}
-			void	print_rec_complete_with_ptr(const std::string& prefix, node_ptr node_, bool right) const
-			{
-				if (node_ != nil_node)
-				{		
-					std::cout << prefix;
-
-					std::cout << (right ? "├──" : "└──" );
-
-					// print the value of the node
-					if (node_->col == RED)
-						std::cout << RED_COL << node_ << " " << node_->value->first << " = " << node_->value->second << DEFAULT_COL << std::endl;
-					else
-						std::cout << BLUE_COL << node_ << " " << node_->value->first << " = " << node_->value->second << DEFAULT_COL << std::endl;
-					print_rec_complete_with_ptr(prefix + (right ? "│   " : "    "), node_->right_child, true);
-					print_rec_complete_with_ptr(prefix + (right ? "│   " : "    "), node_->left_child, false);
-
-					// enter the next tree level - left and right branch
-				}
-			}
-			void print_tree_key() const
-			{
-				std::cout << "Tree size is " << size << std::endl;
-				print_rec("", root, false, true);
-				std::cout << "This tree is finished here with size of " << size << std::endl;
-			}
-			void print_tree_val() const
-			{
-				std::cout << "Tree size is " << size << std::endl;
-				print_rec("", root, false, false);
-				std::cout << "This tree is finished here with size of " << size << std::endl;
-			}
-			void print_tree_comp() const
-			{
-				std::cout << "Tree size is " << size << std::endl;
-				print_rec_complete("", root, false);
-				std::cout << "This tree is finished here with size of " << size << std::endl;
-			}
-			void print_tree_comp_with_ptr() const
-			{
-				std::cout << "Tree size is " << size << std::endl;
-				print_rec_complete_with_ptr("", root, false);
-				std::cout << "This tree is finished here with size of " << size << std::endl;
-			}
-
-
 
 			void	left_rotation(node_ptr x)			// x = parent of the rotation
 			{
 				node_ptr	y;
+				
+				print_("", get_root_node(), !(get_root_node()->is_left), true, false, true, true);
 				
 				if (!x || x == nil_node)
 					return ;
 				if (x->right_child == nil_node)
 					return ;
 				y = x->right_child;
+				std::cout << "Left rot x = " << x->value->first << " y = " << y->value->first << std::endl;
 				x->right_child = y->left_child;
+				y->right_child->is_left = false;
 				if (x->right_child != nil_node)
 				{
 					x->right_child->parent = x;
@@ -312,6 +216,7 @@ namespace ft
 					return ;
 				y = x->left_child;
 				x->left_child = y->right_child;
+				y->right_child->is_left = true;
 				if (x->left_child != nil_node)
 				{
 					x->left_child->parent = x;
@@ -369,7 +274,7 @@ namespace ft
 						u = x->parent->parent->right_child;
 						if(u->col == RED)									//uncle is red
 						{
-							// std::cout << "case 1" << std::endl;
+							std::cout << "Fixup case 1" << std::endl;
 							x->parent->col = BLCK;
 							u->col = BLCK;
 							x->parent->parent->col = RED;
@@ -379,11 +284,11 @@ namespace ft
 						{
 							if(x == x->parent->right_child)							//difference wether x is right or left child
 							{
-								// std::cout << "case 2" << std::endl;
+								std::cout << "Fixup case 2" << std::endl;
 								x = x->parent;
 								left_rotation(x);
 							}
-							// std::cout << "case 3" << std::endl;
+							std::cout << "Fixup case 3" << std::endl;
 							x->parent->col = BLCK;
 							x->parent->parent->col = RED;
 							right_rotation(x->parent->parent);
@@ -394,7 +299,7 @@ namespace ft
 						u = x->parent->parent->left_child;
 						if(u->col == RED)									//uncle is red
 						{
-							// std::cout << "case 1" << std::endl;
+							std::cout << "Fixup case 1" << std::endl;
 							x->parent->col = BLCK;
 							u->col = BLCK;
 							x->parent->parent->col = RED;
@@ -404,11 +309,11 @@ namespace ft
 						{
 							if(x == x->parent->left_child)							//difference wether x is right or left child
 							{
-								// std::cout << "case 2" << std::endl;
+								std::cout << "Fixup case 2" << std::endl;
 								x = x->parent;
 								right_rotation(x);
 							}
-							// std::cout << "case 3" << std::endl;
+							std::cout << "Fixup case 3" << std::endl;
 							x->parent->col = BLCK;
 							x->parent->parent->col = RED;
 							left_rotation(x->parent->parent);
@@ -480,6 +385,7 @@ namespace ft
 			
 			void		purge_node(node_ptr x)
 			{
+				std::cout << "purge node with value " << x->value->first << std::endl;
 				if (x->is_left)
 					x->parent->left_child = nil_node;
 				else
@@ -490,6 +396,7 @@ namespace ft
 
 			void		delete_node(node_ptr x)
 			{
+				std::cout << "delete node with value " << x->value->first << std::endl;
 				if (x == NULL)
 					return ;
 				if (x->value != NULL)
@@ -503,11 +410,6 @@ namespace ft
 				node_alloc.deallocate(x, 1);
 			}
 
-			// void		node_transplant(node_ptr one, node_ptr two)
-			// {
-				
-			// }
-
 			void		swap_val_ptr(node_ptr a, node_ptr b)
 			{
 				pointer		tmp;
@@ -519,19 +421,19 @@ namespace ft
 
 			void		erase(node_ptr x)
 			{
-				// std::cout << "starting erase_orig2 for node before find " << val.key << std::endl;
 				node_ptr	y;
-				// std::cout << "starting erase_orig2 for node after find " << x->value->key << std::endl;
-				
-				// if (x == NULL)
-					// std::cout << "HIEEELLOOO" << std::endl;
+
 				if (x == nil_node || x == NULL)
 					return ;
 
+				std::cout << "Input node ptr in tree.erase() = " << x->value->first << std::endl;
+				
 				if (x->left_child == nil_node && x->right_child == nil_node)				//	no children
 				{
+					std::cout << "tree.erase() case 1" << std::endl;
 					if (x == root)
 					{
+						std::cout << "tree.erase() case 1.5" << std::endl;
 						clear();
 						return ;
 					}
@@ -540,22 +442,26 @@ namespace ft
 						y->parent->left_child = nil_node;
 					else
 						y->parent->right_child = nil_node;
-					erase_fixup(y);				// write fixup
+					std::cout << "trying to delet node ptr in tree.erase() = " << y->value->first << std::endl;
+					erase_fixup(y);
 					purge_node(y);
 				}
 				else if (x->left_child != nil_node && x->right_child != nil_node)			//	two children
 				{
+					std::cout << "tree.erase() case 2" << std::endl;
 					y = successor(x);
 					swap_val_ptr(y, x);
 					if (y->is_left)
 						y->parent->left_child = nil_node;
 					else
 						y->parent->right_child = nil_node;
+					std::cout << "trying to delet node ptr in tree.erase() = " << y->value->first << std::endl;
 					erase_fixup(y);				// write fixup
 					purge_node(y);
 				}
 				else																		//	1 child
 				{
+					std::cout << "tree.erase() case 3" << std::endl;
 					if (x->left_child != nil_node)
 						y = x->left_child;
 					else
@@ -569,75 +475,77 @@ namespace ft
 						x->parent->right_child = y;
 					y->parent = x->parent;
 					y = x;
+					std::cout << "trying to delet node ptr in tree.erase() = " << x->value->first << std::endl;
 					erase_fixup(y);				// write fixup
 					delete_node(x);
 				}
-
 				size--;
 				// erase_fixup();				// write fixup
 				// // return (y);
 			}
-			void		erase(const value_type &val)
-			{
-				// std::cout << "starting erase_orig2 for node before find " << val.key << std::endl;
-				node_ptr	x = find(val);
-				node_ptr	y;
-				// std::cout << "starting erase_orig2 for node after find " << x->value->key << std::endl;
+
+
+			// void		erase(const value_type &val)
+			// {
+			// 	// std::cout << "starting erase_orig2 for node before find " << val.key << std::endl;
+			// 	node_ptr	x = find(val);
+			// 	node_ptr	y;
+			// 	// std::cout << "starting erase_orig2 for node after find " << x->value->key << std::endl;
 				
-				// if (x == NULL)
-					// std::cout << "HIEEELLOOO" << std::endl;
-				if (x == nil_node || x == NULL)
-					return ;
+			// 	// if (x == NULL)
+			// 		// std::cout << "HIEEELLOOO" << std::endl;
+			// 	if (x == nil_node || x == NULL)
+			// 		return ;
 
-				if (x->left_child == nil_node && x->right_child == nil_node)				//	no children
-				{
-					if (x == root)
-					{
-						clear();
-						return ;
-					}
-					y = x;
-					if (y->is_left)
-						y->parent->left_child = nil_node;
-					else
-						y->parent->right_child = nil_node;
-					erase_fixup(y);				// write fixup
-					purge_node(y);
-				}
-				else if (x->left_child != nil_node && x->right_child != nil_node)			//	two children
-				{
-					y = successor(x);
-					swap_val_ptr(y, x);
-					if (y->is_left)
-						y->parent->left_child = nil_node;
-					else
-						y->parent->right_child = nil_node;
-					erase_fixup(y);				// write fixup
-					purge_node(y);
-				}
-				else																		//	1 child
-				{
-					if (x->left_child != nil_node)
-						y = x->left_child;
-					else
-						y = x->right_child;
+			// 	if (x->left_child == nil_node && x->right_child == nil_node)				//	no children
+			// 	{
+			// 		if (x == root)
+			// 		{
+			// 			clear();
+			// 			return ;
+			// 		}
+			// 		y = x;
+			// 		if (y->is_left)
+			// 			y->parent->left_child = nil_node;
+			// 		else
+			// 			y->parent->right_child = nil_node;
+			// 		erase_fixup(y);				// write fixup
+			// 		purge_node(y);
+			// 	}
+			// 	else if (x->left_child != nil_node && x->right_child != nil_node)			//	two children
+			// 	{
+			// 		y = successor(x);
+			// 		swap_val_ptr(y, x);
+			// 		if (y->is_left)
+			// 			y->parent->left_child = nil_node;
+			// 		else
+			// 			y->parent->right_child = nil_node;
+			// 		erase_fixup(y);				// write fixup
+			// 		purge_node(y);
+			// 	}
+			// 	else																		//	1 child
+			// 	{
+			// 		if (x->left_child != nil_node)
+			// 			y = x->left_child;
+			// 		else
+			// 			y = x->right_child;
 
-					if (x == root)
-						root = y;		
-					else if (x->is_left)
-						x->parent->left_child = y;
-					else
-						x->parent->right_child = y;
-					y->parent = x->parent;
-					y = x;
-					erase_fixup(y);				// write fixup
-					delete_node(x);
-				}
+			// 		if (x == root)
+			// 			root = y;		
+			// 		else if (x->is_left)
+			// 			x->parent->left_child = y;
+			// 		else
+			// 			x->parent->right_child = y;
+			// 		y->parent = x->parent;
+			// 		y = x;
+			// 		erase_fixup(y);				// write fixup
+			// 		delete_node(x);
+			// 	}
 
-				size--;
-				// erase_fixup();				// write fixup
-				// // return (y);
-			}
+			// 	size--;
+			// 	// erase_fixup();				// write fixup
+			// 	// // return (y);
+			// }
 
 
 			void	erase_fixup(node_ptr x)
@@ -647,12 +555,14 @@ namespace ft
 				{
 					if (sibling(x)->col == RED)					// case 1
 					{
+						std::cout << "erase_fixup case 1" << std::endl;
 						x->parent->col = RED;
 						sibling(x)->col = BLCK;
 						rotate(sibling(x));
 					}
 					else if (nephew(x)->col == RED)				// case 2
 					{
+						std::cout << "erase_fixup case 2" << std::endl;
 						sibling(x)->col = x->parent->col;
 						x->parent->col = BLCK;
 						nephew(x)->col = BLCK;
@@ -662,12 +572,14 @@ namespace ft
 					}
 					else if (niece(x)->col == RED)				// case 3
 					{
+						std::cout << "erase_fixup case 3" << std::endl;
 						niece(x)->col = BLCK;
 						sibling(x)->col = RED;
 						rotate(niece(x));
 					}
 					else										// case 4
 					{
+						std::cout << "erase_fixup case 4" << std::endl;
 						sibling(x)->col = RED;
 						x = x->parent;
 					}
@@ -675,17 +587,14 @@ namespace ft
 				x->col = BLCK;
 			}
 
-
-
-
-		// void	replace(node_ptr one, node_ptr two)
-		// {
-		// 	one->value = two->value;
-		// }
-
 		node_ptr	get_nil_node( void ) const
 		{
 			return(nil_node);
+		}
+		
+		node_ptr	get_root_node( void ) const
+		{
+			return(root);
 		}
 		
 		node_ptr	last_node( void ) const
@@ -709,9 +618,6 @@ namespace ft
 			if (x->parent == NULL)
 				return (NULL);
 			return (sibling(x->parent));
-			// if (x->parent->is_left)
-			// 	return (x->parent->parent->right_child);
-			// return (x->parent->parent->left_child);
 		}
 		
 		node_ptr	niece(node_ptr x) const
@@ -753,15 +659,13 @@ namespace ft
 			delete_node(x);
 			size--;
 		}
-	
-
-
 
 		void	clear()
 		{
 			clearTreeRec(root);
 			// delete_node(nil_node);
 			root = NULL;
+			size = 0;
 		}
 
 
@@ -775,30 +679,11 @@ namespace ft
 			left_rotation(child->parent);
 		}
 
-
-
-		// node_ptr find_key(const key_type &key_) const
-		// {
-		// 	node_ptr		out = root;
-			
-		// 	if (out == NULL)
-		// 		return (nil_node);
-		// 	while (node != nil_node)
-		// 	{
-		// 		if (*(node->value->first) == key_)
-		// 			break ;
-		// 		if (compare(*(node->value), val))
-		// 			node = node->left_child;
-		// 		else
-		// 			node = node->right_child;
-		// 	}
-		// 	return (node);
-		// }
-
-
-
-		node_ptr find(const value_type &val) const
+		node_ptr find_pair(const value_type &val) const
 		{
+			#if DEBUG
+				std::cout << "rbt.find_pair() called" << std::endl;
+			#endif
 			node_ptr node = root;
 
 			if (node == NULL)
@@ -808,9 +693,30 @@ namespace ft
 				if (*(node->value) == val)
 					break ;
 				if (compare(*(node->value), val))
-					node = node->left_child;
-				else
 					node = node->right_child;
+				else
+					node = node->left_child;
+			}
+			return (node);
+		}
+
+		node_ptr find_key(const value_type &val) const
+		{
+			#if DEBUG
+				std::cout << "rbt.find_pair() called" << std::endl;
+			#endif
+			node_ptr node = root;
+
+			if (node == NULL)
+				return (nil_node);
+			while (node != nil_node)
+			{
+				if (node->value->first == val.first)
+					break ;
+				if (compare(*(node->value), val))
+					node = node->right_child;
+				else
+					node = node->left_child;
 			}
 			return (node);
 		}
@@ -820,7 +726,6 @@ namespace ft
 			return (size);
 		}
 
-
 		r_b_tree &operator=(const r_b_tree& copy)
 		{
 			compare = copy.compare;
@@ -828,22 +733,50 @@ namespace ft
 			size = copy.size;
 			nil_node = copy.nil_node;
 			root = copy.root;
-			node_alloc = copy.node_alloc;	
+			node_alloc = copy.node_alloc;
+
+			return (*this);
 		}
-		// node_ptr find_key(const value_type &val)
-		// {
-		// 	node_ptr node = root;
 
-		// 	while (node->value != val && node != nil_node)
-		// 	{
-		// 		if (compare(node->value, val))
-		// 			node = node->right_child;
-		// 		else
-		// 			node = node->left_child;
-		// 	}	
-		// 	return (node);
-		// }			
+
+
+		void	print_(const std::string& prefix, node_ptr node_, bool right, bool key_, bool mapped_, bool direction, bool col_) const
+		{
+			if (node_ != nil_node && node_ != NULL)
+			{		
+				std::cout << prefix;
+
+				std::cout << (right ? "├──" : "└──" );
+
+				// print the value of the node
+				if (col_)
+				{
+					if (node_->col == RED)
+						std::cout << RED_COL;
+					else
+						std::cout << BLUE_COL;	
+				}
+				if (key_)
+					std::cout << node_->value->first << " ";	
+				if (mapped_)
+					std::cout << node_->value->second << " ";
+				if (direction)
+				{
+					if (node_->is_left)
+						std::cout << "is left";
+					else
+						std::cout << "is right";
+				}
+				std::cout << DEFAULT_COL << std::endl;	
+
+				print_(prefix + (right ? "│   " : "    "), node_->right_child, true, key_, mapped_, direction, col_);
+				print_(prefix + (right ? "│   " : "    "), node_->left_child, false, key_, mapped_, direction, col_);
+
+				// enter the next tree level - left and right branch
+			}
+		}
+
+
 	};
-
 }
 #endif
