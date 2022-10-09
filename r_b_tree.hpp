@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 15:29:46 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/09 19:35:52 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/09 19:48:40 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -419,15 +419,15 @@ namespace ft
 				if (x == nil_node || x == NULL)
 					return ;
 
-				std::cout << "Input node ptr in tree.erase() = " << x->value->first << std::endl;
+				// std::cout << "Input node ptr in tree.erase() = " << x->value->first << std::endl;
 				
 				//print_("", get_root_node(), !(get_root_node()->is_left), true, false, true, true);
 				if (x->left_child == nil_node && x->right_child == nil_node)				//	no children
 				{
-					std::cout << "tree.erase() case 1" << std::endl;
+					// std::cout << "tree.erase() case 1" << std::endl;
 					if (x == root)
 					{
-						std::cout << "tree.erase() case 1.5" << std::endl;
+						// std::cout << "tree.erase() case 1.5" << std::endl;
 						clear();
 						return ;
 					}
@@ -435,15 +435,15 @@ namespace ft
 					// std::cout << "here y should be te same as what we try to delete " <<  x->value->first << std::endl;
 					if (y->is_left == true)
 					{
-						std::cout << "this one first" << std::endl;
+						// std::cout << "this one first" << std::endl;
 						y->parent->left_child = nil_node;
 					}
 					else
 					{
-						std::cout << "this one seconddd" << std::endl;
+						// std::cout << "this one seconddd" << std::endl;
 						y->parent->right_child = nil_node;
 					}
-					std::cout << "hieeeelllooo " << std::endl;
+					// std::cout << "hieeeelllooo " << std::endl;
 					//print_("", get_root_node(), !(get_root_node()->is_left), true, false, true, true);
 					// std::cout << "trying to delet node ptr in tree.erase() = " << y->value->first << std::endl;
 					erase_fixup(y);
@@ -451,7 +451,7 @@ namespace ft
 				}
 				else if (x->left_child != nil_node && x->right_child != nil_node)			//	two children
 				{
-					std::cout << "tree.erase() case 2" << std::endl;
+					// std::cout << "tree.erase() case 2" << std::endl;
 					y = successor(x);
 					swap_val_ptr(y, x);
 					if (y->is_left)
@@ -464,12 +464,11 @@ namespace ft
 				}
 				else																		//	1 child
 				{
-					std::cout << "tree.erase() case 3" << std::endl;
+					// std::cout << "tree.erase() case 3" << std::endl;
 					if (x->left_child != nil_node)
 						y = x->left_child;
 					else
 						y = x->right_child;
-
 					if (x == root)
 						root = y;		
 					else if (x->is_left)
@@ -477,6 +476,7 @@ namespace ft
 					else
 						x->parent->right_child = y;
 					y->parent = x->parent;
+					y->is_left = x->is_left;
 					y = x;
 					// std::cout << "trying to delet node ptr in tree.erase() = " << x->value->first << std::endl;
 					erase_fixup(y);				// write fixup
@@ -556,14 +556,14 @@ namespace ft
 				{
 					if (sibling(x)->col == RED)					// case 1
 					{
-						std::cout << "erase_fixup case 1" << std::endl;
+						// std::cout << "erase_fixup case 1" << std::endl;
 						x->parent->col = RED;
 						sibling(x)->col = BLCK;
 						rotate(sibling(x));
 					}
 					else if (nephew(x)->col == RED)				// case 2
 					{
-						std::cout << "erase_fixup case 2" << std::endl;
+						// std::cout << "erase_fixup case 2" << std::endl;
 						sibling(x)->col = x->parent->col;
 						x->parent->col = BLCK;
 						nephew(x)->col = BLCK;
@@ -573,14 +573,14 @@ namespace ft
 					}
 					else if (niece(x)->col == RED)				// case 3
 					{
-						std::cout << "erase_fixup case 3" << std::endl;
+						// std::cout << "erase_fixup case 3" << std::endl;
 						niece(x)->col = BLCK;
 						sibling(x)->col = RED;
 						rotate(niece(x));
 					}
 					else										// case 4
 					{
-						std::cout << "erase_fixup case 4" << std::endl;
+						// std::cout << "erase_fixup case 4" << std::endl;
 						sibling(x)->col = RED;
 						x = x->parent;
 					}
