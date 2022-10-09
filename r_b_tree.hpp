@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 15:29:46 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/09 18:40:53 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/09 19:35:52 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,6 @@ namespace ft
 			// typedef	const			node*								const_iter;
 			typedef					Compare								value_compare;
 
-
-
-			
 
 		private:
 			value_compare				compare;
@@ -161,7 +158,7 @@ namespace ft
 						tmp_parent->right_child = new_node;
 						new_node->is_left = false;
 					}
-					print_("", get_root_node(), !(get_root_node()->is_left), true, false, true, true);
+					// //print_("", get_root_node(), !(get_root_node()->is_left), true, false, true, true);
 					insert_fixup(new_node);
 				}
 				size++;
@@ -171,16 +168,16 @@ namespace ft
 			{
 				node_ptr	y;
 				
-				print_("", get_root_node(), !(get_root_node()->is_left), true, false, true, true);
+				// //print_("", get_root_node(), !(get_root_node()->is_left), true, false, true, true);
 				
 				if (!x || x == nil_node)
 					return ;
 				if (x->right_child == nil_node)
 					return ;
 				y = x->right_child;
-				std::cout << "Left rot x = " << x->value->first << " y = " << y->value->first << std::endl;
+				// std::cout << "Left rot x = " << x->value->first << " y = " << y->value->first << std::endl;
 				x->right_child = y->left_child;
-				y->right_child->is_left = false;
+				x->right_child->is_left = false;
 				if (x->right_child != nil_node)
 				{
 					x->right_child->parent = x;
@@ -216,7 +213,7 @@ namespace ft
 					return ;
 				y = x->left_child;
 				x->left_child = y->right_child;
-				y->right_child->is_left = true;
+				x->left_child->is_left = true;
 				if (x->left_child != nil_node)
 				{
 					x->left_child->parent = x;
@@ -274,7 +271,7 @@ namespace ft
 						u = x->parent->parent->right_child;
 						if(u->col == RED)									//uncle is red
 						{
-							std::cout << "Fixup case 1" << std::endl;
+							// std::cout << "Fixup case 1" << std::endl;
 							x->parent->col = BLCK;
 							u->col = BLCK;
 							x->parent->parent->col = RED;
@@ -284,11 +281,11 @@ namespace ft
 						{
 							if(x == x->parent->right_child)							//difference wether x is right or left child
 							{
-								std::cout << "Fixup case 2" << std::endl;
+								// std::cout << "Fixup case 2" << std::endl;
 								x = x->parent;
 								left_rotation(x);
 							}
-							std::cout << "Fixup case 3" << std::endl;
+							// std::cout << "Fixup case 3" << std::endl;
 							x->parent->col = BLCK;
 							x->parent->parent->col = RED;
 							right_rotation(x->parent->parent);
@@ -299,7 +296,7 @@ namespace ft
 						u = x->parent->parent->left_child;
 						if(u->col == RED)									//uncle is red
 						{
-							std::cout << "Fixup case 1" << std::endl;
+							// std::cout << "Fixup case 1" << std::endl;
 							x->parent->col = BLCK;
 							u->col = BLCK;
 							x->parent->parent->col = RED;
@@ -309,11 +306,11 @@ namespace ft
 						{
 							if(x == x->parent->left_child)							//difference wether x is right or left child
 							{
-								std::cout << "Fixup case 2" << std::endl;
+								// std::cout << "Fixup case 2" << std::endl;
 								x = x->parent;
 								right_rotation(x);
 							}
-							std::cout << "Fixup case 3" << std::endl;
+							// std::cout << "Fixup case 3" << std::endl;
 							x->parent->col = BLCK;
 							x->parent->parent->col = RED;
 							left_rotation(x->parent->parent);
@@ -368,9 +365,6 @@ namespace ft
 				return (y);
 			}
 
-			
-			
-
 			node_ptr	end( void ) const
 			{
 				return (nil_node);
@@ -385,7 +379,7 @@ namespace ft
 			
 			void		purge_node(node_ptr x)
 			{
-				std::cout << "purge node with value " << x->value->first << std::endl;
+				// std::cout << "purge node with value " << x->value->first << std::endl;
 				if (x->is_left)
 					x->parent->left_child = nil_node;
 				else
@@ -393,10 +387,9 @@ namespace ft
 				delete_node(x);
 			}
 
-
 			void		delete_node(node_ptr x)
 			{
-				std::cout << "delete node with value " << x->value->first << std::endl;
+				// std::cout << "delete node with value " << x->value->first << std::endl;
 				if (x == NULL)
 					return ;
 				if (x->value != NULL)
@@ -428,6 +421,7 @@ namespace ft
 
 				std::cout << "Input node ptr in tree.erase() = " << x->value->first << std::endl;
 				
+				//print_("", get_root_node(), !(get_root_node()->is_left), true, false, true, true);
 				if (x->left_child == nil_node && x->right_child == nil_node)				//	no children
 				{
 					std::cout << "tree.erase() case 1" << std::endl;
@@ -438,11 +432,20 @@ namespace ft
 						return ;
 					}
 					y = x;
-					if (y->is_left)
+					// std::cout << "here y should be te same as what we try to delete " <<  x->value->first << std::endl;
+					if (y->is_left == true)
+					{
+						std::cout << "this one first" << std::endl;
 						y->parent->left_child = nil_node;
+					}
 					else
+					{
+						std::cout << "this one seconddd" << std::endl;
 						y->parent->right_child = nil_node;
-					std::cout << "trying to delet node ptr in tree.erase() = " << y->value->first << std::endl;
+					}
+					std::cout << "hieeeelllooo " << std::endl;
+					//print_("", get_root_node(), !(get_root_node()->is_left), true, false, true, true);
+					// std::cout << "trying to delet node ptr in tree.erase() = " << y->value->first << std::endl;
 					erase_fixup(y);
 					purge_node(y);
 				}
@@ -455,7 +458,7 @@ namespace ft
 						y->parent->left_child = nil_node;
 					else
 						y->parent->right_child = nil_node;
-					std::cout << "trying to delet node ptr in tree.erase() = " << y->value->first << std::endl;
+					// std::cout << "trying to delet node ptr in tree.erase() = " << y->value->first << std::endl;
 					erase_fixup(y);				// write fixup
 					purge_node(y);
 				}
@@ -475,7 +478,7 @@ namespace ft
 						x->parent->right_child = y;
 					y->parent = x->parent;
 					y = x;
-					std::cout << "trying to delet node ptr in tree.erase() = " << x->value->first << std::endl;
+					// std::cout << "trying to delet node ptr in tree.erase() = " << x->value->first << std::endl;
 					erase_fixup(y);				// write fixup
 					delete_node(x);
 				}
@@ -483,7 +486,6 @@ namespace ft
 				// erase_fixup();				// write fixup
 				// // return (y);
 			}
-
 
 			// void		erase(const value_type &val)
 			// {
@@ -546,7 +548,6 @@ namespace ft
 			// 	// erase_fixup();				// write fixup
 			// 	// // return (y);
 			// }
-
 
 			void	erase_fixup(node_ptr x)
 			{
@@ -738,8 +739,6 @@ namespace ft
 			return (*this);
 		}
 
-
-
 		void	print_(const std::string& prefix, node_ptr node_, bool right, bool key_, bool mapped_, bool direction, bool col_) const
 		{
 			if (node_ != nil_node && node_ != NULL)
@@ -771,12 +770,8 @@ namespace ft
 
 				print_(prefix + (right ? "│   " : "    "), node_->right_child, true, key_, mapped_, direction, col_);
 				print_(prefix + (right ? "│   " : "    "), node_->left_child, false, key_, mapped_, direction, col_);
-
-				// enter the next tree level - left and right branch
 			}
 		}
-
-
 	};
 }
 #endif

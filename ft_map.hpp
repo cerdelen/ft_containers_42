@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 12:57:27 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/09 18:41:09 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/09 18:53:17 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -327,16 +327,16 @@ namespace ft
 			}
 			ft::pair<iterator, bool> insert( const value_type& value )
 			{
-				std::cout << "Inserting node with value " << value.first << std::endl;
-				test_print_(true, true, true, false);
+				// std::cout << "Inserting node with value " << value.first << std::endl;
+				// test_print_(true, true, true, false);
 				std::cout << std::endl;
 				iterator	it = find(value.first);
 				if (it == end())
 				{
 					tree.insert(value);
 					it = find(value.first);
-					test_print_(true, true, true, false);
-					std::cout << "Finished inserting node with value " << value.first << std::endl;
+					// test_print_(true, true, true, false);
+					// std::cout << "Finished inserting node with value " << value.first << std::endl;
 					std::cout << std::endl;
 					return (ft::make_pair(it ,true));
 				}
@@ -394,10 +394,13 @@ namespace ft
 			
 			void				erase( iterator first, iterator last )
 			{
-				for (; first != last; first++)
+				iterator		tmp;
+				for (; first != last;)
 				{
+					tmp = first;
 					std::cout << "Trying to del " << first->first << std::endl;
-					erase(first);
+					first++;
+					erase(tmp);
 					test_print_(true, true, true, false);
 					
 				}
