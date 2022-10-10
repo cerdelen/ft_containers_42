@@ -16,6 +16,9 @@
 namespace ft
 {
 	template<class node_type>						// it is da node
+	class const_rbt_iterator_new;
+
+	template<class node_type>						// it is da node
 	class rbt_iterator_new : ft::iterator<ft::bidirectional_iterator_tag, typename node_type::value_type>
 	{
 
@@ -101,6 +104,7 @@ namespace ft
 
 			value_ref			operator*( void ) const
 			{
+				// std::cout << "operator* called" << std::endl;
 				if (!_ptr || _ptr == _nil)
 					throw rbt_iterator_new::rbt_OutOfBounds();
 				return (*(_ptr->value));
@@ -164,6 +168,16 @@ namespace ft
 			{
 				return (base() != other.base());
 			}
+
+			bool				operator==( const const_rbt_iterator_new<node_type> & other ) const
+			{
+				return (base() == other.base());
+			}
+
+			bool				operator!=( const const_rbt_iterator_new<node_type> & other ) const
+			{
+				return (base() != other.base());
+			}
 		
 			node_ptr	find_nil(node_ptr x) const
 			{
@@ -214,17 +228,14 @@ namespace ft
 
 			node_ptr	precessor(node_ptr x) const
 			{
-				#if DEBUG
-					std::cout << "const rbt_iterator precessor called" << std::endl;
-				#endif
+				if(x->parent == NULL && x->left_child == _nil)
+					return (NULL);
 				if (x == _nil)												//x == nil means _end
 					return (_prev);
 				if (x == NULL)												//x == NULL means _start - 1;
 					return (x);
 				if (x->left_child != _nil)
 					return (max_subtree(x->left_child));
-				if (x == find_root(x))
-					return (NULL);
 				node_ptr	y = x->parent;
 				
 				while (y->parent != NULL && x == y->left_child)
@@ -239,26 +250,26 @@ namespace ft
 
 			node_ptr	successor(node_ptr x) const
 			{
-				#if DEBUG
-					std::cout << "const rbt_iterator successor called with x = " << x << std::endl;
-				#endif
+				if(x->parent == NULL && x->right_child == _nil)
+					return (_nil);
 				if (x == _nil)												//x == nil means _end
 					return (x);
 				if (x == NULL)												//x == NULL means _start - 1;
 					return (_prev);
 				if (x->right_child != _nil)
 					return (min_subtree(x->right_child));
-				if (x == find_root(x))
-					return (_nil);
 				node_ptr	y = x->parent;
 				
-				while (y->parent != NULL && x == y->right_child)
+				while (y->parent != NULL && x->is_left == false)
 				{
 					x = y;
 					y = y->parent;
 				}
 				if (y->parent == NULL && x == y->right_child)
+				{
+					
 					return (_nil);
+				}
 				return (y);
 			}
 	};
@@ -323,7 +334,7 @@ namespace ft
 				*this = copy;
 			}
 
-			const_rbt_iterator_new(const rbt_iterator_new <node_type>&copy)
+			const_rbt_iterator_new(const rbt_iterator_new<node_type>&copy)
 			{
 				#if DEBUG
 					std::cout << "copy const rbt_iterator constructor called (non_const iterator input)" << std::endl;
@@ -370,6 +381,7 @@ namespace ft
 
 			value_ref			operator*( void ) const
 			{
+				// std::cout << "operator* called" << std::endl;
 				if (!_ptr || _ptr == _nil)
 					throw const_rbt_iterator_new::rbt_OutOfBounds();
 				return (*(_ptr->value));
@@ -425,6 +437,16 @@ namespace ft
 			{
 				return (base() != other.base());
 			}
+
+			bool				operator==( const rbt_iterator_new<node_type> & other ) const
+			{
+				return (base() == other.base());
+			}
+
+			bool				operator!=( const rbt_iterator_new<node_type> & other ) const
+			{
+				return (base() != other.base());
+			}
 		
 			node_ptr	find_nil(node_ptr x) const
 			{
@@ -463,6 +485,8 @@ namespace ft
 
 			node_ptr	precessor(node_ptr x) const
 			{
+				if(x->parent == NULL && x->left_child == _nil)
+					return (NULL);
 				if (x == _nil)												//x == nil means _end
 					return (_prev);
 				if (x == NULL)												//x == NULL means _start - 1;
@@ -483,6 +507,8 @@ namespace ft
 
 			node_ptr	successor(node_ptr x) const
 			{
+				if(x->parent == NULL && x->right_child == _nil)
+					return (_nil);
 				if (x == _nil)												//x == nil means _end
 					return (x);
 				if (x == NULL)												//x == NULL means _start - 1;
@@ -491,13 +517,16 @@ namespace ft
 					return (min_subtree(x->right_child));
 				node_ptr	y = x->parent;
 				
-				while (y->parent != NULL && x == y->right_child)
+				while (y->parent != NULL && x->is_left == false)
 				{
 					x = y;
 					y = y->parent;
 				}
 				if (y->parent == NULL && x == y->right_child)
+				{
+					
 					return (_nil);
+				}
 				return (y);
 			}
 	};	

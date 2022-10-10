@@ -6,7 +6,7 @@
 #    By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/27 18:49:56 by cerdelen          #+#    #+#              #
-#    Updated: 2022/10/03 18:26:14 by cerdelen         ###   ########.fr        #
+#    Updated: 2022/10/10 19:25:07 by cerdelen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ CC = c++
 SRC = main.cpp
 CFLAGS = 
 DFLAG = -D DEBUG=1
-ULTRAFLAGS = -Wall -Werror -Wextra -std=c++98
+ULTRAFLAGS = -Wall -Werror -Wextra -std=c++98 -g -fsanitize=address
 
 
 NAME = executable

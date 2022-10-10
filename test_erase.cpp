@@ -65,8 +65,12 @@ int		main( void )
 	// mp.test_print_(true, true, true, false);
 	while (it != it_e)
 	{
-    	mp.erase(it);
+		std::cout << "it in main this is what will be erased " << it->first << std::endl;
+    	mp.erase(it++);
 		it = mp.begin();
+		// it = mp.tree.get_root_node();
+		if (it.base() == NULL)
+			return 0;
 		mp.test_print_(true, true, true, false);
 	}
     // mp.erase(mp.begin(), --mp.end());

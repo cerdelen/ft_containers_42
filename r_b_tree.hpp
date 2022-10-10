@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 15:29:46 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/09 19:48:40 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/10 18:26:32 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -470,7 +470,12 @@ namespace ft
 					else
 						y = x->right_child;
 					if (x == root)
+					{
 						root = y;		
+						size--;
+						y->parent = NULL;
+						return ;
+					}
 					else if (x->is_left)
 						x->parent->left_child = y;
 					else
@@ -649,14 +654,12 @@ namespace ft
 
 		void	clearTreeRec(node_ptr x)
 		{
-
 			if (!x || x == nil_node)
 				return ;
 			if (x->left_child != nil_node)
 				clearTreeRec(x->left_child);
 			if (x->right_child != nil_node)
 				clearTreeRec(x->right_child);
-			// std::cout << "this is da node to be cleared " << x->value->key << std::endl;
 			delete_node(x);
 			size--;
 		}
@@ -664,7 +667,6 @@ namespace ft
 		void	clear()
 		{
 			clearTreeRec(root);
-			// delete_node(nil_node);
 			root = NULL;
 			size = 0;
 		}
@@ -704,7 +706,7 @@ namespace ft
 		node_ptr find_key(const value_type &val) const
 		{
 			#if DEBUG
-				std::cout << "rbt.find_pair() called" << std::endl;
+				std::cout << "rbt.find_key() called" << std::endl;
 			#endif
 			node_ptr node = root;
 

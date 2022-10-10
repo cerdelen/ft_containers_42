@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 12:57:27 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/09 19:45:22 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/10 19:28:08 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,8 +209,7 @@ namespace ft
 				iterator	it = find(key_);
 				if (it != end())
 					return ((*it).second);
-				return ((*(insert(ft::make_pair(key_, mapped_type())))).second);
-				
+				return ((*((insert(ft::make_pair(key_, mapped_type()))).first)).second);
 			}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -232,7 +231,7 @@ namespace ft
 				#if DEBUG
 					std::cout << "non_const map.end() called" << std::endl;
 				#endif
-				iterator		out = tree.last_node();
+				iterator		out(tree.last_node());
 				
 				#if DEBUG
 					std::cout << "middle of non_const map.end() with out == " << out.base() << " nil == " << tree.get_nil_node() << std::endl;
@@ -257,7 +256,7 @@ namespace ft
 				#if DEBUG
 					std::cout << "const map.end() called" << std::endl;
 				#endif
-				const_iterator		out = tree.last_node();
+				const_iterator		out(tree.last_node());
 				out++;
 				return (out);	
 			}
@@ -327,19 +326,23 @@ namespace ft
 			}
 			ft::pair<iterator, bool> insert( const value_type& value )
 			{
-				// std::cout << "Inserting node with value " << value.first << std::endl;
+				// std::cout << "Inserting node with value " << value.first << std::endl; 
 				// test_print_(true, true, true, false);
-				std::cout << std::endl;
+				// std::cout << std::endl;
 				iterator	it = find(value.first);
+				// std::cout << "Inserting node AFTER finding value" << std::endl; 
 				if (it == end())
 				{
+					
+					// std::cout << "trying to insert" << std::endl; 
 					tree.insert(value);
 					it = find(value.first);
 					// test_print_(true, true, true, false);
 					// std::cout << "Finished inserting node with value " << value.first << std::endl;
-					std::cout << std::endl;
+					// std::cout << std::endl;
 					return (ft::make_pair(it ,true));
 				}
+				// std::cout << "not trying to insert and exiting insert" << std::endl; 
 				return(ft::make_pair(it, false));
 			}
 
@@ -398,7 +401,7 @@ namespace ft
 				for (; first != last;)
 				{
 					tmp = first;
-					std::cout << "Trying to del " << first->first << std::endl;
+					// std::cout << "Trying to del " << first->first << std::endl;
 					first++;
 					erase(tmp);
 					// test_print_(true, true, true, false);
@@ -431,7 +434,7 @@ namespace ft
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			size_type count( const key_type& key_ ) const
-			{
+			{				
 				return (find(key_) != end());
 			}
 
@@ -440,34 +443,12 @@ namespace ft
 				#if DEBUG
 					std::cout << "start of map.find() with key = " << key_ << std::endl;
 				#endif
-				// value_type			val(make_pair<key_type, mapped_type>(key_, mapped_type()));
-				// val = make_pair<key_type, mapped_type>(key_, mapped_type());
 				return (iterator(tree.find_key(ft::make_pair<key_type, mapped_type>(key_, mapped_type()))));
-				// return (iterator(tree.find(ft::make_pair<key_type, value_type>(key_, value_type()))));
-				// iterator	it = begin();
-				// iterator	it_end = end();
-				// for (; it.base() != it_end.base(); it++)
-				// {
-				// 	if ((*it).first == key_)
-				// 		break ;
-				// }
-				// #if DEBUG
-				// 	std::cout << "end of map.find() with iterator to = " << it.base() << std::endl;
-				// #endif
-				// return (it);
 			}
 
 			const_iterator find( const key_type& key_ ) const
 			{
 				return (const_iterator(tree.find_key(ft::make_pair<key_type, mapped_type>(key_, mapped_type()))));
-				// const_iterator	it = begin();
-				// const_iterator	it_end = end();
-				// for (; it.base() != it_end.base(); it++)
-				// {
-				// 	if ((*it).first == key_)
-				// 		break ;
-				// }
-				// return (it);
 			}
 
 			// ft::pair<iterator,iterator>					equal_range( const key_type& key_ )				//still have to do
@@ -507,7 +488,7 @@ namespace ft
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-			void	test_print_( bool key_, bool col_, bool direction, bool mapped_ )
+			void	test_print_( bool key_, bool col_, bool direction, bool mapped_ ) const
 			{
 				tree.print_("", tree.get_root_node(), false, key_, mapped_, direction, col_);
 			}
@@ -523,7 +504,7 @@ template <class Key, class T, class Compare, class Allocator>
 	bool operator ==(	const map<Key, T, Compare, Allocator>& first,
 						const map<Key, T, Compare, Allocator>& second)
 	{
-		return ((first.size() != second.size()) && ft::equal(first.begin(), first.end(), second.begin(), second.end()));
+		return ((first.size() == second.size()) && ft::equal(first.begin(), first.end(), second.begin(), second.end()));
 	}
 
 	template <class Key, class T, class Compare, class Allocator>

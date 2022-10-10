@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 14:19:44 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/07 19:11:44 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/10 19:42:12 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,9 @@ namespace ft
 	template< class X, class Y >
 	bool operator<(const pair<X, Y>& first, const pair<X, Y>& second)
 	{
-		return (first < second);
+		if (first.first == second.first)
+			return (first.second < second.second);
+		return (first.first < second.first);
 	}	
 	
 	template< class X, class Y >
@@ -91,7 +93,7 @@ namespace ft
 	template< class X, class Y >
 	bool operator>(const pair<X, Y>& first, const pair<X, Y>& second)
 	{
-		return (first > second);
+		return (second < first);
 	}	
 	
 	template< class X, class Y >
@@ -113,14 +115,27 @@ namespace ft
 	{
 		while(start1 != end1 && start2 != end2)
 		{
+			// std::cout << "hiello " << *start1 << " " << *start2 << std::endl;
+			// std::cout << "hiello " << std::endl;
 			if (*start1 < *start2)
+			{
+				// std::cout << "xcusssseeee meeee " << std::endl;
 				return (true);
+			}
 			if (*start1 > *start2)
+			{
+				// std::cout << "xcusssseeee meeee 2 " << std::endl;
 				return (false);
+			}
+			// std::cout << "byeeeooooo" << std::endl;
 			start1++;
 			start2++;
 		}
 		// if both conditions 2 it means first range is smaller and second range is not reached end therefore returns true
+		// if (start1 == end1)
+		// 	return true;
+		// if( start2 == end2)
+		// 	return false;
 		return (start1 == end1 && start2 != end2);
 	}
 	template<class T1, class T2>
