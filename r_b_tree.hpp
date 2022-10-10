@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 15:29:46 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/10 18:26:32 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/10 22:10:58 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -349,6 +349,49 @@ namespace ft
 						x = x->right_child;
 				}
 				return (x);
+			}
+
+			node_ptr	lower_bound(const value_type &val) const
+			{
+				#if DEBUG
+				std::cout << "rbt.find_key() called" << std::endl;
+				#endif
+				node_ptr node = root;
+				node_ptr tmp = root;
+
+				std::cout << "hierllo" <<std::endl;
+				if (node == NULL)
+					return (nil_node);
+				while (node != nil_node)
+				{
+					if (node->value->first == val.first)
+						return (node);
+					if (compare(val, *(node->value)))
+						node = node->left_child;
+					else
+					{
+						if (node->right_child != nil_node)
+						{
+							tmp = node;
+							node = node->right_child;
+						}
+						else
+							return (tmp);
+					}
+					
+
+
+
+
+					
+					// if (node->value->first == val.first)
+					// 	node = node->left_child;
+					// if (compare(*(node->value), val))
+					// 	break ;
+					// else
+					// 	node = node->left_child;
+				}
+				return (node);
 			}
 
 			node_ptr	successor(node_ptr x) const
