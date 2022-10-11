@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 12:57:27 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/10 22:14:50 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/11 16:30:20 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -455,69 +455,54 @@ namespace ft
 				return (const_iterator(tree.find_key(ft::make_pair<key_type, mapped_type>(key_, mapped_type()))));
 			}
 
-			// ft::pair<iterator,iterator>					equal_range( const key_type& key_ )				//still have to do
-			// {
-				
-			// }
+			ft::pair<iterator,iterator>					equal_range( const key_type& key_ )				//still have to do
+			{
+				return (ft::make_pair(lower_bound(key_), upper_bound(key_)));
+			}
 
-			// ft::pair<const_iterator,const_iterator>		equal_range( const key_type& key ) const		//still have to do
-			// {
-				
-			// }
+			ft::pair<const_iterator,const_iterator>		equal_range( const key_type& key_ ) const		//still have to do
+			{
+				return (ft::make_pair(lower_bound(key_), upper_bound(key_)));
+			}
 			
 			iterator			lower_bound( const key_type& key_ )
 			{
-				// iterator		it = begin();
+				iterator		it = begin();
 				iterator		it_e = end();
-				it_e--;
 
-				if(it_e.base() != NULL)
-					std::cout << "last elem of tree " << it_e->first << " looking for " << key_ << std::endl;
-
-				// while(it != it_e && (tree.get_compare())(it->first, key_))
-				// 	it++;
-				// return (it);
-				return (iterator(tree.lower_bound(ft::make_pair<key_type, mapped_type>(key_, mapped_type()))));
+				while(it != it_e && (tree.get_compare())(it->first, key_))
+					it++;
+				return (it);
 			}
 
 			const_iterator		lower_bound( const key_type& key_ ) const
 			{
-				// const_iterator		it = begin();
+				const_iterator		it = begin();
 				const_iterator		it_e = end();
-				it_e--;
 
-				if(it_e.base() != NULL)
-					std::cout << "last elem of tree " << it_e->first << std::endl;
-				
-				// while(it != it_e && (tree.get_compare())(it->first, key_))
-				// 	it++;
-				// return (it);
-				return (const_iterator(tree.lower_bound(ft::make_pair<key_type, mapped_type>(key_, mapped_type()))));
+				while(it != it_e && (tree.get_compare())(it->first, key_))
+					it++;
+				return (it);
 			}
-
-
-
-			// 	upper_bound			//still have to do
 
 			iterator				upper_bound( const key_type& key_ )
 			{
 				iterator		it = begin();
 				iterator		it_e = end();
-				
-				for (; it != it_e; it++)
-				{
-					if((tree.get_allocator())(key_, *it))
-						break ;
-				}
-				
-				while(it != it_e && (tree.get_compare())(*it, key_))
+
+				while(it != it_e && !((tree.get_compare())(key_, it->first)))
 					it++;
 				return (it);
 			}
 
-			const_iterator			upper_bound( const key_type& key ) const
+			const_iterator			upper_bound( const key_type& key_ ) const
 			{
+				const_iterator		it = begin();
+				const_iterator		it_e = end();
 
+				while(it != it_e && !((tree.get_compare())(key_, it->first)))
+					it++;
+				return (it);
 			}
 
 
