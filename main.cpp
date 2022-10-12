@@ -1,6 +1,7 @@
 #include "namespace.hpp"
 #include <vector>
 #include <iterator>
+// #include "reverse_iterator.hpp"
 
 #define tree_max_size 10
 
@@ -73,11 +74,11 @@ int main()
 		it++;
 		for (size_t i = 0; i < tree_max_size; i++)
 		{
-			std::cout << i << " content of it = " << (*it).key << std::endl;
+			std::cout << i << " content of it = " << (*it).first << std::endl;
 			it++;
 		}
 		it++;
-		// std::cout << "content of it = " << (*it).key << std::endl;
+		// std::cout << "content of it = " << (*it).first << std::endl;
 		it--;
 		// std::cout <<  "nil node = " << map.tree.nil_node << std::endl;
 
@@ -85,21 +86,21 @@ int main()
 		{
 
 			// std::cout << i << " ptr inside it = " << it._ptr << std::endl;
-			std::cout << i << " content of it = " << (*it).key << std::endl;
+			std::cout << i << " content of it = " << (*it).first << std::endl;
 			it--;
 		}
 		// it--;
-		// std::cout << " content of it = " << (*it).key << std::endl;
+		// std::cout << " content of it = " << (*it).first << std::endl;
 
 		ft::map<int, char>::iterator it2 = map.find(7);
 
-		std::cout << " return of find = " << (*it2).key << std::endl;
+		std::cout << " return of find = " << (*it2).first << std::endl;
 
 		std::cout << " return of at = " << map.at(5) << std::endl;
 
 		ft::pair<ft::map<int, char>::iterator, bool> weirdo = map.insert(ft::make_pair(8, 'z'));
 		
-		if(weirdo.val == true)
+		if(weirdo.second == true)
 			std::cout << "bool return of insert true" << std::endl;
 		else
 			std::cout << "bool return of insert tfalse" << std::endl;
@@ -118,4 +119,6 @@ int main()
 	{
 		std::cerr << std::endl << e.what() << std::endl;
 	}
+
+	std::cout << "end of main" << std::endl;
 }

@@ -6,16 +6,16 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 12:57:27 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/09/23 15:20:16 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/11 16:30:20 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_MAP_CPE
 #define FT_MAP_CPE
 #include "ft_utils.hpp"
-#include "rbt_iterator.hpp"
 #include "r_b_tree.hpp"
-
+#include "rbt_iterator_new.hpp"
+#include "reverse_iterator.hpp"
 
 namespace ft
 {	
@@ -52,24 +52,66 @@ namespace ft
 			public:
 				bool	operator()(const value_type &first, const value_type &second) const
 				{
-					return (comp(first.key, second.key));
-				}		
+					return (comp(first.first, second.first));
+				}
+				bool	operator()(const key_type &first, const key_type &second) const
+				{
+					return (comp(first, second));
+				}
 		};
 
 		public:
 			// map( void );  do i need a standard constructor?
 			explicit map( const key_compare & comp = key_compare(), const allocator_type &alloc = allocator_type()) : alloc_(alloc), tree(comp, alloc)     //why explicit?
-			{};
-			~map() {};
+			{
+				#if DEBUG
+					std::cout << "[MAP] Default constructor called" << std::endl;
+				#endif
+			};
+
+			~map()
+			{
+				#if DEBUG
+					std::cout << "[MAP] Deconstructor called" << std::endl;
+				#endif
+			};
+
+			map( const map& other ) : tree(key_compare(), allocator_type())
+			{
+				#if DEBUG
+					std::cout << "[MAP] Copy constructor called" << std::endl;
+				#endif
+				*this = other;
+			};
+			
+			template< class InputIt >
+			map( InputIt first, InputIt last,  const key_compare & comp = key_compare(), const Allocator& alloc = Allocator() ) : alloc_(alloc), tree(comp, alloc)
+			{
+				#if DEBUG
+					std::cout << "[MAP] Range constructor called" << std::endl;
+				#endif
+				while (first != last)
+				{
+					insert(*first);
+					first++;
+				}
+			};
+
+
+
+
 
 
 		private:
-			typedef ft::r_b_tree< value_type, value_compare, allocator_type >		tree_type;		
+			typedef ft::r_b_tree< value_type, value_compare, allocator_type >				tree_type;		
 		public:
-			typedef				rbt_iterator<value_type, tree_type>			iterator;
-			// typedef ft::map_tree< value_type, value_compare, allocator_type >		tree_type;		
+			typedef				rbt_iterator_new<ft::rbt_node<value_type> >					iterator;
+			typedef				const_rbt_iterator_new<ft::rbt_node<value_type> >			const_iterator;
+			typedef				ft::reverse_iterator<iterator>								reverse_iterator;
+			typedef				ft::reverse_iterator<const_iterator>						const_reverse_iterator;
+
 		public:
-			tree_type			tree;							// will be private
+			tree_type																tree;
 		public:
 		
 
@@ -132,8 +174,21 @@ namespace ft
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-			// 	operator=								//still have to do
-			// 	get_allocator							//still have to do
+			map&				operator=( const map& other )
+			{
+				clear();
+				const_iterator	first = other.begin();
+				const_iterator	last = other.end();
+				insert(first, last);
+				return (*this);	
+			}
+
+			allocator_type		get_allocator( void ) const
+			{
+				return (this->tree.get_allocator());
+			}
+			
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -144,22 +199,21 @@ namespace ft
 			mapped_type&			at( const key_type& key_ )
 			{
 				iterator	it = find(key_);
-				return ((*it).val);
+				return ((*it).second);
 			}
 			
 			const mapped_type&		at( const key_type& key_ ) const
 			{
 				iterator	it = find(key_);
-				return ((*it).val);
+				return ((*it).second);
 			}
 
 			mapped_type&			operator[]( const key_type& key_ )
 			{
 				iterator	it = find(key_);
 				if (it != end())
-					return ((*it).val);
-				return ((*(insert(ft::make_pair(key_, mapped_type())))).val);
-				
+					return ((*it).second);
+				return ((*((insert(ft::make_pair(key_, mapped_type()))).first)).second);
 			}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -170,26 +224,80 @@ namespace ft
 
 			iterator				begin( void )
 			{
-				return (iterator(tree.begin(), &tree));
+				#if DEBUG
+					std::cout << "non_const map.begin() called" << std::endl;
+				#endif
+				return (iterator(tree.begin()));
 			}
 			
-			// const_iterator		begin( void ) const						//still have to do
-			// {
-				
-			// }
-
 			iterator				end( void )
 			{
-				return (iterator(tree.nil_node, &tree));
+				#if DEBUG
+					std::cout << "non_const map.end() called" << std::endl;
+				#endif
+				iterator		out(tree.last_node());
+				
+				#if DEBUG
+					std::cout << "middle of non_const map.end() with out == " << out.base() << " nil == " << tree.get_nil_node() << std::endl;
+				#endif
+				out++;
+				#if DEBUG
+					std::cout << "end of non_const map.end()" << std::endl;
+				#endif
+				return (out);			
 			}
 			
-			// const_iterator		end() const;							//still have to do
+			const_iterator		begin( void ) const
+			{
+				#if DEBUG
+					std::cout << "const map.begin() called" << std::endl;
+				#endif
+				return (const_iterator(tree.begin()));
+			}
 
+			const_iterator		end() const
+			{
+				#if DEBUG
+					std::cout << "const map.end() called" << std::endl;
+				#endif
+				const_iterator		out(tree.last_node());
+				out++;
+				return (out);	
+			}
 
+			//	REVERSE ITERATORS
 
+			reverse_iterator				rbegin( void )
+			{
+				#if DEBUG
+					std::cout << "non_const_reverse map.rbegin() called" << std::endl;
+				#endif
+				return (reverse_iterator(end()));
+			}
+			
+			reverse_iterator				rend( void )
+			{
+				#if DEBUG
+					std::cout << "non_const_reverse map.rend() called" << std::endl;
+				#endif
+				return (reverse_iterator(begin()));			
+			}
+			
+			const_reverse_iterator					rbegin( void ) const
+			{
+				#if DEBUG
+					std::cout << "const_reverse map.rbegin() called" << std::endl;
+				#endif
+				return (reverse_iterator(end()));
+			}
 
-			// 	rbegin														//still have to do
-			// 	rend														//still have to do
+			const_reverse_iterator					rend() const
+			{
+				#if DEBUG
+					std::cout << "const_reverse map.rend() called" << std::endl;
+				#endif
+				return (reverse_iterator(begin()));	
+			}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -220,21 +328,71 @@ namespace ft
 			{
 				tree.clear();
 			}
-			ft::pair<iterator, bool> insert( const value_type& value )								//still have to do
+			ft::pair<iterator, bool> insert( const value_type& value )
 			{
-				iterator	it = find(value.key);
+				// std::cout << "Inserting node with value " << value.first << std::endl; 
+				// test_print_(true, true, true, false);
+				// std::cout << std::endl;
+				iterator	it = find(value.first);
+				// std::cout << "Inserting node AFTER finding value" << std::endl; 
 				if (it == end())
 				{
+					
+					// std::cout << "trying to insert" << std::endl; 
 					tree.insert(value);
-					it = find(value.key);
+					it = find(value.first);
+					// test_print_(true, true, true, false);
+					// std::cout << "Finished inserting node with value " << value.first << std::endl;
+					// std::cout << std::endl;
 					return (ft::make_pair(it ,true));
 				}
+				// std::cout << "not trying to insert and exiting insert" << std::endl; 
 				return(ft::make_pair(it, false));
 			}
-			// iterator insert( iterator hint, const value_type& value );							//still have to do
+
+			iterator insert( iterator hint, const value_type& value )
+			{
+				#if DEBUG
+					std::cout << "map.insert() with hint called" << std::endl;
+				#endif
+				if (!(hint.base() == NULL || hint.base() == tree.get_nil_node()))
+				{
+					value_compare	com(key_comp());
+					iterator		tmp = hint;	
+					if (((++tmp)--).base() == tree.get_nil_node())									//if hint is last node
+					{
+						if (com((*tmp), value))													//check if new value is bigger than hint
+						{
+							#if DEBUG	
+								std::cout << "map.insert() case 1" << std::endl;
+							#endif
+							return (iterator(tree.insert_with_hint(hint.base(), value)));
+						}
+					}
+					else																			//check if new value is bigger than hint and smaller than hint + 1
+					{
+						if (com((*tmp++), value) && com(value, *tmp))
+						{
+							#if DEBUG
+								std::cout << "map.insert() case 2" << std::endl;
+							#endif
+							return (iterator(tree.insert_with_hint(hint.base(), value)));
+						}
+					}
+				}
+				#if DEBUG
+					std::cout << "map.insert() case 3" << std::endl;
+				#endif
+				ft::pair<iterator, bool> out = insert(value);
+				return (out.first);
+			}
 			
-			// template< class InputIt >
-			// void insert( InputIt first, InputIt last );											//still have to do
+			template< class InputIt >
+			void insert( InputIt first, InputIt last )
+			{
+				while(first != last)
+					insert(*(first++));
+			}
 			
 			void				erase( iterator pos )
 			{
@@ -243,13 +401,21 @@ namespace ft
 			
 			void				erase( iterator first, iterator last )
 			{
-				for (; first != last; first++)
-					erase(first);
+				iterator		tmp;
+				for (; first != last;)
+				{
+					tmp = first;
+					// std::cout << "Trying to del " << first->first << std::endl;
+					first++;
+					erase(tmp);
+					// test_print_(true, true, true, false);
+					
+				}
 			}
 			
-			size_type			erase( const key_type & key )			//returns the number of elements lost (0 or 1)
+			size_type			erase( const key_type & key_ )			//returns the number of elements lost (0 or 1)
 			{
-				iterator	it = find(key);
+				iterator	it = find(key_);
 				if (it != end())
 				{
 					erase(it);
@@ -258,10 +424,12 @@ namespace ft
 				return (0);
 			}
 			
-			// void			swap( map& other )							//still have to do
-			// {
-				
-			// }
+			void			swap( map& other )
+			{
+				tree_type	tmp = other.tree;
+				other.tree = tree;
+				tree = tmp;
+			}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -269,34 +437,74 @@ namespace ft
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-			// 	count										//still have to do
-			// 	find										//still have to do
+			size_type count( const key_type& key_ ) const
+			{				
+				return (find(key_) != end());
+			}
+
 			iterator find( const key_type& key_ )
 			{
-				iterator	it = iterator(tree.begin(), &tree);
-				iterator	it_end = iterator(tree.end(), &tree);
-				for (; it.base() != it_end.base(); it++)
-				{
-					if ((*it).key == key_)
-						break ;
-				}
+				#if DEBUG
+					std::cout << "start of map.find() with key = " << key_ << std::endl;
+				#endif
+				return (iterator(tree.find_key(ft::make_pair<key_type, mapped_type>(key_, mapped_type()))));
+			}
+
+			const_iterator find( const key_type& key_ ) const
+			{
+				return (const_iterator(tree.find_key(ft::make_pair<key_type, mapped_type>(key_, mapped_type()))));
+			}
+
+			ft::pair<iterator,iterator>					equal_range( const key_type& key_ )				//still have to do
+			{
+				return (ft::make_pair(lower_bound(key_), upper_bound(key_)));
+			}
+
+			ft::pair<const_iterator,const_iterator>		equal_range( const key_type& key_ ) const		//still have to do
+			{
+				return (ft::make_pair(lower_bound(key_), upper_bound(key_)));
+			}
+			
+			iterator			lower_bound( const key_type& key_ )
+			{
+				iterator		it = begin();
+				iterator		it_e = end();
+
+				while(it != it_e && (tree.get_compare())(it->first, key_))
+					it++;
 				return (it);
 			}
-			// const_iterator find( const key_type& key ) const;
 
-			ft::pair<iterator,iterator>					equal_range( const key_type& key )				//still have to do
+			const_iterator		lower_bound( const key_type& key_ ) const
 			{
-				
+				const_iterator		it = begin();
+				const_iterator		it_e = end();
+
+				while(it != it_e && (tree.get_compare())(it->first, key_))
+					it++;
+				return (it);
 			}
 
-			// ft::pair<const_iterator,const_iterator>		equal_range( const key_type& key ) const		//still have to do
-			// {
-				
-			// }
+			iterator				upper_bound( const key_type& key_ )
+			{
+				iterator		it = begin();
+				iterator		it_e = end();
 
-			// 	lower_bound			//still have to do
-			
-			// 	upper_bound			//still have to do
+				while(it != it_e && !((tree.get_compare())(key_, it->first)))
+					it++;
+				return (it);
+			}
+
+			const_iterator			upper_bound( const key_type& key_ ) const
+			{
+				const_iterator		it = begin();
+				const_iterator		it_e = end();
+
+				while(it != it_e && !((tree.get_compare())(key_, it->first)))
+					it++;
+				return (it);
+			}
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -304,12 +512,28 @@ namespace ft
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-			// key_compare key_comp() const			//still have to do
-			// {
-			// 	return (key_compare());
-			// }
+			key_compare			key_comp() const
+			{
+				return (key_compare());
+			}
 
-				// value_comp						//still have to do
+			value_compare		value_comp() const
+			{
+				return (value_compare(key_comp()));
+			}
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Testing functions//////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+			void	test_print_( bool key_, bool col_, bool direction, bool mapped_ ) const
+			{
+				tree.print_("", tree.get_root_node(), false, key_, mapped_, direction, col_);
+			}
+	};	
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -317,28 +541,47 @@ namespace ft
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-			// 	operator==					//still have to do
-			// 	operator!=					//still have to do
-			// 	operator<					//still have to do
-			// 	operator<=					//still have to do
-			// 	operator>					//still have to do
-			// 	operator>=					//still have to do
+template <class Key, class T, class Compare, class Allocator>
+	bool operator ==(	const map<Key, T, Compare, Allocator>& first,
+						const map<Key, T, Compare, Allocator>& second)
+	{
+		return ((first.size() == second.size()) && ft::equal(first.begin(), first.end(), second.begin(), second.end()));
+	}
 
-
-			void	test_print_key( void )
-			{
-				tree.print_tree_key();
-			}
-			void	test_print_val( void )
-			{
-				tree.print_tree_val();
-			}
-			void	test_print_comp( void )
-			{
-				tree.print_tree_comp();
-			}
-			
-	};	
+	template <class Key, class T, class Compare, class Allocator>
+	bool operator !=(	const map<Key, T, Compare, Allocator>& first,
+						const map<Key, T, Compare, Allocator>& second)
+	{
+		return (!(first == second));
+	}
+	
+	template <class Key, class T, class Compare, class Allocator>
+	bool operator <(	const map<Key, T, Compare, Allocator>& first,
+						const map<Key, T, Compare, Allocator>& second)
+	{
+		return (ft::lexicographical_compare(first.begin(), first.end(), second.begin(), second.end()));
+	}
+	
+	template <class Key, class T, class Compare, class Allocator>
+	bool operator >(	const map<Key, T, Compare, Allocator>& first,
+						const map<Key, T, Compare, Allocator>& second)
+	{
+		return (second < first);
+	}
+	
+	template <class Key, class T, class Compare, class Allocator>
+	bool operator >=(	const map<Key, T, Compare, Allocator>& first,
+						const map<Key, T, Compare, Allocator>& second)
+	{
+		return (!(first < second));
+	}
+	
+	template <class Key, class T, class Compare, class Allocator>
+	bool operator <=(	const map<Key, T, Compare, Allocator>& first,
+						const map<Key, T, Compare, Allocator>& second)
+	{
+		return (!(first > second));
+	}
 }
 
 #endif

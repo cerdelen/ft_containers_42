@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 17:12:16 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/09/23 13:43:06 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/04 17:23:24 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,14 +125,14 @@ namespace ft
 
 			random_access_iterator&			operator--( void )
 			{
-				_ptr++;
+				_ptr--;
 				return (*this);
 			}
 			
 			random_access_iterator			operator--(int)
 			{
 				random_access_iterator	temp(*this);
-				_ptr++;
+				_ptr--;
 				return (temp);
 			}
 			

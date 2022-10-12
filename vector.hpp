@@ -1,13 +1,10 @@
-#ifndef C_P_VECTOR
+ #ifndef C_P_VECTOR
 #define C_P_VECTOR
-#include <iostream>
 #include <memory>
-#include <iterator>
+// #include <iterator>
 #include "random_access_iterator.hpp"
 #include "ft_utils.hpp"
-// #include "namespace.hpp"
-// #include "stdexcept"
-// #include "namespace.hpp"
+#include "reverse_iterator.hpp"
 
 namespace ft
 {
@@ -29,10 +26,10 @@ namespace ft
 			
 			
 			
-			typedef typename ft::random_access_iterator<value_type> 		iterator;
-			typedef	typename ft::const_random_access_iterator<value_type>	const_iterator;
-			// typedef typename ft::reverse_iterator<iterator>					reverse_iterator;
-			// typedef typename ft::reverse_iterator<const_iterator>			const_reverse_iterator;
+			typedef typename ft::random_access_iterator<T> 					iterator;
+			typedef	typename ft::const_random_access_iterator<const T>		const_iterator;
+			typedef typename ft::reverse_iterator<iterator>					reverse_iterator;
+			typedef typename ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 
 
 			// difference_type	
@@ -50,6 +47,9 @@ namespace ft
 //				(empty container with no elements)
 
 			explicit vector(const allocator_type &alloc = allocator_type()) : _alloc(alloc), _start(NULL), _end(NULL), _capacity(0){
+				#if DEBUG
+					std::cout << "[VECTOR] Default constructor called" << std::endl;
+				#endif
 			};
 
 //		Fill Constructor:
@@ -58,6 +58,9 @@ namespace ft
 			explicit vector(size_t n, const value_type &val,\
 				const allocator_type &alloc = allocator_type()) : _alloc(alloc), _start(NULL), _end(NULL), _capacity(n)
 			{
+				#if DEBUG
+					std::cout << "[VECTOR] Fill constructor called" << std::endl;
+				#endif
 				_start = _alloc.allocate(n);
 				_end = _start;
 				while (n--)
@@ -76,6 +79,9 @@ namespace ft
 				typename std::enable_if<!std::is_integral<InputIterator>::value>::type* = NULL)
 				: _alloc(alloc), _start(NULL), _end(NULL), _capacity(last.base() - first.base())
 				{
+					#if DEBUG
+						std::cout << "[VECTOR] Range constructor called" << std::endl;
+					#endif
 					_start = _alloc.allocate(last.base() - first.base());
 					_end = _start;
 					while(first != last)
@@ -91,6 +97,9 @@ namespace ft
 
 			vector ( const vector& x, const allocator_type &alloc = allocator_type()): _alloc(alloc), _start(NULL), _end(NULL), _capacity(0)
 			{
+				#if DEBUG
+					std::cout << "[VECTOR] Copy constructor called" << std::endl;
+				#endif
 				assign(x.begin(), x.end());
 			}
 
@@ -363,25 +372,47 @@ namespace ft
 		//////////////////////////////////////////////
 		//begin///////////////////////////////////////
 		//////////////////////////////////////////////
-			iterator			begin(void) const
+			iterator			begin(void)
 			{
 				return (iterator(_start));
+			}
+			const_iterator			begin(void) const
+			{
+				return (const_iterator(_start));
 			}
 		//////////////////////////////////////////////
 		//rbegin//////////////////////////////////////
 		//////////////////////////////////////////////
-			void				rbegin() const;			//still have to do
+			reverse_iterator		rbegin()
+			{
+				return (reverse_iterator(_end - 1));
+			}
+			const_reverse_iterator		rbegin() const
+			{
+				return (const_reverse_iterator(_end - 1));
+			}
 		//////////////////////////////////////////////
 		//end/////////////////////////////////////////
 		//////////////////////////////////////////////
-			iterator			end(void) const
+			iterator			end(void)
 			{
 				return (iterator(_end));
+			}
+			const_iterator			end(void) const
+			{
+				return (const_iterator(_end));
 			}
 		//////////////////////////////////////////////
 		//rend////////////////////////////////////////
 		//////////////////////////////////////////////
-			void				rend() const;			//still have to do
+			reverse_iterator				rend()
+			{
+				return (reverse_iterator(_start));
+			}
+			const_reverse_iterator				rend() const
+			{
+				return (const_reverse_iterator(_start));
+			}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -544,44 +575,65 @@ namespace ft
 			void				insert( iterator pos, InputIt first, InputIt last, 
 				typename std::enable_if<!std::is_integral<InputIt>::value>::type* = NULL)
 			{
-				size_type	old_size = size();
-				size_type	old_capacity = capacity();
 				pointer		tmp;
-				size_type	i = 0;
-				size_type	count = last.base() - first.base();
+				size_type	weirdo;
+				try
+				{
+					size_type	old_size = size();
+					size_type	old_capacity = capacity();
+					size_type	new_capacity;
+					size_type	i = 0;
+					size_type	count = last.base() - first.base();
 
-				if ( old_size + count > _capacity )
-				{
-					if ( _capacity + count > max_size())
-						throw std::length_error("Bigger than max_size");
-					tmp = _alloc.allocate(_capacity + count);
-					_capacity = _capacity + count;	
+					if ( old_size + count > _capacity )
+					{
+						if (_capacity * 2 >= old_size + count)
+							new_capacity = _capacity * 2;
+						else
+							new_capacity = old_size + count;
+						if ( new_capacity > max_size())
+							throw std::length_error("Bigger than max_size");
+						tmp = _alloc.allocate(new_capacity);
+						weirdo = new_capacity;
+					}
+					else 
+					{
+						tmp = _alloc.allocate(_capacity);
+						weirdo = _capacity;
+					}
+					while(_start + i != pos.base())
+					{
+						_alloc.construct(tmp + i, *(_start + i));
+						_alloc.destroy(_start + i);
+						i++;
+					}
+					while (first != last)
+					{
+						_alloc.construct(tmp + i, *first);
+						i++;
+						first++;
+					}
+					while (_start + i - count != _end)
+					{
+						_alloc.construct(tmp + i, *(_start + i - count));
+						_alloc.destroy(_start + i - count);
+						i++;
+					}
+					_alloc.deallocate(_start, old_capacity);
+					_start = tmp;
+					_end = _start + old_size + count;
+					_capacity = new_capacity;
 				}
-				else 
+				catch(...)
 				{
-					tmp = _alloc.allocate(_capacity);
+					for (size_type i = 0; i < weirdo; i++)
+					{
+						_alloc.destroy(tmp + i);
+					}
+					_alloc.deallocate(tmp, weirdo);
+					throw ;
 				}
-				while(_start + i != pos.base())
-				{
-					_alloc.construct(tmp + i, *(_start + i));
-					_alloc.destroy(_start + i);
-					i++;
-				}
-				while (first != last)
-				{
-					_alloc.construct(tmp + i, *first);
-					i++;
-					first++;
-				}
-				while (_start + i - count != _end)
-				{
-					_alloc.construct(tmp + i, *(_start + i - count));
-					_alloc.destroy(_start + i - count);
-					i++;
-				}
-				_alloc.deallocate(_start, old_capacity);
-				_start = tmp;
-				_end = _start + old_size + count;
+				
 			}
 		//////////////////////////////////////////////
 		//erase///////////////////////////////////////
@@ -590,27 +642,44 @@ namespace ft
 			{
 				if (!(pos.base() >= _start && pos.base() < _end))
 					throw std::out_of_range("Input Iterator for erase() pointing outside vectors range");
-				pointer		tmp = _alloc.allocate(_capacity);
-				pointer		pos_base = pos.base();
-				size_type	i = 0;
 
-				for(; _start + i != pos_base; i++)
+				pointer		ptr = pos.base();
+				_alloc.destroy(ptr);
+				iterator		out(ptr);
+
+				for (;ptr + 1 != _end; ptr++)
 				{
-					_alloc.construct(tmp + i, *(_start + i));
-					_alloc.destroy(_start + i);
+					_alloc.construct(ptr, *(ptr + 1));
+					_alloc.destroy(ptr + 1);
 				}
-				iterator	out(tmp + i);
-				_alloc.destroy(_start + i++);
-				for(;_start + i != _end; i ++)
-				{
-					_alloc.construct(tmp + i - 1, *(_start + i));
-					_alloc.destroy(_start + i);
-				}
-				_alloc.deallocate(_start, _capacity);
-				_start = tmp;
-				_end = _start + i - 1;
+				_end = ptr;
 				return (out);
 			}
+			// iterator			erase( iterator pos )					//working slower backup :)
+			// {
+			// 	if (!(pos.base() >= _start && pos.base() < _end))
+			// 		throw std::out_of_range("Input Iterator for erase() pointing outside vectors range");
+			// 	pointer		tmp = _alloc.allocate(_capacity);
+			// 	pointer		pos_base = pos.base();
+			// 	size_type	i = 0;
+
+			// 	for(; _start + i != pos_base; i++)
+			// 	{
+			// 		_alloc.construct(tmp + i, *(_start + i));
+			// 		_alloc.destroy(_start + i);
+			// 	}
+			// 	iterator	out(tmp + i);
+			// 	_alloc.destroy(_start + i++);
+			// 	for(;_start + i != _end; i ++)
+			// 	{
+			// 		_alloc.construct(tmp + i - 1, *(_start + i));
+			// 		_alloc.destroy(_start + i);
+			// 	}
+			// 	_alloc.deallocate(_start, _capacity);
+			// 	_start = tmp;
+			// 	_end = _start + i - 1;
+			// 	return (out);
+			// }
 			iterator			erase( iterator first, iterator last )
 			{
 				if (first.base() > last.base())
@@ -630,7 +699,7 @@ namespace ft
 				}
 				j = i;
 				iterator	out(tmp + i);
-				for(; _start + i <= last_base; i++)
+				for(; _start + i < last_base; i++)
 				{
 					_alloc.destroy(_start + i);
 				}
@@ -653,10 +722,14 @@ namespace ft
 				size_type	old_size = size();
 				if (old_size + 1 > _capacity)
 				{
+					// std::cout << "hiello from inside push_back" << std::endl;
 					size_type	davai = next_pow_2(old_size);
-					resize(next_pow_2(old_size), T());				// probably should be old_size + 1 or just capacity
+					// std::cout << "hiello from after next_pow_2" << std::endl;
+					reserve(next_pow_2(old_size));				// probably should be old_size + 1 or just capacity
+					// std::cout << "hiello from after resize" << std::endl;
 				}
 				_alloc.construct(_end, value);
+				// std::cout << "hiello from after construct" << std::endl;
 				_end++;
 			}
 		//////////////////////////////////////////////
@@ -676,13 +749,22 @@ namespace ft
 			{
 				size_type	old_size = size();
 
+
+				// std::cout << "old size = " << old_size << " count = " << count << std::endl;
 				if ( count > old_size )
 				{
-					reserve(count);
+					if (capacity() < count)
+					{
+						if (capacity() * 2 >= count)
+							reserve(capacity() * 2);
+						else 
+							reserve(count);
+					}
 					for (; old_size < count; old_size++)
 					{
 						_alloc.construct(_start + old_size, value);
 					}
+					_end = _start + count;
 					return ;
 				}
 				if ( count < old_size )
@@ -791,14 +873,21 @@ namespace ft
 		return (!(first < second));
 	}
 
+	// template<class T, class Alloc>
+	// void swap(vector<T, Alloc> &x, vector<T, Alloc> &y)
+	// {
+	// 	x.swap(y);
+	// }
+}
 
+
+// this overload so the normal swap calls my swap which otherwise it wont :)
+namespace std
+{
 	template<class T, class Alloc>
-	void swap(vector<T, Alloc> &x, vector<T, Alloc> &y)
+	void swap(ft::vector<T, Alloc> &x, ft::vector<T, Alloc> &y)
 	{
 		x.swap(y);
 	}
-		// rend und rbegin
-		// logical comparison operators (either lexicographical compare or equal)
-
 }
 #endif

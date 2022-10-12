@@ -12,6 +12,8 @@ bool operator_equal_test() {
 
 	V_int2.push_back(2);
 
+	V_int2.
+
 	// result_2.push_back(V_int1 == V_int3);
 	// result_2.push_back(V_str1 == V_str2);
 	
