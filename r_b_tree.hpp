@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 15:29:46 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/11 15:53:19 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/17 18:30:44 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ namespace ft
 				return (this->value_alloc);
 			}
 
-			value_compare	get_compare() const
+			value_compare	get_compare()
 			{
 				return (compare);
 			}

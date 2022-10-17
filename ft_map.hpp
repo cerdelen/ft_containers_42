@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 12:57:27 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/11 16:30:20 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/14 12:10:09 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -485,25 +485,47 @@ namespace ft
 				return (it);
 			}
 
+	// 		iterator upper_bound (const key_type& key)
+	// {
+	// 	iterator it = tree.begin();
+	// 	iterator end = tree.end();
+	// 	while(it != end && !key_comp()(key, it->first))
+	// 		it++;
+	// 	return (it);
+	// }
+
 			iterator				upper_bound( const key_type& key_ )
 			{
 				iterator		it = begin();
 				iterator		it_e = end();
+				value_compare	com = value_compare(key_comp());
 
-				while(it != it_e && !((tree.get_compare())(key_, it->first)))
+				// while(it != it_e && !((tree.get_compare())(key_, it->first)))
+				while(it != it_e && !(com(key_, it->first)))
 					it++;
 				return (it);
 			}
-
-			const_iterator			upper_bound( const key_type& key_ ) const
+			const_iterator				upper_bound( const key_type& key_ ) const
 			{
 				const_iterator		it = begin();
 				const_iterator		it_e = end();
+				value_compare	com = value_compare(key_comp());
 
-				while(it != it_e && !((tree.get_compare())(key_, it->first)))
+				// while(it != it_e && !((tree.get_compare())(key_, it->first)))
+				while(it != it_e && !(com(key_, it->first)))
 					it++;
 				return (it);
 			}
+
+			// const_iterator			upper_bound( const key_type& key_ ) const
+			// {
+			// 	const_iterator		it = begin();
+			// 	const_iterator		it_e = end();
+
+			// 	while(it != it_e && !((tree.get_compare())(key_, it->first)))
+			// 		it++;
+			// 	return (it);
+			// }
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
