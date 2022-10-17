@@ -1,103 +1,124 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/28 23:10:56 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/08/30 15:41:13 by cerdelen         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "namespace.hpp"
+#include <vector>
+#include <iterator>
+// #include "reverse_iterator.hpp"
 
-#include "test_header.h"
+#define tree_max_size 10
 
 
+#define _testnode map.tree.root->right_child->right_child
 
 
+void	print_rel_error(std::string rel, int key)
+{
+	std::cout << "testing " << rel << " of " << key << " is " << "NULL ptr" << std::endl;
+}
 
+ft::map<int, int>	init_tree_rand(size_t n)
+{
+	srand(time(NULL));
+	ft::map<int, int>  map;
+
+	int	value;
+	for (size_t i = 0; i < n; i++)
+	{
+		value = rand()%100;
+		map.tree.insert(ft::make_pair(value , value));
+	}
+	return (map);
+}
+ft::map<int, char>	init_tree_fixed(size_t n)
+{
+	ft::map<int, char>  map;
+	char				val = 'a';
+
+	for (size_t i = 0; i < n; i++)
+	{
+		map.tree.insert(ft::make_pair(i + 1, val + i));
+	}
+	return (map);
+}
+
+void	erase_map_func(ft::map<int, char> *map, int del)
+{
+	std::cout << "before erase " << del << "!" << std::endl;
+	map->test_print_comp();
+	map->tree.erase(ft::make_pair(del, del));
+	std::cout << "after erase " << del << "!" << std::endl;
+	map->test_print_comp();
+}
 
 int main()
 {
-	scope_diff	diff_scope;
-	init_scope_diff(&diff_scope);
-	test_at(&diff_scope);	
-	reset_scope_diff(&diff_scope);
-	test_fill_constructor(&diff_scope);
-	reset_scope_diff(&diff_scope);
-	test_range_constructor(&diff_scope);
-	reset_scope_diff(&diff_scope);
-	test_copy_constructor(&diff_scope);
-	reset_scope_diff(&diff_scope);
-	// test_operator_equal(&diff_scope);
-	// reset_scope_diff(&diff_scope);
-	// test_get_allocator(&diff_scope);
-	// reset_scope_diff(&diff_scope);
-	test_assign(&diff_scope);
-	reset_scope_diff(&diff_scope);
+	try
+	{
+		ft::map<int, char>  map = init_tree_fixed(tree_max_size);
+
+		// map.test_print_val();
 
 
-	test_accessing_functions(&diff_scope);
-	reset_scope_diff(&diff_scope);
-	
-	
+		erase_map_func(&map, 1);
 
+		std::cout << "size = " << map.size() << std::endl;
 
-
-	
-	// test_begin(&diff_scope);
-	// reset_scope_diff(&diff_scope);
-	// test_rbegin(&diff_scope);
-	// reset_scope_diff(&diff_scope);
-	// test_end(&diff_scope);
-	// reset_scope_diff(&diff_scope);
-	// test_rend(&diff_scope);
-	// reset_scope_diff(&diff_scope);
-	// test_empty(&diff_scope);
-	// reset_scope_diff(&diff_scope);
-	// test_size(&diff_scope);
-	// reset_scope_diff(&diff_scope);
-	// test_max_size(&diff_scope);
-	// reset_scope_diff(&diff_scope);
-	// test_reserve(&diff_scope);
-	// reset_scope_diff(&diff_scope);
-	// test_capacity(&diff_scope);
-	// reset_scope_diff(&diff_scope);
-	// test_clear(&diff_scope);
-	// reset_scope_diff(&diff_scope);
-	// test_insert(&diff_scope);
-	// reset_scope_diff(&diff_scope);
-	// test_erase(&diff_scope);
-	// reset_scope_diff(&diff_scope);
-	// test_push_bash(&diff_scope);
-	// reset_scope_diff(&diff_scope);
-	// test_pop_back(&diff_scope);
-	// reset_scope_diff(&diff_scope);
-	// test_resize(&diff_scope);
-	// reset_scope_diff(&diff_scope);
-	// test_swap(&diff_scope);
-	// reset_scope_diff(&diff_scope);
+		// map.test_print_val();
+		// map.tree.clear();
+		std::cout << "size = " << map.size() << std::endl;
+		// rbt_iterator<ft::pair<int, int> > it;
 
 
 
 
+		ft::map<int, char>::iterator it = map.begin();
+		it--;
+		it++;
+		for (size_t i = 0; i < tree_max_size; i++)
+		{
+			std::cout << i << " content of it = " << (*it).first << std::endl;
+			it++;
+		}
+		it++;
+		// std::cout << "content of it = " << (*it).first << std::endl;
+		it--;
+		// std::cout <<  "nil node = " << map.tree.nil_node << std::endl;
+
+		for (size_t i = 0; i < tree_max_size; i++)
+		{
+
+			// std::cout << i << " ptr inside it = " << it._ptr << std::endl;
+			std::cout << i << " content of it = " << (*it).first << std::endl;
+			it--;
+		}
+		// it--;
+		// std::cout << " content of it = " << (*it).first << std::endl;
+
+		ft::map<int, char>::iterator it2 = map.find(7);
+
+		std::cout << " return of find = " << (*it2).first << std::endl;
+
+		std::cout << " return of at = " << map.at(5) << std::endl;
+
+		ft::pair<ft::map<int, char>::iterator, bool> weirdo = map.insert(ft::make_pair(8, 'z'));
+		
+		if(weirdo.second == true)
+			std::cout << "bool return of insert true" << std::endl;
+		else
+			std::cout << "bool return of insert tfalse" << std::endl;
 
 
-	//missing the logical operators
-	// test_(&diff_scope);
-	// test_(&diff_scope);
-	// test_(&diff_scope);
 
-	
+		map.clear();
+		if(map.empty() == true)
+			std::cout << "empty = true " << std::endl;
+		else
+			std::cout << "empty = false " << std::endl;
+		std::cout << "max size = " << map.max_size() << std::endl;
+		// std::cout << "size = " << map.size() << std::endl;
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << std::endl << e.what() << std::endl;
+	}
 
-
-
-
-
-
-
-
-
-
-	end_message(&diff_scope);	
+	std::cout << "end of main" << std::endl;
 }
