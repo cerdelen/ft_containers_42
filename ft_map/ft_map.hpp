@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 12:57:27 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/26 15:28:55 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/26 17:39:03 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -407,11 +407,8 @@ namespace ft
 				for (; first != last;)
 				{
 					tmp = first;
-					// std::cout << "Trying to del " << first->first << std::endl;
 					first++;
 					erase(tmp);
-					// test_print_(true, true, true, false);
-					
 				}
 			}
 			
