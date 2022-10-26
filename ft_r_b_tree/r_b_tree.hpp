@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 15:29:46 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/17 18:30:44 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/26 12:57:13 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #define R_B_TREE
 
 #include <iostream>
-#include "ft_utils.hpp"
+#include "../ft_utils/ft_utils.hpp"
 
 #define RED true
 #define BLCK false
@@ -455,7 +455,17 @@ namespace ft
 				{
 					// std::cout << "tree.erase() case 2" << std::endl;
 					y = successor(x);
+					// std::cout << "successor of " << x->value->first << " is " << y->value->first << std::endl;
+					// y = max_subtree(x);
 					swap_val_ptr(y, x);
+					while(y->right_child != nil_node)
+					{
+						node_ptr	tmp;
+
+						tmp = successor(y);
+						swap_val_ptr(tmp, y);
+						y = tmp;
+					}
 					if (y->is_left)
 						y->parent->left_child = nil_node;
 					else
@@ -743,7 +753,7 @@ namespace ft
 			return (*this);
 		}
 
-		void	print_(const std::string& prefix, node_ptr node_, bool right, bool key_, bool mapped_, bool direction, bool col_) const
+		void	print_(const std::string& prefix, node_ptr node_, bool right, bool key_, bool mapped_, bool direction, bool col_, bool ptr) const
 		{
 			if (node_ != nil_node && node_ != NULL)
 			{		
@@ -770,10 +780,12 @@ namespace ft
 					else
 						std::cout << "is right";
 				}
+					std::cout << node_ << " ";
+				if(ptr)
 				std::cout << DEFAULT_COL << std::endl;	
 
-				print_(prefix + (right ? "│   " : "    "), node_->right_child, true, key_, mapped_, direction, col_);
-				print_(prefix + (right ? "│   " : "    "), node_->left_child, false, key_, mapped_, direction, col_);
+				print_(prefix + (right ? "│   " : "    "), node_->right_child, true, key_, mapped_, direction, col_, ptr);
+				print_(prefix + (right ? "│   " : "    "), node_->left_child, false, key_, mapped_, direction, col_, ptr);
 			}
 		}
 	};

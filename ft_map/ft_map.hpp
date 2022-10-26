@@ -6,16 +6,16 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 12:57:27 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/14 12:10:09 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/26 13:00:00 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_MAP_CPE
 #define FT_MAP_CPE
-#include "ft_utils.hpp"
-#include "r_b_tree.hpp"
-#include "rbt_iterator_new.hpp"
-#include "reverse_iterator.hpp"
+#include "../ft_utils/ft_utils.hpp"
+#include "../ft_r_b_tree/r_b_tree.hpp"
+#include "../ft_r_b_tree/rbt_iterator.hpp"
+#include "../ft_utils/reverse_iterator.hpp"
 
 namespace ft
 {	
@@ -551,9 +551,11 @@ namespace ft
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-			void	test_print_( bool key_, bool col_, bool direction, bool mapped_ ) const
+			void	test_print_( bool key_, bool col_, bool direction, bool mapped_, bool ptr ) const
 			{
-				tree.print_("", tree.get_root_node(), false, key_, mapped_, direction, col_);
+				if (ptr)
+					std::cout << "nil == " << tree.get_nil_node() << std::cout;
+				tree.print_("", tree.get_root_node(), false, key_, mapped_, direction, col_, ptr);
 			}
 	};	
 

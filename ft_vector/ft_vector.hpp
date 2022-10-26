@@ -1,10 +1,9 @@
- #ifndef C_P_VECTOR
+#ifndef C_P_VECTOR
 #define C_P_VECTOR
 #include <memory>
-// #include <iterator>
-#include "random_access_iterator.hpp"
-#include "ft_utils.hpp"
-#include "reverse_iterator.hpp"
+
+#include "../ft_utils/reverse_iterator.hpp"				// includes random_access_iterators and reverse iterators
+#include "../ft_utils/ft_utils.hpp"
 
 namespace ft
 {
@@ -164,12 +163,12 @@ namespace ft
 
 
 			// Non-Member functions
-			// void		operator==();				//still have to do
-			// void		operator!=();				//still have to do
-			// void		operator<();				//still have to do
-			// void		operator<=();				//still have to do
-			// void		operator>();				//still have to do
-			// void		operator>=();				//still have to do
+				// void		operator==();				//still have to do
+				// void		operator!=();				//still have to do
+				// void		operator<();				//still have to do
+				// void		operator<=();				//still have to do
+				// void		operator>();				//still have to do
+				// void		operator>=();				//still have to do
 
 
 		private:

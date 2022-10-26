@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 17:12:16 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/04 17:23:24 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/26 11:29:28 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,64 +164,64 @@ namespace ft
 			}
 
 			//	logical operators
-			bool		operator==(const random_access_iterator<T>& other)
+			bool		operator==(const random_access_iterator<T>& other) const
 			{
 				return (base() == other.base());
 			}
 
-			bool		operator!=(const random_access_iterator<T>& other)
+			bool		operator!=(const random_access_iterator<T>& other) const
 			{
 				return (base() != other.base());
 			}
 
-			bool		operator<(const random_access_iterator<T>& other)
+			bool		operator<(const random_access_iterator<T>& other) const
 			{
 				return (base() < other.base());
 			}
 
-			bool		operator>(const random_access_iterator<T>& other)
+			bool		operator>(const random_access_iterator<T>& other) const
 			{
 				return (base() > other.base());
 			}
 
-			bool		operator>=(const random_access_iterator<T>& other)
+			bool		operator>=(const random_access_iterator<T>& other) const
 			{
 				return (base() >= other.base());
 			}
 
-			bool		operator<=(const random_access_iterator<T>& other)
+			bool		operator<=(const random_access_iterator<T>& other) const
 			{
 				return (base() <= other.base());
 			}
 
 			//logical operators with const iterators
 			
-			bool		operator==(const const_random_access_iterator<T>& other)
+			bool		operator==(const const_random_access_iterator<T>& other) const
 			{
 				return (base() == other.base());
 			}
 
-			bool		operator!=(const const_random_access_iterator<T>& other)
+			bool		operator!=(const const_random_access_iterator<T>& other) const
 			{
 				return (base() != other.base());
 			}
 
-			bool		operator<(const const_random_access_iterator<T>& other)
+			bool		operator<(const const_random_access_iterator<T>& other) const
 			{
 				return (base() < other.base());
 			}
 
-			bool		operator>(const const_random_access_iterator<T>& other)
+			bool		operator>(const const_random_access_iterator<T>& other) const
 			{
 				return (base() > other.base());
 			}
 
-			bool		operator>=(const const_random_access_iterator<T>& other)
+			bool		operator>=(const const_random_access_iterator<T>& other) const
 			{
 				return (base() >= other.base());
 			}
 
-			bool		operator<=(const const_random_access_iterator<T>& other)
+			bool		operator<=(const const_random_access_iterator<T>& other) const
 			{
 				return (base() <= other.base());
 			}
@@ -371,64 +371,64 @@ namespace ft
 			}
 
 			//	logical operators
-			bool		operator==(const const_random_access_iterator<T>& other)
+			bool		operator==(const const_random_access_iterator<T>& other) const
 			{
 				return (base() == other.base());
 			}
 
-			bool		operator!=(const const_random_access_iterator<T>& other)
+			bool		operator!=(const const_random_access_iterator<T>& other) const
 			{
 				return (base() != other.base());
 			}
 
-			bool		operator<(const const_random_access_iterator<T>& other)
+			bool		operator<(const const_random_access_iterator<T>& other) const
 			{
 				return (base() < other.base());
 			}
 
-			bool		operator>(const const_random_access_iterator<T>& other)
+			bool		operator>(const const_random_access_iterator<T>& other) const
 			{
 				return (base() > other.base());
 			}
 
-			bool		operator>=(const const_random_access_iterator<T>& other)
+			bool		operator>=(const const_random_access_iterator<T>& other) const
 			{
 				return (base() >= other.base());
 			}
 
-			bool		operator<=(const const_random_access_iterator<T>& other)
+			bool		operator<=(const const_random_access_iterator<T>& other) const
 			{
 				return (base() <= other.base());
 			}
 
 			//logical operators with non_const iterators
 			
-			bool		operator==(const random_access_iterator<T>& other)
+			bool		operator==(const random_access_iterator<T>& other) const
 			{
 				return (base() == other.base());
 			}
 
-			bool		operator!=(const random_access_iterator<T>& other)
+			bool		operator!=(const random_access_iterator<T>& other) const
 			{
 				return (base() != other.base());
 			}
 
-			bool		operator<(const random_access_iterator<T>& other)
+			bool		operator<(const random_access_iterator<T>& other) const
 			{
 				return (base() < other.base());
 			}
 
-			bool		operator>(const random_access_iterator<T>& other)
+			bool		operator>(const random_access_iterator<T>& other) const
 			{
 				return (base() > other.base());
 			}
 
-			bool		operator>=(const random_access_iterator<T>& other)
+			bool		operator>=(const random_access_iterator<T>& other) const
 			{
 				return (base() >= other.base());
 			}
 
-			bool		operator<=(const random_access_iterator<T>& other)
+			bool		operator<=(const random_access_iterator<T>& other) const
 			{
 				return (base() <= other.base());
 			}

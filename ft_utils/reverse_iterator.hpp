@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 18:54:43 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/09/25 19:56:41 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/18 16:47:50 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,18 @@ namespace ft
 			{
 				return (base()[-n - 1]);
 			}
+
+			bool		operator==(const reverse_iterator& other) const
+			{
+				return ( _base_it == other._base_it);
+			}
+			
+			bool		operator!=(const reverse_iterator& other) const
+			{
+				return (!( _base_it == other._base_it));
+			}
+
+
 
 	};
 }

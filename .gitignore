@@ -3,5 +3,5 @@ tester_2
 git_tester
 container_test
 a.out
-./
 !./testing
+.txt
