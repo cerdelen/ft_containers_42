@@ -1,9 +1,0 @@
-__service.ipp           equal_range().cpp       key_comp().cpp          operator >=.cpp
-a.out                   erase(InputIt).cpp      key_redefinition.cpp    operator[].cpp
-assign overload.cpp     erase(key).cpp          lower_bound().cpp       reverse iterators.cpp
-at().cpp                erase(pos).cpp          max_size().cpp          size().cpp
-clear().cpp             find().cpp              operator !=.cpp         swap().cpp
-compare class.cpp       insert(InputIt).cpp     operator <.cpp          upper_bound().cpp
-constructor.cpp         insert(hint).cpp        operator <=.cpp         using allocator.cpp
-count().cpp             insert(value).cpp       operator ==.cpp
-empty().cpp             iterators.cpp           operator >.cpp
