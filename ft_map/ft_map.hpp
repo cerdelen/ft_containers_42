@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 12:57:27 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/26 13:00:00 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/26 13:19:50 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -554,7 +554,7 @@ namespace ft
 			void	test_print_( bool key_, bool col_, bool direction, bool mapped_, bool ptr ) const
 			{
 				if (ptr)
-					std::cout << "nil == " << tree.get_nil_node() << std::cout;
+					std::cout << "nil == " << tree.get_nil_node() << std::endl;
 				tree.print_("", tree.get_root_node(), false, key_, mapped_, direction, col_, ptr);
 			}
 	};	
