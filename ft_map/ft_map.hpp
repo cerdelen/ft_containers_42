@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 12:57:27 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/26 13:19:50 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/26 15:28:55 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ namespace ft
 
 			~map()
 			{
+				tree.clear();
+				tree.delete_node(tree.get_nil_node());
 				#if DEBUG
 					std::cout << "[MAP] Deconstructor called" << std::endl;
 				#endif
@@ -464,7 +466,7 @@ namespace ft
 			{
 				return (ft::make_pair(lower_bound(key_), upper_bound(key_)));
 			}
-			
+
 			iterator			lower_bound( const key_type& key_ )
 			{
 				iterator		it = begin();

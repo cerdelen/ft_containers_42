@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 15:29:46 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/26 12:57:13 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/26 15:28:45 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ namespace ft
 
 
 		private:
-			value_compare				compare;
-			allocator_type				value_alloc;
-			size_type					size;
-			node_ptr					nil_node;
-			node_ptr					root;
+			value_compare						compare;
+			allocator_type						value_alloc;
+			size_type							size;
+			node_ptr							nil_node;
+			node_ptr							root;
 			std::allocator<rbt_node<T> >		node_alloc;
 		public:									
 			
@@ -60,21 +60,20 @@ namespace ft
 			}
 			~r_b_tree()
 			{
-				#if DEBUG
-					std::cout << "[RBT] Deconstructor called" << std::endl;
-				#endif
-				clear();
-				delete_node(nil_node);
-				#if DEBUG
-					std::cout << "[RBT] Deconstructor finished" << std::endl;
-				#endif
+				// #if DEBUG
+				// 	std::cout << "[RBT] Deconstructor called" << std::endl;
+				// #endif
+				// #if DEBUG
+				// 	std::cout << "[RBT] Deconstructor finished" << std::endl;
+				// #endif
 			};
 
 
 			node_ptr	get_node(bool col, const value_type &data)
 			{
 				node_ptr		out;
-				out = node_alloc.allocate(sizeof(struct rbt_node<value_type>));
+				// out = node_alloc.allocate(sizeof(struct rbt_node<value_type>));
+				out = node_alloc.allocate(1);
 			
 				out->parent = NULL;
 				out->left_child = nil_node;
@@ -391,6 +390,11 @@ namespace ft
 
 			void		delete_node(node_ptr x)
 			{
+				// if (x->value)
+				// 	std::cout << "delete node with value " << x->value->first << std::endl;
+				// else
+				// 	std::cout << "delete node without value " << std::endl;
+					
 				// std::cout << "delete node with value " << x->value->first << std::endl;
 				if (x == NULL)
 					return ;
@@ -403,6 +407,7 @@ namespace ft
 				// std::cout << "problem in node deletion " << std::endl;
 				node_alloc.destroy(x);
 				node_alloc.deallocate(x, 1);
+				// std::cout << "end of delete_node() " << std::endl;
 			}
 
 			void		swap_val_ptr(node_ptr a, node_ptr b)
@@ -486,6 +491,7 @@ namespace ft
 						root = y;		
 						size--;
 						y->parent = NULL;
+						delete_node(x);
 						return ;
 					}
 					else if (x->is_left)
@@ -741,7 +747,7 @@ namespace ft
 			return (size);
 		}
 
-		r_b_tree &operator=(const r_b_tree& copy)
+		const r_b_tree &operator=(const r_b_tree& copy)
 		{
 			compare = copy.compare;
 			value_alloc = copy.value_alloc;
