@@ -49,7 +49,7 @@ namespace ft
 			public:
 				virtual const char *what( void ) const throw()
 				{
-					return ("Error: Map iterator out of bounds!");
+					return ("Error: Iterator out of bounds!");
 				}
 			};
 			~rbt_iterator_new() {};
@@ -61,7 +61,7 @@ namespace ft
 				#endif
 			}
 
-			rbt_iterator_new(node_ptr input) : _ptr(input), _nil(find_nil(input)),_prev(input)
+			rbt_iterator_new(node_ptr input) : _ptr(input), _nil(find_nil(input)), _prev(input)
 			{
 				#if DEBUG
 					std::cout << "node_ptr input non_const rbt_iterator constructor called" << std::endl;
@@ -228,12 +228,14 @@ namespace ft
 
 			node_ptr	precessor(node_ptr x) const
 			{
-				if(x->parent == NULL && x->left_child == _nil)
-					return (NULL);
+				// if (x == NULL)
+				// 	return (NULL);
 				if (x == _nil)												//x == nil means _end
 					return (_prev);
 				if (x == NULL)												//x == NULL means _start - 1;
 					return (x);
+				if(x->parent == NULL && x->left_child == _nil)
+					return (NULL);
 				if (x->left_child != _nil)
 					return (max_subtree(x->left_child));
 				node_ptr	y = x->parent;
@@ -250,12 +252,14 @@ namespace ft
 
 			node_ptr	successor(node_ptr x) const
 			{
-				if(x->parent == NULL && x->right_child == _nil)
-					return (_nil);
+				// if (x == NULL)
+				// 	return (NULL);
 				if (x == _nil)												//x == nil means _end
 					return (x);
 				if (x == NULL)												//x == NULL means _start - 1;
 					return (_prev);
+				if(x->parent == NULL && x->right_child == _nil)
+					return (_nil);
 				if (x->right_child != _nil)
 					return (min_subtree(x->right_child));
 				node_ptr	y = x->parent;
@@ -307,7 +311,7 @@ namespace ft
 			public:
 				virtual const char *what( void ) const throw()
 				{
-					return ("Error: Map iterator out of bounds!");
+					return ("Error: Iterator out of bounds!");
 				}
 			};
 			~const_rbt_iterator_new() {};

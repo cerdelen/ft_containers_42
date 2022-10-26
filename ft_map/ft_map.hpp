@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 12:57:27 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/26 17:39:03 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/26 20:20:49 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,15 +274,10 @@ namespace ft
 				#if DEBUG
 					std::cout << "non_const_reverse map.rbegin() called" << std::endl;
 				#endif
-				return (reverse_iterator(end()));
-			}
-			
-			reverse_iterator				rend( void )
-			{
-				#if DEBUG
-					std::cout << "non_const_reverse map.rend() called" << std::endl;
-				#endif
-				return (reverse_iterator(begin()));			
+				iterator					tmp(end());
+				tmp--;
+				reverse_iterator			out(tmp);
+				return (out);
 			}
 			
 			const_reverse_iterator					rbegin( void ) const
@@ -290,15 +285,32 @@ namespace ft
 				#if DEBUG
 					std::cout << "const_reverse map.rbegin() called" << std::endl;
 				#endif
-				return (reverse_iterator(end()));
+				const_iterator					tmp(end());
+				tmp--;
+				const_reverse_iterator			out(tmp);
+				return (out);
 			}
-
+			
+			reverse_iterator				rend( void )
+			{
+				#if DEBUG
+					std::cout << "non_const_reverse map.rend() called" << std::endl;
+				#endif
+				iterator		tmp(begin());
+				tmp--;
+				reverse_iterator		out(tmp);
+				return (out);		
+			}
+			
 			const_reverse_iterator					rend() const
 			{
 				#if DEBUG
 					std::cout << "const_reverse map.rend() called" << std::endl;
 				#endif
-				return (reverse_iterator(begin()));	
+				const_iterator		tmp(begin());
+				tmp--;
+				const_reverse_iterator		out(tmp);
+				return (out);	
 			}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 18:54:43 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/18 16:47:50 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/26 20:22:06 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,14 +92,18 @@ namespace ft
 			
 			reverse_iterator &		operator--(void)
 			{
+				// std::cout << "after" << std::endl;
 				_base_it++;
 				return (*this);
 			}
 			
 			reverse_iterator		operator--(int)
 			{
+				// std::cout << "pre" << std::endl;
 				reverse_iterator	temp(*this);
+				// std::cout << "pre test1" << std::endl;
 				_base_it++;
+				// std::cout << "pre test2" << std::endl;
 				return (temp);
 			}
 

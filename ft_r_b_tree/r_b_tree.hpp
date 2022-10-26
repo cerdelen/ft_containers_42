@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 15:29:46 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/26 17:36:05 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/26 20:21:16 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ namespace ft
 				return (this->value_alloc);
 			}
 
-			value_compare	get_compare()
+			value_compare	get_compare() const
 			{
 				return (compare);
 			}
@@ -732,12 +732,14 @@ namespace ft
 				return (nil_node);
 			while (node != nil_node)
 			{
-				if (node->value->first == val.first)
-					break ;
+				// if (node->value->first == val.first)
+				// 	break ;
 				if (compare(*(node->value), val))
 					node = node->right_child;
-				else
+				else if (compare(val, *(node->value)))
 					node = node->left_child;
+				else
+					break ;
 			}
 			return (node);
 		}
