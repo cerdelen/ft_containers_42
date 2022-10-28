@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_vector.hpp                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/27 15:54:57 by cerdelen          #+#    #+#             */
+/*   Updated: 2022/10/27 15:54:58 by cerdelen         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef C_P_VECTOR
 #define C_P_VECTOR
 #include <memory>
@@ -75,7 +87,7 @@ namespace ft
 			template <class InputIterator>
 			vector (InputIterator first, InputIterator last,\
 				const allocator_type& alloc = allocator_type(),
-				typename std::enable_if<!std::is_integral<InputIterator>::value>::type* = NULL)
+				typename ft::enable_if<!std::is_integral<InputIterator>::value>::type* = NULL)
 				: _alloc(alloc), _start(NULL), _end(NULL), _capacity(last.base() - first.base())
 				{
 					#if DEBUG
@@ -249,7 +261,7 @@ namespace ft
 				}
 			}
 			template< class InputIterator >
-			void assign( InputIterator first, InputIterator last, typename std::enable_if<!std::is_integral<InputIterator>::value>::type* = NULL)
+			void assign( InputIterator first, InputIterator last, typename ft::enable_if<!std::is_integral<InputIterator>::value>::type* = NULL)
 			{
 				if ((first.base() > _start && first.base() < _end) || (last.base() > _start && last.base() < _end))			//undefined behaviour if range iterators are inside of vector
 					return ;
@@ -572,7 +584,7 @@ namespace ft
 			}
 			template< class InputIt >
 			void				insert( iterator pos, InputIt first, InputIt last, 
-				typename std::enable_if<!std::is_integral<InputIt>::value>::type* = NULL)
+				typename ft::enable_if<!std::is_integral<InputIt>::value>::type* = NULL)
 			{
 				pointer		tmp;
 				size_type	weirdo;

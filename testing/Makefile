@@ -6,13 +6,13 @@
 #    By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/28 23:10:30 by cerdelen          #+#    #+#              #
-#    Updated: 2022/08/30 13:41:00 by cerdelen         ###   ########.fr        #
+#    Updated: 2022/10/27 15:58:13 by cerdelen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = c++
 
-SRC =	main.cpp\
+SRC =	vector_main.cpp\
 		utils.cpp\
 		test_vector_at.cpp\
 		test_vector_fill_constructor.cpp\

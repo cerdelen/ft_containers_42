@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 14:19:44 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/26 14:45:02 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/28 11:21:32 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,18 @@
 
 namespace ft
 {
+	template< bool B, class T = void >
+	struct enable_if
+	{
+		
+	};
+
+	template<class T>
+	struct enable_if<true, T>
+	{
+		typedef T type;
+	};
+
 	template<class T>
 	struct rbt_node
 	{
@@ -135,17 +147,61 @@ namespace ft
 		return (start1 == end1 && start2 != end2);
 	}
 	template<class T1, class T2>
-	bool		equal(T1 start1, T1 end1, T2 start2, T2 end2)
+	bool		equal(T1 start1, T1 end1, T2 start2)
 	{
-		while(start1 != end1 && start2 != end2)
+		try
 		{
-			if (*start1 != *start2)
-				return (false);
-			start1++;
-			start2++;
+			while(start1 != end1)
+			{
+				if (*start1 != *start2)
+					return (false);
+				start1++;
+				start2++;
+			}
+			return (true);
 		}
-		return (start1 == end1 && start2 == end2);
+		catch(const std::exception& e)
+		{
+		}
+		return (false);
 	}
+
+	//used to decide whether passed type is of integral type
+	template <class T, T v>
+	struct integral_constant
+	{
+		static const	T							value = v;
+		typedef			T							value_type;
+		typedef			integral_constant<T, v>		type;
+
+		operator T()
+		{
+			return (v);
+		}
+	};
+
+	typedef		integral_constant<bool, false>		false_type;
+	typedef		integral_constant<bool, true>		true_type;
+
+	//non-itegral types
+	template <class T> struct is_integral : false_type {};
+
+	//integral types
+	template <> struct is_integral<bool> : true_type {};
+	template <> struct is_integral<char> : true_type {};
+	template <> struct is_integral<char16_t> : true_type {};
+	template <> struct is_integral<char32_t> : true_type {};
+	template <> struct is_integral<wchar_t> : true_type {};
+	template <> struct is_integral<signed char> : true_type {};
+	template <> struct is_integral<short int> : true_type {};
+	template <> struct is_integral<int> : true_type {};
+	template <> struct is_integral<long int> : true_type {};
+	template <> struct is_integral<long long int> : true_type {};
+	template <> struct is_integral<unsigned char> : true_type {};
+	template <> struct is_integral<unsigned short int> : true_type {};
+	template <> struct is_integral<unsigned int> : true_type {};
+	template <> struct is_integral<unsigned long int> : true_type {};
+	template <> struct is_integral<unsigned long long int> : true_type {};	
 }
 
 #endif

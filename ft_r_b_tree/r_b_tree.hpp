@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 15:29:46 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/26 20:21:16 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/28 16:53:26 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,6 @@ namespace ft
 			}
 			~r_b_tree()
 			{
-				// #if DEBUG
-				// 	std::cout << "[RBT] Deconstructor called" << std::endl;
-				// #endif
-				// #if DEBUG
-				// 	std::cout << "[RBT] Deconstructor finished" << std::endl;
-				// #endif
 			};
 
 
@@ -732,8 +726,6 @@ namespace ft
 				return (nil_node);
 			while (node != nil_node)
 			{
-				// if (node->value->first == val.first)
-				// 	break ;
 				if (compare(*(node->value), val))
 					node = node->right_child;
 				else if (compare(val, *(node->value)))
@@ -741,6 +733,8 @@ namespace ft
 				else
 					break ;
 			}
+			if(node == nil_node)
+				std::cout << " what the fuck actually "<< std::endl;
 			return (node);
 		}
 
