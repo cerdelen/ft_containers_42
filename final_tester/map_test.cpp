@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 15:54:14 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/28 12:14:45 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/28 20:08:36 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,10 +146,21 @@ int main()
 		check_if_equal("Valid [] operator", my_source[9], og_source[9]);
 		check_if_equal("Invalid [] operator", my_source[12], og_source[12]);
 		
-		// std::cout << my_source[9] << std::endl;
-		// std::cout << my_source[12] << std::endl;
-		
 		check_if_equal("Valid at()", my_source.at(9),  og_source.at(9));
-		check_if_equal("Invalid at()", my_source.at(12),  og_source.at(12));
+		bool	try_res = false;
+		try
+		{
+			my_source.at(1000);
+		}
+		catch(const std::exception& e)
+		{
+			try_res = true;
+		}
+		std::cout << "Invalid at()";
+		if (try_res)
+			std::cout << GREEN_COL << " did throw an exeption";
+		else
+			std::cout << RED_COL << " did not throw an exeption";
+		std::cout << DEFAULT_COL << std::endl;
 	}
 }

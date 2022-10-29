@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 15:29:46 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/28 16:53:26 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/28 20:09:14 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -733,8 +733,6 @@ namespace ft
 				else
 					break ;
 			}
-			if(node == nil_node)
-				std::cout << " what the fuck actually "<< std::endl;
 			return (node);
 		}
 
