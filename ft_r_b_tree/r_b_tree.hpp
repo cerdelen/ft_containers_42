@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 15:29:46 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/28 20:09:14 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/29 17:34:41 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -344,8 +344,6 @@ namespace ft
 				return (x);
 			}
 
-
-
 			node_ptr	successor(node_ptr x) const
 			{
 				if (x->right_child != nil_node)
@@ -503,68 +501,6 @@ namespace ft
 				// erase_fixup();				// write fixup
 				// // return (y);
 			}
-
-			// void		erase(const value_type &val)
-			// {
-			// 	// std::cout << "starting erase_orig2 for node before find " << val.key << std::endl;
-			// 	node_ptr	x = find(val);
-			// 	node_ptr	y;
-			// 	// std::cout << "starting erase_orig2 for node after find " << x->value->key << std::endl;
-				
-			// 	// if (x == NULL)
-			// 		// std::cout << "HIEEELLOOO" << std::endl;
-			// 	if (x == nil_node || x == NULL)
-			// 		return ;
-
-			// 	if (x->left_child == nil_node && x->right_child == nil_node)				//	no children
-			// 	{
-			// 		if (x == root)
-			// 		{
-			// 			clear();
-			// 			return ;
-			// 		}
-			// 		y = x;
-			// 		if (y->is_left)
-			// 			y->parent->left_child = nil_node;
-			// 		else
-			// 			y->parent->right_child = nil_node;
-			// 		erase_fixup(y);				// write fixup
-			// 		purge_node(y);
-			// 	}
-			// 	else if (x->left_child != nil_node && x->right_child != nil_node)			//	two children
-			// 	{
-			// 		y = successor(x);
-			// 		swap_val_ptr(y, x);
-			// 		if (y->is_left)
-			// 			y->parent->left_child = nil_node;
-			// 		else
-			// 			y->parent->right_child = nil_node;
-			// 		erase_fixup(y);				// write fixup
-			// 		purge_node(y);
-			// 	}
-			// 	else																		//	1 child
-			// 	{
-			// 		if (x->left_child != nil_node)
-			// 			y = x->left_child;
-			// 		else
-			// 			y = x->right_child;
-
-			// 		if (x == root)
-			// 			root = y;		
-			// 		else if (x->is_left)
-			// 			x->parent->left_child = y;
-			// 		else
-			// 			x->parent->right_child = y;
-			// 		y->parent = x->parent;
-			// 		y = x;
-			// 		erase_fixup(y);				// write fixup
-			// 		delete_node(x);
-			// 	}
-
-			// 	size--;
-			// 	// erase_fixup();				// write fixup
-			// 	// // return (y);
-			// }
 
 			void	erase_fixup(node_ptr x)
 			{
@@ -788,9 +724,6 @@ namespace ft
 				print_(prefix + (right ? "│   " : "    "), node_->left_child, false, key_, mapped_, direction, col_, ptr);
 			}
 		}
-
-
-		
 	};
 }
 #endif

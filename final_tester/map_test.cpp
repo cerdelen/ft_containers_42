@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 15:54:14 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/28 20:08:36 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/10/31 16:25:39 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ void	check_if_equal(std::string test_case, _mymap my, _ogmap og)
 	std::cout << DEFAULT_COL << std::endl;
 }
 
-void	check_if_equal(std::string test_case, size_t my_value, size_t og_value)
+template <class T>
+void	check_if_equal(std::string test_case, T my_value, T og_value)
 {
 	if (my_value == og_value)
 		std::cout << test_case << GREEN_COL << " returns same value!" << std::endl;
@@ -158,9 +159,24 @@ int main()
 		}
 		std::cout << "Invalid at()";
 		if (try_res)
-			std::cout << GREEN_COL << " did throw an exeption";
+			std::cout << GREEN_COL << " did throw an exeption!";
 		else
-			std::cout << RED_COL << " did not throw an exeption";
-		std::cout << DEFAULT_COL << std::endl;
+			std::cout << RED_COL << " did not throw an exeption!";
+		std::cout << DEFAULT_COL << std::endl << std::endl;
 	}
+
+	{
+		check_if_equal("Checking begin()", (my_source.begin())->first,  (og_source.begin())->first);
+		check_if_equal("Checking --end()", (--(my_source.end()))->first,  (--(og_source.end()))->first);
+		check_if_equal("Checking empty()", my_source.empty(),  og_source.empty());
+		check_if_equal("Checking size()", my_source.size(),  og_source.size());
+
+		check_if_equal("Checking find()", my_source.find(5)->first,  og_source.find(5)->first);
+		check_if_equal("Checking equal_range()", my_source.equal_range(5).first->first,  og_source.equal_range(5).first->first);
+		check_if_equal("Checking lower_bound()", my_source.lower_bound(5)->first,  og_source.lower_bound(5)->first);
+		check_if_equal("Checking upper_bound()", my_source.upper_bound(5)->first,  og_source.upper_bound(5)->first);
+
+	}
+
+
 }
