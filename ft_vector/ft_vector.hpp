@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 15:54:57 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/27 15:54:58 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/11/01 10:46:41 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ namespace ft
 //		Default Constructor:
 //				(empty container with no elements)
 
-			explicit vector(const allocator_type &alloc = allocator_type()) : _alloc(alloc), _start(NULL), _end(NULL), _capacity(0){
+			explicit vector(const allocator_type &alloc = allocator_type()) : _start(NULL), _end(NULL), _alloc(alloc), _capacity(0){
 				#if DEBUG
 					std::cout << "[VECTOR] Default constructor called" << std::endl;
 				#endif
@@ -67,7 +67,7 @@ namespace ft
 //				with n elements >> each a copy of val
 
 			explicit vector(size_t n, const value_type &val,\
-				const allocator_type &alloc = allocator_type()) : _alloc(alloc), _start(NULL), _end(NULL), _capacity(n)
+				const allocator_type &alloc = allocator_type()) :  _start(NULL), _end(NULL), _alloc(alloc), _capacity(n)
 			{
 				#if DEBUG
 					std::cout << "[VECTOR] Fill constructor called" << std::endl;
@@ -88,7 +88,7 @@ namespace ft
 			vector (InputIterator first, InputIterator last,\
 				const allocator_type& alloc = allocator_type(),
 				typename ft::enable_if<!std::is_integral<InputIterator>::value>::type* = NULL)
-				: _alloc(alloc), _start(NULL), _end(NULL), _capacity(last.base() - first.base())
+				: _start(NULL), _end(NULL), _alloc(alloc), _capacity(last.base() - first.base())
 				{
 					#if DEBUG
 						std::cout << "[VECTOR] Range constructor called" << std::endl;
@@ -106,7 +106,7 @@ namespace ft
 // 		Copy Constructor:
 // 				Constructs a container with a copy of each of the elements in x, in the same order.
 
-			vector ( const vector& x, const allocator_type &alloc = allocator_type()): _alloc(alloc), _start(NULL), _end(NULL), _capacity(0)
+			vector ( const vector& x, const allocator_type &alloc = allocator_type()): _start(NULL), _end(NULL),_alloc(alloc),  _capacity(0)
 			{
 				#if DEBUG
 					std::cout << "[VECTOR] Copy constructor called" << std::endl;
@@ -462,7 +462,7 @@ namespace ft
 					size_type	old_size = size();
 					pointer		tmp = _alloc.allocate(n);
 
-					for (size_t i = 0; i < old_size; i++)
+					for (size_type i = 0; i < old_size; i++)
 					{
 						_alloc.construct(tmp + i, *(_start + i));
 						_alloc.destroy(_start + i);
@@ -494,7 +494,7 @@ namespace ft
 			{
 				size_type	count = size();
 			
-				for (size_t i = 0; i < count; i++)
+				for (size_type i = 0; i < count; i++)
 				{
 					_alloc.destroy(_end);
 					_end--;
@@ -566,7 +566,7 @@ namespace ft
 					_alloc.destroy(_start + i);
 					i++;
 				}
-				for (size_t lel = count; lel > 0; lel--)
+				for (size_type lel = count; lel > 0; lel--)
 				{
 					_alloc.construct(tmp + i, value);
 					i++;
@@ -733,11 +733,7 @@ namespace ft
 				size_type	old_size = size();
 				if (old_size + 1 > _capacity)
 				{
-					// std::cout << "hiello from inside push_back" << std::endl;
-					size_type	davai = next_pow_2(old_size);
-					// std::cout << "hiello from after next_pow_2" << std::endl;
 					reserve(next_pow_2(old_size));				// probably should be old_size + 1 or just capacity
-					// std::cout << "hiello from after resize" << std::endl;
 				}
 				_alloc.construct(_end, value);
 				// std::cout << "hiello from after construct" << std::endl;

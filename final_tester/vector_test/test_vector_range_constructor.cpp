@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 17:20:09 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/08/30 13:16:07 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/11/01 10:44:45 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@ void	test_range_constructor(scope_diff *vars)
 {
 	big_test_header("Testing Range Constructor");
 	
-	int	max_size = 20;
-	std::vector<int>	source;
+	size_t	max_size = 20;
+	std::vector<size_t>	source;
 	source.reserve(max_size);
 	for (size_t i = 0; i < max_size; i++)
 	{
 		source.push_back(i);
 	}
-	ft::vector<int>	source2;
+	ft::vector<size_t>	source2;
 	source2.reserve(max_size);
 	for (size_t i = 0; i < max_size; i++)
 	{
@@ -33,8 +33,8 @@ void	test_range_constructor(scope_diff *vars)
 
 	{
 		small_test_header("Standard Range Constructor");
-		std::vector<int>	og(source.begin(), source.end());
-		ft::vector<int>		my(source2.begin(), source2.end());
+		std::vector<size_t>	og(source.begin(), source.end());
+		ft::vector<size_t>		my(source2.begin(), source2.end());
 
 		for (size_t i = 0; i < max_size; i++)
 		{
@@ -51,7 +51,7 @@ void	test_range_constructor(scope_diff *vars)
 		bool	my_try = false;
 		try
 		{
-			std::vector<int>	og(source.end(), source.begin());
+			std::vector<size_t>	og(source.end(), source.begin());
 		}
 		catch(const std::exception& e)
 		{
@@ -59,7 +59,7 @@ void	test_range_constructor(scope_diff *vars)
 		}
 		try
 		{
-			ft::vector<int>	my(source2.end(), source2.begin());
+			ft::vector<size_t>	my(source2.end(), source2.begin());
 		}
 		catch(const std::exception& e)
 		{
@@ -75,8 +75,8 @@ void	test_range_constructor(scope_diff *vars)
 		bool	my_try = false;
 		try
 		{
-			std::vector<int>	og(source.begin(), source.begin());
-			ft::vector<int>		my(source2.begin(), source2.begin());
+			std::vector<size_t>	og(source.begin(), source.begin());
+			ft::vector<size_t>		my(source2.begin(), source2.begin());
 			check_cap_and_size(&og, &my, "Testing Range Constructor with identical iterators", vars);
 			check_scope_diff(vars, "Differences in size or capacity Testing Range Constructor with identical iterators");
 		}
@@ -89,7 +89,7 @@ void	test_range_constructor(scope_diff *vars)
 			og_try = false;
 			try
 			{
-				std::vector<int>	og(max_size, 10);
+				std::vector<size_t>	og(max_size, 10);
 			}
 			catch(const std::exception& e)
 			{
@@ -97,7 +97,7 @@ void	test_range_constructor(scope_diff *vars)
 			}
 			try
 			{
-				ft::vector<int>		my(max_size, 10);
+				ft::vector<size_t>		my(max_size, 10);
 			}
 			catch(const std::exception& e)
 			{

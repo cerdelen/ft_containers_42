@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 14:59:25 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/08/30 13:14:31 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/11/01 10:42:23 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void	test_fill_constructor(scope_diff *vars)
 	big_test_header("Testing Fill Constructor");
 	{
 		small_test_header("Standard Fill Constructor");
-		int	max_size = 10;
-		int	value = 10;
-		std::vector<int>	og(max_size, value);
-		ft::vector<int>		my(max_size, value);
+		size_t	max_size = 10;
+		size_t	value = 10;
+		std::vector<size_t>	og(max_size, value);
+		ft::vector<size_t>		my(max_size, value);
 
 		for (size_t i = 0; i < max_size; i++)
 		{
@@ -31,10 +31,10 @@ void	test_fill_constructor(scope_diff *vars)
 		check_scope_diff(vars, "Differences in size or capacity Testing Fill Constructor");
 	}
 	{
-		int	max_size = 2000;
-		int value = -1;
-		std::vector<int>	og(max_size, value);
-		ft::vector<int>		my(max_size, value);
+		size_t	max_size = 2000;
+		size_t value = -1;
+		std::vector<size_t>	og(max_size, value);
+		ft::vector<size_t>		my(max_size, value);
 
 		for (size_t i = 0; i < max_size; i++)
 		{
@@ -51,7 +51,7 @@ void	test_fill_constructor(scope_diff *vars)
 		bool	my_try = false;
 		try
 		{
-			std::vector<int>	og(max_size, 10);
+			std::vector<size_t>	og(max_size, 10);
 		}
 		catch(const std::exception& e)
 		{
@@ -59,7 +59,7 @@ void	test_fill_constructor(scope_diff *vars)
 		}
 		try
 		{
-			ft::vector<int>		my(max_size, 10);
+			ft::vector<size_t>		my(max_size, 10);
 		}
 		catch(const std::exception& e)
 		{

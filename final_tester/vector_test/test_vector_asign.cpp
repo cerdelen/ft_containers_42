@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:57:40 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/10/30 15:23:01 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/11/01 10:46:10 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 void	test_assign_without_range(scope_diff *vars)
 {
 	big_test_header("Testing assign() with count and val");
-	int max_size;
-	int assign_size;
-	int value;
+	size_t max_size;
+	size_t assign_size;
+	size_t value;
 	{
 		small_test_header("assign with with smaller count and a val");
 		max_size = 10;
 		value = 10;
 		assign_size = 10;
-		std::vector<int>	og(max_size, value);
-		ft::vector<int>		my(max_size, value);
+		std::vector<size_t>	og(max_size, value);
+		ft::vector<size_t>		my(max_size, value);
 
 	
 		og.assign(assign_size, 12);
@@ -42,8 +42,8 @@ void	test_assign_without_range(scope_diff *vars)
 		max_size = 1;
 		value = 1;
 		assign_size = 12;
-		std::vector<int>	og(max_size, value);
-		ft::vector<int>		my(max_size, value);
+		std::vector<size_t>	og(max_size, value);
+		ft::vector<size_t>		my(max_size, value);
 
 	
 		og.assign(assign_size, 12);
@@ -61,8 +61,8 @@ void	test_assign_without_range(scope_diff *vars)
 		max_size = 1;
 		value = 1;
 		assign_size = -1;
-		std::vector<int>	og(max_size, value);
-		ft::vector<int>		my(max_size, value);
+		std::vector<size_t>	og(max_size, value);
+		ft::vector<size_t>		my(max_size, value);
 		{
 			bool	og_try = false;
 			bool	my_try = false;
@@ -93,14 +93,14 @@ void	test_assign_without_range(scope_diff *vars)
 void	test_assign_with_range(scope_diff *vars)
 {
 	big_test_header("Testing assign() with range iterators");
-	int	max_size = 20;
-	std::vector<int>	source;
+	size_t	max_size = 20;
+	std::vector<size_t>	source;
 	source.reserve(max_size);
 	for (size_t i = 0; i < max_size; i++)
 	{
 		source.push_back(i);
 	}
-	ft::vector<int>	source2;
+	ft::vector<size_t>	source2;
 	source2.reserve(max_size);
 	for (size_t i = 0; i < max_size; i++)
 	{
@@ -111,8 +111,8 @@ void	test_assign_with_range(scope_diff *vars)
 
 	{
 		small_test_header("assign with with same range");
-		std::vector<int>	og(20, 50);
-		ft::vector<int>		my(20, 50);
+		std::vector<size_t>	og(20, 50);
+		ft::vector<size_t>		my(20, 50);
 
 		og.assign(source.begin(), source.end());
 		my.assign(source2.begin(), source2.end());
@@ -126,8 +126,8 @@ void	test_assign_with_range(scope_diff *vars)
 	}
 	{
 		small_test_header("assign with with smaller range");
-		std::vector<int>	og(50, 50);
-		ft::vector<int>		my(50, 50);
+		std::vector<size_t>	og(50, 50);
+		ft::vector<size_t>		my(50, 50);
 
 	
 		og.assign(source.begin(), source.end());
@@ -143,8 +143,8 @@ void	test_assign_with_range(scope_diff *vars)
 	{
 		small_test_header("assign with with bigger range");
 		max_size = 1;
-		std::vector<int>	og(max_size, 12);
-		ft::vector<int>		my(max_size, 12);
+		std::vector<size_t>	og(max_size, 12);
+		ft::vector<size_t>		my(max_size, 12);
 
 	
 		og.assign(source.begin(), source.end());
@@ -162,8 +162,8 @@ void	test_assign_with_range(scope_diff *vars)
 		bool	og_try = false;
 		bool	my_try = false;
 		max_size = 1;
-		std::vector<int>	og(max_size, 12);
-		ft::vector<int>		my(max_size, 12);
+		std::vector<size_t>	og(max_size, 12);
+		ft::vector<size_t>		my(max_size, 12);
 	
 		try
 		{
@@ -192,8 +192,8 @@ void	test_assign_with_range(scope_diff *vars)
 		bool	og_try = false;
 		bool	my_try = false;
 		max_size = 1;
-		std::vector<int>	og(max_size, 12);
-		ft::vector<int>		my(max_size, 12);
+		std::vector<size_t>	og(max_size, 12);
+		ft::vector<size_t>		my(max_size, 12);
 
 	
 		try

@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 13:42:26 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/08/30 15:54:16 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/11/01 10:48:03 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 void	test_front(scope_diff *vars)
 {
 	small_test_header("Testing front()");
-	int	max_size = 20;
-	std::vector<int>	source;
+	size_t	max_size = 20;
+	std::vector<size_t>	source;
 	source.reserve(max_size);
 	for (size_t i = 0; i < max_size; i++)
 	{
 		source.push_back(i);
 	}
-	ft::vector<int>	source2;
+	ft::vector<size_t>	source2;
 	source2.reserve(max_size);
 	for (size_t i = 0; i < max_size; i++)
 	{
@@ -30,22 +30,22 @@ void	test_front(scope_diff *vars)
 	}
 	
 	{
-		std::vector<int>	og(12, 12);
-		ft::vector<int>		my(12, 12);
+		std::vector<size_t>	og(12, 12);
+		ft::vector<size_t>		my(12, 12);
 
 		compare_ints_with_message(og.front(), my.front(), "front() on equal valid vectors", vars);
 		check_scope_diff(vars, "Differences with front on equal valid vectors");
 	}
 	{
-		std::vector<int>	og(source.begin(), source.end());
-		ft::vector<int>		my(source2.begin(), source2.end());
+		std::vector<size_t>	og(source.begin(), source.end());
+		ft::vector<size_t>		my(source2.begin(), source2.end());
 
 		compare_ints_with_message(og.front(), my.front(), "front() on equal valid vectors", vars);
 		check_scope_diff(vars, "Differences with front on equal valid vectors");
 	}
 	{
-		std::vector<int>	og(source.begin(), source.end());
-		ft::vector<int>		my(source2.begin(), source2.end());
+		std::vector<size_t>	og(source.begin(), source.end());
+		ft::vector<size_t>		my(source2.begin(), source2.end());
 
 		og.erase(og.begin());
 		my.erase(my.begin());
@@ -54,8 +54,8 @@ void	test_front(scope_diff *vars)
 		check_scope_diff(vars, "Differences with front on equal valid vectors");
 	}
 	{
-		std::vector<int>	og(source.begin(), source.end());
-		ft::vector<int>		my(source2.begin(), source2.end());
+		std::vector<size_t>	og(source.begin(), source.end());
+		ft::vector<size_t>		my(source2.begin(), source2.end());
 
 		og.clear();
 		my.clear();
@@ -79,7 +79,7 @@ void	test_front(scope_diff *vars)
 		check_scope_diff(vars, "Differences with front on cleared vectors");
 	}
 	{
-		ft::vector<int>		my;
+		ft::vector<size_t>		my;
 
 		bool	my_try = false;
 		try
@@ -104,14 +104,14 @@ void	test_front(scope_diff *vars)
 void	test_back(scope_diff *vars)
 {
 	small_test_header("Testing back()");
-	int	max_size = 20;
-	std::vector<int>	source;
+	size_t	max_size = 20;
+	std::vector<size_t>	source;
 	source.reserve(max_size);
 	for (size_t i = 0; i < max_size; i++)
 	{
 		source.push_back(i);
 	}
-	ft::vector<int>	source2;
+	ft::vector<size_t>	source2;
 	source2.reserve(max_size);
 	for (size_t i = 0; i < max_size; i++)
 	{
@@ -119,22 +119,22 @@ void	test_back(scope_diff *vars)
 	}
 	
 	{
-		std::vector<int>	og(12, 12);
-		ft::vector<int>		my(12, 12);
+		std::vector<size_t>	og(12, 12);
+		ft::vector<size_t>		my(12, 12);
 
 		compare_ints_with_message(og.back(), my.back(), "back() on equal valid vectors", vars);
 		check_scope_diff(vars, "Differences with back on equal valid vectors");
 	}
 	{
-		std::vector<int>	og(source.begin(), source.end());
-		ft::vector<int>		my(source2.begin(), source2.end());
+		std::vector<size_t>	og(source.begin(), source.end());
+		ft::vector<size_t>		my(source2.begin(), source2.end());
 
 		compare_ints_with_message(og.back(), my.back(), "back() on equal valid vectors", vars);
 		check_scope_diff(vars, "Differences with back on equal valid vectors");
 	}
 	{
-		std::vector<int>	og(source.begin(), source.end());
-		ft::vector<int>		my(source2.begin(), source2.end());
+		std::vector<size_t>	og(source.begin(), source.end());
+		ft::vector<size_t>		my(source2.begin(), source2.end());
 
 		og.erase(og.begin());
 		my.erase(my.begin());
@@ -143,8 +143,8 @@ void	test_back(scope_diff *vars)
 		check_scope_diff(vars, "Differences with back on equal valid vectors");
 	}
 	{
-		std::vector<int>	og(source.begin(), source.end());
-		ft::vector<int>		my(source2.begin(), source2.end());
+		std::vector<size_t>	og(source.begin(), source.end());
+		ft::vector<size_t>		my(source2.begin(), source2.end());
 
 		og.clear();
 		my.clear();
@@ -168,7 +168,7 @@ void	test_back(scope_diff *vars)
 		check_scope_diff(vars, "Differences with back on cleared vectors");
 	}
 	{
-		ft::vector<int>		my;
+		ft::vector<size_t>		my;
 
 		bool	my_try = false;
 		try
@@ -186,15 +186,9 @@ void	test_back(scope_diff *vars)
 	}
 }
 
-void	test_data(scope_diff *vars)
-{
-	
-}
-
 void	test_accessing_functions(scope_diff *vars)
 {
 	big_test_header("Accessing functions");
 	test_front(vars);
 	test_back(vars);
-	test_data(vars);
 }

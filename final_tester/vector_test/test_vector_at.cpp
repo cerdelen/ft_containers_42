@@ -6,7 +6,7 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 14:30:59 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/08/30 13:12:19 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/11/01 10:51:05 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ void	test_at(scope_diff *vars)
 	{
 		big_test_header("Testing at() on empty vector");
 		small_test_header("at() with empty vector");
-		int	scope_diff = 0;
+		// size_t	scope_diff = 0;
 
 		
-		ft::vector<int> my;		
-		std::vector<int> og;
+		ft::vector<size_t> my;		
+		std::vector<size_t> og;
 		
 		bool	og_try = false;
 		bool	my_try = false;
@@ -50,11 +50,11 @@ void	test_at(scope_diff *vars)
 	{
 		big_test_header("Testing at() and [] on filled vector");
 		small_test_header("testing at() and [] on filled vector");
-		int	scope_diff = 0;
+		// size_t	scope_diff = 0;
 
 		
-		ft::vector<int> my(10, 10);		
-		std::vector<int> og(10, 10);
+		ft::vector<size_t> my(10, 10);		
+		std::vector<size_t> og(10, 10);
 		for (size_t i = 0; i < 10; i++)
 		{
 			if (my.at(i) != og.at(i))

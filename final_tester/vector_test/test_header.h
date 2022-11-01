@@ -6,15 +6,15 @@
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 14:22:39 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/08/30 13:53:31 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/11/01 10:53:56 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CONTAINERS_TEST_HEADER
 #define CONTAINERS_TEST_HEADER
 
-#include "../namespace.hpp"
-#include "colours.h"
+#include "../../namespace.hpp"
+#include "../colours.h"
 #include <vector>
 #include <iterator>
 
@@ -40,7 +40,9 @@ void	test_fill_constructor(scope_diff *vars);
 void	test_range_constructor(scope_diff *vars);
 void	test_copy_constructor(scope_diff *vars);
 void	test_assign(scope_diff *diff_scope);
-void	check_cap_and_size(std::vector<int> *og, ft::vector<int> *my, std::string message, scope_diff *vars);
+
+void	check_cap_and_size(std::vector<size_t> *og, ft::vector<size_t> *my, std::string message, scope_diff *vars);
+
 void	test_get_allocator(scope_diff *vars);
 void	test_accessing_functions(scope_diff *vars);
 

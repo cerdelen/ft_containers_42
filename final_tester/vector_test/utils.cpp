@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.cpp                                          :+:      :+:    :+:   */
+/*   utils.tpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cerdelen <cerdelen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 14:30:49 by cerdelen          #+#    #+#             */
-/*   Updated: 2022/08/30 14:28:39 by cerdelen         ###   ########.fr       */
+/*   Updated: 2022/11/01 10:53:43 by cerdelen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void	init_scope_diff(scope_diff *vars)
 	vars->curr_test = 0;
 }
 
-void	check_cap_and_size(std::vector<int> *og, ft::vector<int> *my, std::string message, scope_diff *vars)
+void	check_cap_and_size(std::vector<size_t> *og, ft::vector<size_t> *my, std::string message, scope_diff *vars)
 {
 	if (og->size() != my->size())
 	{	
